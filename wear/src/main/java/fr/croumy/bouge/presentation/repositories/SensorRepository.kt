@@ -1,15 +1,16 @@
-package fr.croumy.bouge.presentation
+package fr.croumy.bouge.presentation.repositories
 
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorManager
+import fr.croumy.bouge.presentation.MainActivity
 import fr.croumy.bouge.presentation.services.SensorListener
 import jakarta.inject.Inject
 
 class SensorRepository @Inject constructor(
     private val sensorListener: SensorListener
 ) {
-    private val sensorManager = MainActivity.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    private val sensorManager = MainActivity.Companion.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     fun initSensors() {
         val accelerometer: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)

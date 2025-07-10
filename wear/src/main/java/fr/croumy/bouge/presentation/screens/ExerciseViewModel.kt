@@ -2,7 +2,7 @@ package fr.croumy.bouge.presentation.screens
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import fr.croumy.bouge.presentation.SensorRepository
+import fr.croumy.bouge.presentation.repositories.SensorRepository
 import fr.croumy.bouge.presentation.services.SensorService
 import javax.inject.Inject
 
