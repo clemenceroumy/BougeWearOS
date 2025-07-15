@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.screens
+package fr.croumy.bouge.presentation.ui.screens
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

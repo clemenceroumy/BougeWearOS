@@ -2,6 +2,7 @@ package fr.croumy.bouge.presentation
 
 import android.content.Context
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavHostState
+import com.google.android.horologist.compose.ambient.AmbientAware
 import dagger.hilt.android.AndroidEntryPoint
 import fr.croumy.bouge.presentation.navigation.NavGraph
 import fr.croumy.bouge.presentation.theme.BougeTheme
@@ -26,10 +28,9 @@ class MainActivity : ComponentActivity() {
         context = this
 
         installSplashScreen()
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         super.onCreate(savedInstanceState)
-
-        setTheme(android.R.style.Theme_DeviceDefault)
 
         setContent {
             BougeTheme {

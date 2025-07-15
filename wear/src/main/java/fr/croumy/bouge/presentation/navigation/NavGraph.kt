@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.SwipeDismissableNavHostState
 import androidx.wear.compose.navigation.composable
-import fr.croumy.bouge.presentation.screens.ExerciseScreen
+import fr.croumy.bouge.presentation.ui.screens.ExerciseScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, navState: SwipeDismissableNavHostState) {
