@@ -13,6 +13,7 @@ class ExerciseViewModel @Inject constructor(
 ): ViewModel() {
     val accelerometerValue = sensorService.accelerometerValue
     val heartRateValue = sensorService.heartrateValue
+    val isWalking = sensorService.isWalking
 
     init {
         sensorRepository.initSensors()

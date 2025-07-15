@@ -34,6 +34,7 @@ fun ExerciseScreen(
 ) {
     val accelerometerValue = viewModel.accelerometerValue.collectAsState()
     val heartRateValue = viewModel.heartRateValue.collectAsState()
+    val isWalking = viewModel.isWalking.collectAsState()
 
     Column(
         modifier = Modifier
@@ -42,7 +43,11 @@ fun ExerciseScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        AnimatedSprite(
+        if (isWalking.value) AnimatedSprite(
+            imageId = R.drawable.toxicfroggreenblue_walk,
+            frameCount = 7
+        )
+        else AnimatedSprite(
             imageId = R.drawable.toxicfroggreenblue_idle,
             frameCount = 8
         )
