@@ -26,12 +26,17 @@ class SensorListener @Inject constructor(
 
                     sensorService._accelerometerValue.value = AccelerometerValue(x, y, z)
                 }
+                Sensor.TYPE_STEP_DETECTOR -> {
+                    // EVERY EVENT RECEIVED HERE MEANS A STEP HAS BEEN DETECTED
+                    sensorService._isWalking.value = true
+                    sensorService.lastStepTime.value = System.currentTimeMillis()
+                }
                 else -> {}
             }
         }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        Log.d("SensorAccuracy", "Sensor: ${sensor?.name}, Accuracy: $accuracy")
+
     }
 }

@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material3.adaptive.navigation.suite)
+    implementation(libs.horologist.compose.layout)
 
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
