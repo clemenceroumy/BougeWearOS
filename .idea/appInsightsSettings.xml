@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="fr.croumy.bouge" />
+                  <option name="mobileSdkAppId" value="1:698801758372:android:6a94e140986332d24b4631" />
+                  <option name="projectId" value="bouge-937df" />
+                  <option name="projectNumber" value="698801758372" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
