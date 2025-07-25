@@ -17,6 +17,7 @@ class ExerciseViewModel @Inject constructor(
     val heartRateValue = dataService.heartrateValue
     val isWalking = dataService.isWalking
     val totalSteps = dataService.totalSteps
+    val tempExerciseEvents = dataService.tempExerciseEvents
 
     init {
         sensorRepository.initSensors()

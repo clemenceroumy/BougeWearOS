@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.DirectionsWalk
 import androidx.compose.material3.Icon
@@ -28,10 +30,12 @@ fun ExerciseScreen(
 ) {
     val isWalking = viewModel.isWalking.collectAsState()
     val totalSteps = viewModel.totalSteps.collectAsState()
+    val exerciseEvents = viewModel.tempExerciseEvents.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -52,6 +56,16 @@ fun ExerciseScreen(
                 )
             )
         }
+
+        exerciseEvents.value.map {
+            Text(
+                text = it.toString(),
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            )
+        }
+
         if (isWalking.value) {
             AnimatedSprite(
                 imageId = R.drawable.toxicfroggreenblue_walk,

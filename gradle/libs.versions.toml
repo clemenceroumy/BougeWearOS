@@ -1,5 +1,6 @@
 [versions]
 agp = "8.11.0"
+firebaseBom = "34.0.0"
 kotlin = "2.1.20"
 coreKtx = "1.15.0"
 ksp = "2.1.20-1.0.32"
@@ -13,6 +14,7 @@ activity = "1.10.1"
 constraintlayout = "2.2.1"
 composeBom = "2024.09.00"
 composeMaterial = "1.2.1"
+timber = "5.0.1"
 wearToolingPreview = "1.0.0"
 activityCompose = "1.10.1"
 coreSplashscreen = "1.0.1"
@@ -26,6 +28,8 @@ healthServicesClient = "1.1.0-alpha05"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -64,7 +68,8 @@ androidx-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", vers
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigation" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
-androidx-health-services-client = { group = "androidx.health", name = "health-services-client", version = "1.0.0" }
+androidx-health-services-client = { group = "androidx.health", name = "health-services-client", version.ref = "healthServicesClient" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 [plugins]
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
@@ -72,4 +77,6 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt-android = { id = 'com.google.dagger.hilt.android', version.ref = 'hilt' }
+google-services = { id = "com.google.gms.google-services", version = "4.4.3"}
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.5" }
 

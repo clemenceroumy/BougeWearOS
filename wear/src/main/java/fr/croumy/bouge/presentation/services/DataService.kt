@@ -1,5 +1,6 @@
 package fr.croumy.bouge.presentation.services
 
+import androidx.health.services.client.data.ExerciseEvent
 import fr.croumy.bouge.presentation.models.AccelerometerValue
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.MainScope
@@ -26,6 +27,9 @@ class DataService @Inject constructor() {
 
     val _totalSteps = MutableStateFlow(0)
     val totalSteps = _totalSteps.asStateFlow()
+
+    val _tempExerciseEvents = MutableStateFlow(emptyList<ExerciseEvent>())
+    val tempExerciseEvents = _tempExerciseEvents.asStateFlow()
 
     init {
         MainScope().launch {
