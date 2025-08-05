@@ -1,6 +1,7 @@
 package fr.croumy.bouge.presentation.services
 
 import fr.croumy.bouge.presentation.models.AccelerometerValue
+import fr.croumy.bouge.presentation.models.Constants
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,8 +10,6 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.time.Duration.Companion.minutes
-import kotlin.time.Duration.Companion.seconds
 
 @OptIn(FlowPreview::class)
 @Singleton
@@ -35,14 +34,20 @@ class DataService @Inject constructor() {
     init {
         MainScope().launch {
             lastStepTime
-                .debounce(2.seconds)
+                .debounce(Constants.TIME_STOPPED_WALKING)
                 .collect { latestTime ->
                     _isWalking.value = false
                 }
 
-            isWalking
-                .debounce(1.minutes)
+        }
+
+        MainScope().launch {
+            _isWalking
+                .debounce(Constants.TIME_GAP_BETWEEN_WALKS)
                 .collect {
+                    if(_walks.value.last() < Constants.MINIMUM_STEPS_WALK) {
+                        _walks.value = _walks.value.dropLast(1)
+                    }
                     _walks.value = _walks.value.plus(0) // CREATE A FRESH WALK (STOPPING CURRENT WALK)
                 }
         }
