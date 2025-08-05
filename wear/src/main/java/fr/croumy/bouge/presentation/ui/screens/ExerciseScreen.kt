@@ -30,12 +30,11 @@ fun ExerciseScreen(
 ) {
     val isWalking = viewModel.isWalking.collectAsState()
     val totalSteps = viewModel.totalSteps.collectAsState()
-    val exerciseEvents = viewModel.tempExerciseEvents.collectAsState()
+    val walks = viewModel.walks.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -57,14 +56,14 @@ fun ExerciseScreen(
             )
         }
 
-        exerciseEvents.value.map {
-            Text(
-                text = it.toString(),
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Text(
+            text = "Walks: ${walks.value}",
+            style = MaterialTheme.typography.bodySmall.copy(
+                color = MaterialTheme.colorScheme.primary
             )
-        }
+        )
 
         if (isWalking.value) {
             AnimatedSprite(

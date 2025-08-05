@@ -26,9 +26,7 @@ class SensorListener @Inject constructor(
                     dataService._accelerometerValue.value = AccelerometerValue(x, y, z)
                 }
                 Sensor.TYPE_STEP_DETECTOR -> {
-                    // EVERY EVENT RECEIVED HERE MEANS A STEP HAS BEEN DETECTED
-                    dataService._isWalking.value = true
-                    dataService.lastStepTime.value = System.currentTimeMillis()
+
                 }
                 else -> {}
             }

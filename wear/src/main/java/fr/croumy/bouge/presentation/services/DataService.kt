@@ -1,6 +1,5 @@
 package fr.croumy.bouge.presentation.services
 
-import androidx.health.services.client.data.ExerciseEvent
 import fr.croumy.bouge.presentation.models.AccelerometerValue
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.MainScope
@@ -10,6 +9,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(FlowPreview::class)
@@ -25,11 +25,12 @@ class DataService @Inject constructor() {
     val _isWalking = MutableStateFlow(false)
     val isWalking = _isWalking.asStateFlow()
 
+    val _walks = MutableStateFlow(listOf(0))
+    val walks = _walks.asStateFlow()
+
     val _totalSteps = MutableStateFlow(0)
     val totalSteps = _totalSteps.asStateFlow()
 
-    val _tempExerciseEvents = MutableStateFlow(emptyList<ExerciseEvent>())
-    val tempExerciseEvents = _tempExerciseEvents.asStateFlow()
 
     init {
         MainScope().launch {
@@ -37,6 +38,12 @@ class DataService @Inject constructor() {
                 .debounce(2.seconds)
                 .collect { latestTime ->
                     _isWalking.value = false
+                }
+
+            isWalking
+                .debounce(1.minutes)
+                .collect {
+                    _walks.value = _walks.value.plus(0) // CREATE A FRESH WALK (STOPPING CURRENT WALK)
                 }
         }
     }
