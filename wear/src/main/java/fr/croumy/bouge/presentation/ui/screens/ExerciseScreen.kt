@@ -59,7 +59,7 @@ fun ExerciseScreen(
         Spacer(modifier = Modifier.width(8.dp))
 
         Text(
-            text = "Walks: ${walks.value}",
+            text = "Walk: ${walks.value}",
             style = MaterialTheme.typography.bodySmall.copy(
                 color = MaterialTheme.colorScheme.primary
             )
