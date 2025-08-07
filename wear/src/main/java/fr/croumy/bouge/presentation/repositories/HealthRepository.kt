@@ -43,9 +43,8 @@ class HealthRepository @Inject constructor(
                 dataService._isWalking.value = true
                 dataService.lastStepTime.value = System.currentTimeMillis()
 
-                // ADD A STEP TO THE CURRENT WALK
-                val currentWalkNumberSteps = dataService._walks.value.last().plus(steps.toInt())
-                dataService._walks.value = dataService._walks.value.dropLast(1).plus(currentWalkNumberSteps)
+                // ADD STEPS TO THE CURRENT WALK
+                dataService._currentWalk.value += steps.toInt()
             }
         }
     }
