@@ -48,9 +48,7 @@ fun MainScreen(
             )
             Text(
                 text = totalSteps.value.toString(),
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.primary
-                )
+                style = MaterialTheme.typography.bodySmall
             )
         }
 
@@ -58,9 +56,7 @@ fun MainScreen(
 
         Text(
             text = "Walk: ${walks.value}",
-            style = MaterialTheme.typography.bodySmall.copy(
-                color = MaterialTheme.colorScheme.primary
-            )
+            style = MaterialTheme.typography.bodySmall
         )
 
         if (isWalking.value) {
