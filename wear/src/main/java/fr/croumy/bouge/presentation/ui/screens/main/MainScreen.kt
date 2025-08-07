@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.ui.screens
+package fr.croumy.bouge.presentation.ui.screens.main
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.DirectionsWalk
 import androidx.compose.material3.Icon
@@ -25,8 +23,8 @@ import fr.croumy.bouge.R
 import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
 
 @Composable
-fun ExerciseScreen(
-    viewModel: ExerciseViewModel = hiltViewModel()
+fun MainScreen(
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     val isWalking = viewModel.isWalking.collectAsState()
     val totalSteps = viewModel.totalSteps.collectAsState()
