@@ -17,7 +17,7 @@ import fr.croumy.bouge.presentation.ui.screens.history.components.HistoryItem
 fun ExercisesHistoryScreen(
     viewModel: HistoryViewModel = hiltViewModel()
 ) {
-    val walks = viewModel.walks.value
+    val walksByDay = viewModel.walksByDay
 
     ScalingLazyColumn(
         modifier = Modifier
@@ -25,10 +25,14 @@ fun ExercisesHistoryScreen(
             .padding(16.dp),
 
     ) {
-        items(walks) { walk ->
-            Text(
-                "${walk.steps}"
-            )
+        walksByDay.forEach { day, walks ->
+            item {
+                Text(day.toString())
+            }
+
+            items(walks) { walk ->
+                HistoryItem(walk)
+            }
         }
     }
 }
