@@ -12,10 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import fr.croumy.bouge.presentation.extensions.asString
 import fr.croumy.bouge.presentation.models.Walk
 import fr.croumy.bouge.presentation.theme.Dimensions
-import kotlin.time.DurationUnit
-import kotlin.time.toKotlinDuration
 
 @Composable
 fun HistoryItem(
@@ -33,9 +32,9 @@ fun HistoryItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("${walk.steps} steps")
-            Text("${walk.duration.toKotlinDuration()}")
+            Text(walk.duration.asString())
         }
 
-        Text("${walk.startTime} - ${walk.endTime}")
+        Text("${walk.startTime.asString()} - ${walk.endTime.asString()}")
     }
 }
