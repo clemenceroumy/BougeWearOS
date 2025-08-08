@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import fr.croumy.bouge.presentation.ui.screens.history.components.HistoryItem
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
