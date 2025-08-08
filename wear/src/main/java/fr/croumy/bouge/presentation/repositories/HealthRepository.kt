@@ -7,6 +7,11 @@ import androidx.health.services.client.data.DataType
 import androidx.health.services.client.data.PassiveListenerConfig
 import fr.croumy.bouge.presentation.MainActivity
 import fr.croumy.bouge.presentation.services.DataService
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.util.Calendar
+import java.util.TimeZone
 import javax.inject.Inject
 
 class HealthRepository @Inject constructor(
@@ -41,7 +46,7 @@ class HealthRepository @Inject constructor(
 
                 // EVERY EVENT RECEIVED HERE MEANS A STEP HAS BEEN DETECTED
                 dataService._isWalking.value = true
-                dataService.lastStepTime.value = System.currentTimeMillis()
+                dataService.lastStepTime.value = ZonedDateTime.now()
 
                 // ADD STEPS TO THE CURRENT WALK
                 dataService._currentWalk.value += steps.toInt()

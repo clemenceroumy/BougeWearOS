@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
+import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,8 +27,8 @@ class DataService @Inject constructor(
     val _heartrateValue = MutableStateFlow(0)
     val heartrateValue = _heartrateValue.asStateFlow()
 
-    val firstStepTime = MutableStateFlow(System.currentTimeMillis())
-    val lastStepTime = MutableStateFlow(System.currentTimeMillis())
+    val firstStepTime = MutableStateFlow(ZonedDateTime.now())
+    val lastStepTime = MutableStateFlow(ZonedDateTime.now())
     val _isWalking = MutableStateFlow(false)
     val isWalking = _isWalking.asStateFlow()
 
@@ -43,7 +44,7 @@ class DataService @Inject constructor(
             currentWalk
                 .filter { steps -> steps == 1  }
                 .collect {
-                    firstStepTime.value = System.currentTimeMillis()
+                    firstStepTime.value = ZonedDateTime.now()
                 }
         }
 
