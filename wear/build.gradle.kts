@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.horologist.compose.tools)
     implementation(libs.horologist.tiles)
     implementation(libs.horologist.compose.layout)
+    implementation(libs.accompanist.permissions)
     implementation(libs.androidx.watchface.complications.data.source.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.material3)
