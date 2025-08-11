@@ -7,14 +7,17 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavHostState
 import com.google.android.horologist.compose.ambient.AmbientAware
 import dagger.hilt.android.AndroidEntryPoint
+import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavGraph
 import fr.croumy.bouge.presentation.theme.BougeTheme
 
@@ -33,17 +36,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            BougeTheme {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    TimeText()
+            CompositionLocalProvider(LocalNavController provides rememberSwipeDismissableNavController()) {
+                BougeTheme {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        TimeText()
 
-                    NavGraph(
-                        navController = rememberSwipeDismissableNavController(),
-                        navState = rememberSwipeDismissableNavHostState()
-                    )
+                        NavGraph(
+                            navController = LocalNavController.current,
+                            navState = rememberSwipeDismissableNavHostState()
+                        )
+                    }
                 }
             }
         }

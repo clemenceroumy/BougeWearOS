@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.ui.screens
+package fr.croumy.bouge.presentation.ui.screens.main
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,11 +9,10 @@ import fr.croumy.bouge.presentation.services.DataService
 import javax.inject.Inject
 
 @HiltViewModel
-class ExerciseViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val dataService: DataService,
     private val sensorRepository: SensorRepository,
     private val healthRepository: HealthRepository,
-    private val walkRepository: WalkRepository
 ): ViewModel() {
     val accelerometerValue = dataService.accelerometerValue
     val heartRateValue = dataService.heartrateValue
