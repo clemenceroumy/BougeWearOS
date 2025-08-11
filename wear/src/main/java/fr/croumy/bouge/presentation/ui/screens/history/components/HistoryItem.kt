@@ -23,7 +23,9 @@ fun HistoryItem(
     Column(
         Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(Dimensions.mediumRadius))
+            .background(
+                MaterialTheme.colorScheme.surface, RoundedCornerShape(Dimensions.mediumRadius)
+            )
             .padding(Dimensions.smallPadding)
     ) {
         Row(
@@ -32,9 +34,14 @@ fun HistoryItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("${walk.steps} steps")
-            Text(walk.duration.asString())
+            Text(
+                walk.duration.asString(), style = MaterialTheme.typography.bodySmall
+            )
         }
 
-        Text("${walk.startTime.asString()} - ${walk.endTime.asString()}")
+        Text(
+            "${walk.startTime.asString()} - ${walk.endTime.asString()}",
+            style = MaterialTheme.typography.bodySmall
+        )
     }
 }
