@@ -1,10 +1,12 @@
 package fr.croumy.bouge.presentation.ui.screens
 
+import androidx.compose.foundation.gestures.TargetedFlingBehavior
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.carousel.CarouselDefaults
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
@@ -19,12 +21,16 @@ import fr.croumy.bouge.presentation.ui.screens.redirect.RedirectScreen
 @Composable
 fun HomeScreen() {
     val homeScreens = listOf(NavRoutes.Main, NavRoutes.Redirect)
+    val carouselState = rememberCarouselState { homeScreens.count() }
 
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     HorizontalUncontainedCarousel(
-        state = rememberCarouselState { homeScreens.count() },
+        state = carouselState,
         modifier = Modifier.fillMaxSize(),
+        flingBehavior = CarouselDefaults.singleAdvanceFlingBehavior(
+            state = carouselState
+        ),
         itemWidth = screenWidth,
     ) { index ->
         when(index) {
