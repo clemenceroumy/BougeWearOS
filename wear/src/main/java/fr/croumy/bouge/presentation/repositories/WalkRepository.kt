@@ -11,8 +11,9 @@ class WalkRepository @Inject constructor(
 ) {
     private val walkDao = database.walkDao()
 
-    fun insertWalk(walkEntity: WalkEntity) {
+    fun insertWalk(walkEntity: WalkEntity): WalkEntity {
         walkDao.insert(walkEntity)
+        return walkEntity
     }
 
     fun getAllWalks(): List<Walk> {

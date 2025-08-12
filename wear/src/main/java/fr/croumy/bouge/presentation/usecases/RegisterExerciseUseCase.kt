@@ -1,12 +1,49 @@
 package fr.croumy.bouge.presentation.usecases
 
-import android.util.Log
+import fr.croumy.bouge.presentation.data.AppDatabase
+import fr.croumy.bouge.presentation.data.entities.CreditEntity
+import fr.croumy.bouge.presentation.data.entities.WalkEntity
+import fr.croumy.bouge.presentation.models.ExerciseType
 import fr.croumy.bouge.presentation.repositories.CreditRepository
 import fr.croumy.bouge.presentation.repositories.WalkRepository
+import timber.log.Timber
+import java.time.ZonedDateTime
 import javax.inject.Inject
 
-class RegisterExerciseUseCase {
-    operator fun invoke() {
-        Log.i("RegisterExercise", "use case invoked")
+data class RegisterExerciseParams(
+    val steps: Int,
+    val startTime: ZonedDateTime,
+    val endTime: ZonedDateTime
+)
+
+class RegisterExerciseUseCase @Inject constructor(
+    private val database: AppDatabase,
+    private val creditRepository: CreditRepository,
+    private val walkRepository: WalkRepository
+) : IUseCase<RegisterExerciseParams, Unit> {
+
+    override fun invoke(params: RegisterExerciseParams?) {
+        if (params == null) {
+            Timber.tag("RegisterExercise").e("Params cannot be null")
+            return
+        }
+
+        Timber.tag("RegisterExercise").d("Registering exercise with params: $params")
+
+        val walk = walkRepository.insertWalk(
+            WalkEntity(
+                steps = params.steps,
+                start = params.startTime,
+                end = params.endTime
+            )
+        )
+
+        creditRepository.insertCredit(
+            CreditEntity(
+                value = params.steps,
+                type = ExerciseType.WALK,
+                exerciseUid = walk.uid
+            )
+        )
     }
 }
