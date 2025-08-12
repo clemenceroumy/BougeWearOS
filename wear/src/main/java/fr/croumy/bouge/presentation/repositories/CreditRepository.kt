@@ -1,24 +1,22 @@
 package fr.croumy.bouge.presentation.repositories
 
 import fr.croumy.bouge.presentation.data.AppDatabase
+import fr.croumy.bouge.presentation.data.entities.CreditEntity
 import fr.croumy.bouge.presentation.data.entities.WalkEntity
 import fr.croumy.bouge.presentation.data.mappers.toWalk
 import fr.croumy.bouge.presentation.models.Walk
 import javax.inject.Inject
 
-class WalkRepository @Inject constructor(
+class CreditRepository @Inject constructor(
     private val database: AppDatabase
 ) {
-    private val walkDao = database.walkDao()
+    private val creditDao = database.creditsDao()
 
-    fun insertWalk(walkEntity: WalkEntity): WalkEntity {
-        walkDao.insert(walkEntity)
-        return walkEntity
+    fun insertCredit(creditEntity: CreditEntity) {
+        creditDao.insertCredit(creditEntity)
     }
 
-    fun getAllWalks(): List<Walk> {
-        return walkDao.getAll().map {
-            it.toWalk()
-        }
+    fun getTotalCredits(): Int {
+        return creditDao.getTotal()
     }
 }

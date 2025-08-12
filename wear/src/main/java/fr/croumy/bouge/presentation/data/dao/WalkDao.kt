@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import fr.croumy.bouge.presentation.data.entities.WalkEntity
+import java.util.UUID
 
 @Dao
 interface WalkDao {
@@ -12,7 +13,7 @@ interface WalkDao {
     fun getAll(): List<WalkEntity>
 
     @Insert
-    fun insert(vararg walk: WalkEntity)
+    fun insert(walk: WalkEntity)
 
     @Delete
     fun delete(walk: WalkEntity)
