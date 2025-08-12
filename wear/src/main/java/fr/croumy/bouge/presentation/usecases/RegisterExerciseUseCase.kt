@@ -1,9 +1,9 @@
 package fr.croumy.bouge.presentation.usecases
 
-import fr.croumy.bouge.presentation.data.AppDatabase
 import fr.croumy.bouge.presentation.data.entities.CreditEntity
 import fr.croumy.bouge.presentation.data.entities.WalkEntity
 import fr.croumy.bouge.presentation.models.ExerciseType
+import fr.croumy.bouge.presentation.models.RewardType
 import fr.croumy.bouge.presentation.repositories.CreditRepository
 import fr.croumy.bouge.presentation.repositories.WalkRepository
 import timber.log.Timber
@@ -17,9 +17,9 @@ data class RegisterExerciseParams(
 )
 
 class RegisterExerciseUseCase @Inject constructor(
-    private val database: AppDatabase,
     private val creditRepository: CreditRepository,
-    private val walkRepository: WalkRepository
+    private val walkRepository: WalkRepository,
+    private val calculateRewardUseCase: CalculateRewardUseCase
 ) : IUseCase<RegisterExerciseParams, Unit> {
 
     override fun invoke(params: RegisterExerciseParams?) {
@@ -40,7 +40,12 @@ class RegisterExerciseUseCase @Inject constructor(
 
         creditRepository.insertCredit(
             CreditEntity(
-                value = params.steps,
+                value = calculateRewardUseCase(
+                    CalculateRewardParams(
+                        value = params.steps,
+                        rewardType = RewardType.WALK
+                    )
+                ),
                 type = ExerciseType.WALK,
                 exerciseUid = walk.uid
             )
