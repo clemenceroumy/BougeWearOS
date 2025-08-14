@@ -19,12 +19,28 @@ import com.google.android.horologist.compose.ambient.AmbientAware
 import dagger.hilt.android.AndroidEntryPoint
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavGraph
+import fr.croumy.bouge.presentation.services.HealthService
 import fr.croumy.bouge.presentation.theme.BougeTheme
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject lateinit var healthService: HealthService
+
     companion object {
         lateinit var context: Context
+    }
+
+    // WHEN APP COME TO FOREGROUND, START CALLBACK
+    override fun onResume() {
+        super.onResume()
+        healthService.initHealthCallback()
+    }
+
+    // WHEN APP GOES TO BACKGROUND, STOP CALLBACK AND START SERVICE
+    override fun onStop() {
+        super.onStop()
+        healthService.initHealthService()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
