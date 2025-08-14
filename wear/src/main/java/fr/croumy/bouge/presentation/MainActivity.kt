@@ -21,6 +21,7 @@ import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavGraph
 import fr.croumy.bouge.presentation.services.HealthService
 import fr.croumy.bouge.presentation.theme.BougeTheme
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,12 +36,14 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         healthService.initHealthCallback()
+        Timber.i("MainActivity resumed, health callback started")
     }
 
     // WHEN APP GOES TO BACKGROUND, STOP CALLBACK AND START SERVICE
     override fun onStop() {
         super.onStop()
         healthService.initHealthService()
+        Timber.i("MainActivity stopped, health service started")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
