@@ -1,5 +1,6 @@
 package fr.croumy.bouge.presentation.services
 
+import android.os.SystemClock
 import androidx.health.services.client.HealthServices
 import androidx.health.services.client.PassiveListenerCallback
 import androidx.health.services.client.PassiveListenerService
@@ -8,13 +9,22 @@ import androidx.health.services.client.data.DataType
 import androidx.health.services.client.data.PassiveListenerConfig
 import dagger.hilt.android.AndroidEntryPoint
 import fr.croumy.bouge.presentation.MainActivity
+import fr.croumy.bouge.presentation.models.Constants
+import fr.croumy.bouge.presentation.usecases.RegisterExerciseParams
+import fr.croumy.bouge.presentation.usecases.RegisterExerciseUseCase
 import timber.log.Timber
+import java.time.Duration
+import java.time.Instant
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.inject.Inject
+import kotlin.time.toKotlinDuration
 
 @AndroidEntryPoint
-class HealthService @Inject constructor(): PassiveListenerService() {
+class HealthService @Inject constructor() : PassiveListenerService() {
     @Inject lateinit var dataService: DataService
+    @Inject lateinit var registerExerciseUseCase: RegisterExerciseUseCase
+
     val healthClient = HealthServices.getClient(MainActivity.Companion.context)
     val passiveMonitoringClient = healthClient.passiveMonitoringClient
 
@@ -50,18 +60,52 @@ class HealthService @Inject constructor(): PassiveListenerService() {
             dataService.setTotalSteps(totalStepsToday.toInt())
         }
 
-        if(dataPoints.dataTypes.contains(DataType.STEPS)) {
+        if (dataPoints.dataTypes.contains(DataType.STEPS)) {
+            dataService.setIsWalking(true)
+
+            val bootInstant =
+                Instant.ofEpochMilli(System.currentTimeMillis() - SystemClock.elapsedRealtime())
+
             val dataPointSteps = dataPoints.getData(DataType.STEPS)
-            val totalStepsSinceLastCheck = dataPointSteps.fold(initial = 0) {
-                    acc, dataPoint -> acc + (dataPoint.value.toInt())
+            val dataPointStepsWithTime = dataPointSteps.map { dataPoint ->
+                val stepTime = dataPoint.getEndInstant(bootInstant)
+                Pair(stepTime, dataPoint)
             }
 
-            // EVERY EVENT RECEIVED HERE MEANS A STEP HAS BEEN DETECTED
-            dataService.setIsWalking(true)
-            dataService.lastStepTime.value = ZonedDateTime.now()
+            dataPointStepsWithTime.forEachIndexed { index, pair ->
+                val stepTime: Instant = pair.first
+                val dataPoint = pair.second
 
-            // ADD STEPS TO THE CURRENT WALK
-            dataService.setCurrentWalk(dataService.currentWalk.value + totalStepsSinceLastCheck)
+                dataService.lastStepTime.value = ZonedDateTime.ofInstant(
+                    stepTime,
+                    ZoneId.systemDefault()
+                )
+
+                val previousStepInstant: Instant? =
+                    dataPointStepsWithTime.getOrNull(index - 1)?.first
+                val previousStepTime = Duration.between(
+                    previousStepInstant ?: dataService.lastStepTime.value.toInstant(),
+                    stepTime
+                ).toKotlinDuration()
+
+                if (previousStepTime < Constants.TIME_GAP_BETWEEN_WALKS) {
+                    if(dataService.currentWalk.value == 0) dataService.firstStepTime.value = ZonedDateTime.now()
+
+                    dataService.setCurrentWalk(dataService.currentWalk.value + dataPoint.value.toInt())
+                } else {
+                    if (dataService.currentWalk.value > Constants.MINIMUM_STEPS_WALK) {
+                        registerExerciseUseCase(
+                            RegisterExerciseParams(
+                                steps = dataService.currentWalk.value,
+                                startTime = dataService.firstStepTime.value,
+                                endTime = dataService.lastStepTime.value
+                            )
+                        )
+                    }
+                    dataService.firstStepTime.value = ZonedDateTime.now()
+                    dataService.setCurrentWalk(dataPoint.value.toInt())
+                }
+            }
         }
     }
 
