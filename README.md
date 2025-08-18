@@ -8,3 +8,9 @@ Stopping a walk :
 ```bash
 adb shell am broadcast -a "whs.synthetic.user.STOP_EXERCISE" com.google.android.wearable.healthservices
 ```
+
+## KMP Windows
+Build jvm Main Class befor launching project
+```bash
+./gradlew :windows:jvmMainClasses
+```
