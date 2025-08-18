@@ -20,21 +20,24 @@ import javax.inject.Singleton
 class DataService @Inject constructor(
     val registerExerciseUseCase: RegisterExerciseUseCase
 ) {
-    val _accelerometerValue = MutableStateFlow(AccelerometerValue())
+    private val _accelerometerValue = MutableStateFlow(AccelerometerValue())
     val accelerometerValue = _accelerometerValue.asStateFlow()
 
-    val _heartrateValue = MutableStateFlow(0)
+    private val _heartrateValue = MutableStateFlow(0)
     val heartrateValue = _heartrateValue.asStateFlow()
 
     val firstStepTime = MutableStateFlow(ZonedDateTime.now())
     val lastStepTime = MutableStateFlow(ZonedDateTime.now())
-    val _isWalking = MutableStateFlow(false)
+    private val _isWalking = MutableStateFlow(false)
+    fun setIsWalking(value: Boolean) { _isWalking.value = value }
     val isWalking = _isWalking.asStateFlow()
 
-    val _currentWalk = MutableStateFlow(0)
+    private val _currentWalk = MutableStateFlow(0)
+    fun setCurrentWalk(value: Int) { _currentWalk.value = value }
     val currentWalk = _currentWalk.asStateFlow()
 
-    val _totalSteps = MutableStateFlow(0)
+    private val _totalSteps = MutableStateFlow(0)
+    fun setTotalSteps(value: Int) { _totalSteps.value = value }
     val totalSteps = _totalSteps.asStateFlow()
 
 

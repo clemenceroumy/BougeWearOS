@@ -28,27 +28,7 @@ class HealthService @Inject constructor(): PassiveListenerService() {
     val passiveListenerCallback = object : PassiveListenerCallback {
         override fun onNewDataPointsReceived(dataPoints: DataPointContainer) {
             super.onNewDataPointsReceived(dataPoints)
-
-            if (dataPoints.dataTypes.contains(DataType.STEPS_DAILY)) {
-                val dataPointStepDaily = dataPoints.getData(DataType.STEPS_DAILY).last()
-
-                val totalStepsToday = dataPointStepDaily.value
-                dataService._totalSteps.value = totalStepsToday.toInt()
-            }
-
-            if(dataPoints.dataTypes.contains(DataType.STEPS)) {
-                val dataPointSteps = dataPoints.getData(DataType.STEPS)
-                val totalStepsSinceLastCheck = dataPointSteps.fold(initial = 0) {
-                        acc, dataPoint -> acc + (dataPoint.value.toInt())
-                }
-
-                // EVERY EVENT RECEIVED HERE MEANS A STEP HAS BEEN DETECTED
-                dataService._isWalking.value = true
-                dataService.lastStepTime.value = ZonedDateTime.now()
-
-                // ADD STEPS TO THE CURRENT WALK
-                dataService._currentWalk.value += totalStepsSinceLastCheck
-            }
+            onDataReceived(dataPoints)
         }
     }
 
@@ -59,26 +39,29 @@ class HealthService @Inject constructor(): PassiveListenerService() {
 
     override fun onNewDataPointsReceived(dataPoints: DataPointContainer) {
         super.onNewDataPointsReceived(dataPoints)
+        onDataReceived(dataPoints)
+    }
 
+    fun onDataReceived(dataPoints: DataPointContainer) {
         if (dataPoints.dataTypes.contains(DataType.Companion.STEPS_DAILY)) {
             val dataPointStepDaily = dataPoints.getData(DataType.STEPS_DAILY).last()
 
             val totalStepsToday = dataPointStepDaily.value
-            dataService._totalSteps.value = totalStepsToday.toInt()
+            dataService.setTotalSteps(totalStepsToday.toInt())
         }
 
         if(dataPoints.dataTypes.contains(DataType.STEPS)) {
             val dataPointSteps = dataPoints.getData(DataType.STEPS)
             val totalStepsSinceLastCheck = dataPointSteps.fold(initial = 0) {
-                acc, dataPoint -> acc + (dataPoint.value.toInt())
+                    acc, dataPoint -> acc + (dataPoint.value.toInt())
             }
 
             // EVERY EVENT RECEIVED HERE MEANS A STEP HAS BEEN DETECTED
-            dataService._isWalking.value = true
+            dataService.setIsWalking(true)
             dataService.lastStepTime.value = ZonedDateTime.now()
 
             // ADD STEPS TO THE CURRENT WALK
-            dataService._currentWalk.value += totalStepsSinceLastCheck
+            dataService.setCurrentWalk(dataService.currentWalk.value + totalStepsSinceLastCheck)
         }
     }
 
