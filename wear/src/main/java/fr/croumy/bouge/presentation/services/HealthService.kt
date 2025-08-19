@@ -12,6 +12,11 @@ import fr.croumy.bouge.presentation.MainActivity
 import fr.croumy.bouge.presentation.models.Constants
 import fr.croumy.bouge.presentation.usecases.RegisterExerciseParams
 import fr.croumy.bouge.presentation.usecases.RegisterExerciseUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.Duration
 import java.time.Instant
@@ -21,10 +26,10 @@ import javax.inject.Inject
 import kotlin.time.toKotlinDuration
 
 @AndroidEntryPoint
-class HealthService @Inject constructor() : PassiveListenerService() {
-    @Inject lateinit var dataService: DataService
-    @Inject lateinit var registerExerciseUseCase: RegisterExerciseUseCase
-
+class HealthService @Inject constructor(
+    val dataService: DataService,
+    val registerExerciseUseCase: RegisterExerciseUseCase
+) : PassiveListenerService() {
     val healthClient = HealthServices.getClient(MainActivity.Companion.context)
     val passiveMonitoringClient = healthClient.passiveMonitoringClient
 
@@ -39,6 +44,26 @@ class HealthService @Inject constructor() : PassiveListenerService() {
         override fun onNewDataPointsReceived(dataPoints: DataPointContainer) {
             super.onNewDataPointsReceived(dataPoints)
             onDataReceived(dataPoints)
+        }
+    }
+
+    init {
+        // WHEN NO STEPS RECEIVED FOR A WHILE, REGISTER THE WALK
+        CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
+            dataService.lastStepTime
+                .debounce(Constants.TIME_GAP_BETWEEN_WALKS)
+                .collect {
+                    if (dataService.currentWalk.value > Constants.MINIMUM_STEPS_WALK) {
+                        registerExerciseUseCase(
+                            RegisterExerciseParams(
+                                steps = dataService.currentWalk.value,
+                                startTime = dataService.firstStepTime.value,
+                                endTime = dataService.lastStepTime.value
+                            )
+                        )
+                    }
+                    dataService.setCurrentWalk(0)
+                }
         }
     }
 
@@ -89,10 +114,11 @@ class HealthService @Inject constructor() : PassiveListenerService() {
                 ).toKotlinDuration()
 
                 if (previousStepTime < Constants.TIME_GAP_BETWEEN_WALKS) {
-                    if(dataService.currentWalk.value == 0) dataService.firstStepTime.value = ZonedDateTime.now()
+                    if(dataService.currentWalk.value == 0) dataService.firstStepTime.value = dataService.lastStepTime.value
 
                     dataService.setCurrentWalk(dataService.currentWalk.value + dataPoint.value.toInt())
                 } else {
+                    // IN CASE STEPS ARE RECEIVED IN THE SAME BATCH BUT WITH A GAP
                     if (dataService.currentWalk.value > Constants.MINIMUM_STEPS_WALK) {
                         registerExerciseUseCase(
                             RegisterExerciseParams(
@@ -102,7 +128,7 @@ class HealthService @Inject constructor() : PassiveListenerService() {
                             )
                         )
                     }
-                    dataService.firstStepTime.value = ZonedDateTime.now()
+                    dataService.firstStepTime.value = dataService.lastStepTime.value
                     dataService.setCurrentWalk(dataPoint.value.toInt())
                 }
             }
