@@ -88,21 +88,10 @@ class HealthService @Inject constructor(): PassiveListenerService() {
         )
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Timber.i("HealthService started with intent: $intent")
-        return super.onStartCommand(intent, flags, startId)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         Timber.i("HealthService destroyed")
     }
-
-    override fun onNewDataPointsReceived(dataPoints: DataPointContainer) {
-        super.onNewDataPointsReceived(dataPoints)
-        onDataReceived(dataPoints)
-    }
-
 
     fun onDataReceived(dataPoints: DataPointContainer) {
         if (dataPoints.dataTypes.contains(DataType.Companion.STEPS_DAILY)) {
@@ -169,11 +158,6 @@ class HealthService @Inject constructor(): PassiveListenerService() {
         val passiveMonitoringClient = HealthServices
             .getClient(context)
             .passiveMonitoringClient
-
-        /*passiveMonitoringClient.setPassiveListenerServiceAsync(
-            HealthService::class.java,
-            passiveListenerConfig
-        )*/
 
         passiveMonitoringClient.setPassiveListenerCallback(
             passiveListenerConfig,
