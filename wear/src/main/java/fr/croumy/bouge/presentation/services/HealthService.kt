@@ -1,5 +1,6 @@
 package fr.croumy.bouge.presentation.services
 
+import android.os.CountDownTimer
 import android.os.SystemClock
 import androidx.health.services.client.HealthServices
 import androidx.health.services.client.PassiveListenerCallback
@@ -14,6 +15,7 @@ import fr.croumy.bouge.presentation.usecases.RegisterExerciseParams
 import fr.croumy.bouge.presentation.usecases.RegisterExerciseUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
@@ -26,12 +28,32 @@ import javax.inject.Inject
 import kotlin.time.toKotlinDuration
 
 @AndroidEntryPoint
-class HealthService @Inject constructor(
-    val dataService: DataService,
-    val registerExerciseUseCase: RegisterExerciseUseCase
-) : PassiveListenerService() {
+class HealthService @Inject constructor() : PassiveListenerService() {
+    @Inject
+    lateinit var dataService: DataService
+    @Inject
+    lateinit var registerExerciseUseCase: RegisterExerciseUseCase
+
     val healthClient = HealthServices.getClient(MainActivity.Companion.context)
     val passiveMonitoringClient = healthClient.passiveMonitoringClient
+    val countdown = object : CountDownTimer(Constants.TIME_GAP_BETWEEN_WALKS.inWholeMilliseconds, 1000) {
+        override fun onTick(millisUntilFinished: Long) {}
+
+        override fun onFinish() {
+            Timber.i("Countdown finished, current walk of ${dataService.currentWalk.value} steps is over")
+            if (dataService.currentWalk.value > Constants.MINIMUM_STEPS_WALK) {
+                registerExerciseUseCase(
+                    RegisterExerciseParams(
+                        steps = dataService.currentWalk.value,
+                        startTime = dataService.firstStepTime.value,
+                        endTime = dataService.lastStepTime.value
+                    )
+                )
+            }
+            dataService.setCurrentWalk(0)
+        }
+    }
+
 
     private val passiveListenerConfig = PassiveListenerConfig(
         dataTypes = setOf(DataType.Companion.STEPS_DAILY, DataType.Companion.STEPS),
@@ -47,35 +69,21 @@ class HealthService @Inject constructor(
         }
     }
 
-    init {
-        // WHEN NO STEPS RECEIVED FOR A WHILE, REGISTER THE WALK
-        CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
-            dataService.lastStepTime
-                .debounce(Constants.TIME_GAP_BETWEEN_WALKS)
-                .collect {
-                    if (dataService.currentWalk.value > Constants.MINIMUM_STEPS_WALK) {
-                        registerExerciseUseCase(
-                            RegisterExerciseParams(
-                                steps = dataService.currentWalk.value,
-                                startTime = dataService.firstStepTime.value,
-                                endTime = dataService.lastStepTime.value
-                            )
-                        )
-                    }
-                    dataService.setCurrentWalk(0)
-                }
-        }
-    }
-
     override fun onCreate() {
         super.onCreate()
         Timber.i("HealthService created")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("HealthService destroyed")
     }
 
     override fun onNewDataPointsReceived(dataPoints: DataPointContainer) {
         super.onNewDataPointsReceived(dataPoints)
         onDataReceived(dataPoints)
     }
+
 
     fun onDataReceived(dataPoints: DataPointContainer) {
         if (dataPoints.dataTypes.contains(DataType.Companion.STEPS_DAILY)) {
@@ -86,6 +94,7 @@ class HealthService @Inject constructor(
         }
 
         if (dataPoints.dataTypes.contains(DataType.STEPS)) {
+            countdown.cancel()
             dataService.setIsWalking(true)
 
             val bootInstant =
@@ -114,7 +123,8 @@ class HealthService @Inject constructor(
                 ).toKotlinDuration()
 
                 if (previousStepTime < Constants.TIME_GAP_BETWEEN_WALKS) {
-                    if(dataService.currentWalk.value == 0) dataService.firstStepTime.value = dataService.lastStepTime.value
+                    if (dataService.currentWalk.value == 0) dataService.firstStepTime.value =
+                        dataService.lastStepTime.value
 
                     dataService.setCurrentWalk(dataService.currentWalk.value + dataPoint.value.toInt())
                 } else {
@@ -132,6 +142,7 @@ class HealthService @Inject constructor(
                     dataService.setCurrentWalk(dataPoint.value.toInt())
                 }
             }
+            countdown.start()
         }
     }
 
