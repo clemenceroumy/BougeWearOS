@@ -28,31 +28,13 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     @Inject lateinit var healthService: HealthService
 
-    companion object {
-        lateinit var context: Context
-    }
-
-    // WHEN APP COME TO FOREGROUND, START CALLBACK
-    override fun onResume() {
-        super.onResume()
-        healthService.initHealthCallback()
-        Timber.i("MainActivity resumed, health callback started")
-    }
-
-    // WHEN APP GOES TO BACKGROUND, STOP CALLBACK AND START SERVICE
-    override fun onStop() {
-        super.onStop()
-        healthService.initHealthService()
-        Timber.i("MainActivity stopped, health service started")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        context = this
-
         installSplashScreen()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         super.onCreate(savedInstanceState)
+
+        healthService.initService()
 
         setContent {
             CompositionLocalProvider(LocalNavController provides rememberSwipeDismissableNavController()) {

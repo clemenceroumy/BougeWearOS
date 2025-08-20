@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH" />
 
     <application
         android:allowBackup="true"
@@ -72,6 +74,7 @@
 
         <service android:name=".presentation.services.HealthService"
             android:permission="com.google.android.wearable.healthservices.permission.PASSIVE_DATA_BINDING"
+            android:foregroundServiceType="health"
             android:exported="true" />
     </application>
     <queries>
