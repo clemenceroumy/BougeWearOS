@@ -1,6 +1,7 @@
 package fr.croumy.bouge.presentation.usecases.credits
 
 import fr.croumy.bouge.presentation.models.CreditRewardType
+import fr.croumy.bouge.presentation.usecases.IUseCase
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -9,8 +10,7 @@ data class CalculateCreditRewardParams(
     val creditRewardType: CreditRewardType
 )
 
-class CalculateCreditRewardUseCase @Inject constructor():
-    fr.croumy.bouge.presentation.usecases.IUseCase<CalculateCreditRewardParams, Int> {
+class CalculateCreditRewardUseCase @Inject constructor(): IUseCase<CalculateCreditRewardParams, Int> {
     override fun invoke(params: CalculateCreditRewardParams?): Int {
         if (params == null) {
             Timber.tag("CalculateReward").e("Params cannot be null")
