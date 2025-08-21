@@ -2,17 +2,14 @@ package fr.croumy.bouge.presentation.services
 
 import fr.croumy.bouge.presentation.models.AccelerometerValue
 import fr.croumy.bouge.presentation.models.Constants
-import fr.croumy.bouge.presentation.usecases.RegisterExerciseParams
-import fr.croumy.bouge.presentation.usecases.RegisterExerciseUseCase
+import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
 import javax.inject.Inject
