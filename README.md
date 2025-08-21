@@ -1,3 +1,9 @@
+# App (WIP)
+WearOS and mobile designed to make you move more with the help of your companion !
+
+Specs : https://any.coop/A8xiHtgiLuF3TxgiyYcZusuyjrodcJMNP7r3bKFw4AaNRZKR/specs
+
+# DEV INFO
 ## MOCK WATCH
 Starting a walk : 
 ```bash
