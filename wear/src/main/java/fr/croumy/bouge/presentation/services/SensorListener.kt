@@ -15,15 +15,11 @@ class SensorListener @Inject constructor(
             when (it.sensor.type) {
                 Sensor.TYPE_HEART_RATE -> {
                     val heartRate = it.values[0]
-
-                    dataService._heartrateValue.value = heartRate.toInt()
                 }
                 Sensor.TYPE_ACCELEROMETER -> {
                     val x = it.values[0].round(2)
                     val y = it.values[1].round(2)
                     val z = it.values[2].round(2)
-
-                    dataService._accelerometerValue.value = AccelerometerValue(x, y, z)
                 }
                 Sensor.TYPE_STEP_DETECTOR -> {
 

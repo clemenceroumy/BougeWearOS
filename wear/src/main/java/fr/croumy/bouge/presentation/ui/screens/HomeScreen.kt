@@ -26,35 +26,19 @@ fun HomeScreen() {
     val homeScreens = listOf(NavRoutes.Main, NavRoutes.Redirect)
     val carouselState = rememberCarouselState { homeScreens.count() }
 
-    val locationPermissionState = rememberPermissionState(PermissionService.LOCATION)
-    val activityRecognitionPermissionState = rememberPermissionState(PermissionService.ACTIVITY_RECOGNITION)
-
-    val locationIsGranted = locationPermissionState.status.isGranted
-    val activityRecognitionIsGranted = activityRecognitionPermissionState.status.isGranted
-
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
-    LaunchedEffect(locationIsGranted, activityRecognitionIsGranted) {
-        if(!activityRecognitionIsGranted) {
-            activityRecognitionPermissionState.launchPermissionRequest()
-        } else if(!locationIsGranted) {
-            locationPermissionState.launchPermissionRequest()
-        }
-    }
-
-    if(locationIsGranted && activityRecognitionIsGranted) {
-        HorizontalUncontainedCarousel(
-            state = carouselState,
-            modifier = Modifier.fillMaxSize(),
-            flingBehavior = CarouselDefaults.singleAdvanceFlingBehavior(
-                state = carouselState
-            ),
-            itemWidth = screenWidth,
-        ) { index ->
-            when(index) {
-                0 -> MainScreen()
-                1 -> RedirectScreen()
-            }
+    HorizontalUncontainedCarousel(
+        state = carouselState,
+        modifier = Modifier.fillMaxSize(),
+        flingBehavior = CarouselDefaults.singleAdvanceFlingBehavior(
+            state = carouselState
+        ),
+        itemWidth = screenWidth,
+    ) { index ->
+        when (index) {
+            0 -> MainScreen()
+            1 -> RedirectScreen()
         }
     }
 }

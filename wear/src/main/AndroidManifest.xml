@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_HEALTH" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +19,6 @@
         android:supportsRtl="true"
         android:name=".MainApplication"
     >
-
         <service
             android:name=".complication.MainComplicationService"
             android:exported="true"
@@ -70,6 +71,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <service android:name=".presentation.services.HealthService"
+            android:permission="com.google.android.wearable.healthservices.permission.PASSIVE_DATA_BINDING"
+            android:foregroundServiceType="health"
+            android:exported="true" />
+    </application>
+    <queries>
+        <package android:name="com.google.android.wearable.healthservices" />
+    </queries>
 </manifest>
