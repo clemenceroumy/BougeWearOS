@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.croumy.bouge.R
+import fr.croumy.bouge.presentation.models.CompanionType
 import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
 
 @Composable
@@ -30,6 +31,7 @@ fun MainScreen(
     val totalSteps = viewModel.totalSteps.collectAsState()
     val walks = viewModel.walks.collectAsState()
     val companion = viewModel.companion.collectAsState()
+    val sprite = CompanionType.Frog
 
     Column(
         modifier = Modifier
@@ -62,13 +64,13 @@ fun MainScreen(
 
         if (isWalking.value) {
             AnimatedSprite(
-                imageId = R.drawable.walking_frog,
-                frameCount = 7
+                imageId = sprite.assetWalkingId,
+                frameCount = sprite.assetWalkingFrame
             )
         } else {
             AnimatedSprite(
-                imageId = R.drawable.idle_frog,
-                frameCount = 4
+                imageId = sprite.assetIdleId,
+                frameCount = sprite.assetIdleFrame
             )
         }
     }
