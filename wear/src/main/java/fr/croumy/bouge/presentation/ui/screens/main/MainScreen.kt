@@ -29,6 +29,7 @@ fun MainScreen(
     val isWalking = viewModel.isWalking.collectAsState()
     val totalSteps = viewModel.totalSteps.collectAsState()
     val walks = viewModel.walks.collectAsState()
+    val companion = viewModel.companion.collectAsState()
 
     Column(
         modifier = Modifier
