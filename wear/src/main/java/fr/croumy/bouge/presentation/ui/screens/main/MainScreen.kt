@@ -61,13 +61,13 @@ fun MainScreen(
 
         if (isWalking.value) {
             AnimatedSprite(
-                imageId = R.drawable.toxicfroggreenblue_walk,
+                imageId = R.drawable.walking_frog,
                 frameCount = 7
             )
         } else {
             AnimatedSprite(
-                imageId = R.drawable.toxicfroggreenblue_idle,
-                frameCount = 8
+                imageId = R.drawable.idle_frog,
+                frameCount = 4
             )
         }
     }

@@ -9,4 +9,5 @@ object Dimensions {
     val mediumRadius = 16.dp
 
     val btnHeight = 48.dp
+    val smallIcon = 20.dp
 }
