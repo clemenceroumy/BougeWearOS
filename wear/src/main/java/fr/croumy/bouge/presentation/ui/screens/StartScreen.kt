@@ -1,7 +1,13 @@
 package fr.croumy.bouge.presentation.ui.screens
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -23,18 +29,29 @@ fun StartScreen(
     val locationIsGranted = locationPermissionState.status.isGranted
     val activityRecognitionIsGranted = activityRecognitionPermissionState.status.isGranted
 
+    val isLoading = startViewModel.isLoading.value
+    val hasCompanion = startViewModel.hasCompanion.value
 
-    LaunchedEffect(locationIsGranted, activityRecognitionIsGranted) {
+    LaunchedEffect(locationIsGranted, activityRecognitionIsGranted, isLoading) {
         if(!activityRecognitionIsGranted) {
             activityRecognitionPermissionState.launchPermissionRequest()
         } else if(!locationIsGranted) {
             locationPermissionState.launchPermissionRequest()
-        } else {
+        } else if(!isLoading) {
             startViewModel.initHealthService()
 
             navController.navigate(
-                if(startViewModel.hasCompanion) NavRoutes.Home.route else NavRoutes.PickCompanion.route
+                if(hasCompanion) NavRoutes.Home.route else NavRoutes.PickCompanion.route
             )
+        }
+    }
+
+    if(startViewModel.isLoading.value) {
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
         }
     }
 }
