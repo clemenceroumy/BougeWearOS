@@ -26,7 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.croumy.bouge.presentation.injection.LocalNavController
-import fr.croumy.bouge.presentation.models.CompanionType
+import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.AnimatedSprite

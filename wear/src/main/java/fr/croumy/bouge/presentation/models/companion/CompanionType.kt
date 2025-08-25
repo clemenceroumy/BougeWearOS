@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.models
+package fr.croumy.bouge.presentation.models.companion
 
 import androidx.annotation.DrawableRes
 import fr.croumy.bouge.R

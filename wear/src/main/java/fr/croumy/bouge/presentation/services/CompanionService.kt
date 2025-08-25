@@ -1,7 +1,7 @@
 package fr.croumy.bouge.presentation.services
 
 import fr.croumy.bouge.presentation.data.entities.CompanionEntity
-import fr.croumy.bouge.presentation.models.CompanionType
+import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.repositories.CompanionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

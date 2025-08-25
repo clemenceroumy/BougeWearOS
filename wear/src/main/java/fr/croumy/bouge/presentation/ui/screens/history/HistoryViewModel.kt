@@ -3,7 +3,7 @@ package fr.croumy.bouge.presentation.ui.screens.history
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import fr.croumy.bouge.presentation.models.Walk
+import fr.croumy.bouge.presentation.models.exercise.Walk
 import fr.croumy.bouge.presentation.repositories.WalkRepository
 import javax.inject.Inject
 
