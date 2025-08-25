@@ -17,5 +17,8 @@ abstract class CompanionType(
 
     companion object {
         val values = listOf(Frog, Pig, Fox, Duck)
+        fun fromString(name: String): CompanionType {
+            return values.find { it.javaClass.simpleName == name }!!
+        }
     }
 }

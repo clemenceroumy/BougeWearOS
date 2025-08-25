@@ -31,7 +31,6 @@ fun MainScreen(
     val totalSteps = viewModel.totalSteps.collectAsState()
     val walks = viewModel.walks.collectAsState()
     val companion = viewModel.companion.collectAsState()
-    val sprite = CompanionType.Frog
 
     Column(
         modifier = Modifier
@@ -62,16 +61,18 @@ fun MainScreen(
             style = MaterialTheme.typography.bodySmall
         )
 
-        if (isWalking.value) {
-            AnimatedSprite(
-                imageId = sprite.assetWalkingId,
-                frameCount = sprite.assetWalkingFrame
-            )
-        } else {
-            AnimatedSprite(
-                imageId = sprite.assetIdleId,
-                frameCount = sprite.assetIdleFrame
-            )
+        if(companion.value != null) {
+            if (isWalking.value) {
+                AnimatedSprite(
+                    imageId = companion.value!!.type.assetWalkingId,
+                    frameCount = companion.value!!.type.assetWalkingFrame
+                )
+            } else {
+                AnimatedSprite(
+                    imageId = companion.value!!.type.assetIdleId,
+                    frameCount = companion.value!!.type.assetIdleFrame
+                )
+            }
         }
     }
 }
