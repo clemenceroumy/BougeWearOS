@@ -2,9 +2,8 @@ package fr.croumy.bouge.presentation.usecases.exercises
 
 import fr.croumy.bouge.presentation.data.entities.CreditEntity
 import fr.croumy.bouge.presentation.data.entities.WalkEntity
-import fr.croumy.bouge.presentation.models.Constants
-import fr.croumy.bouge.presentation.models.ExerciseType
-import fr.croumy.bouge.presentation.models.CreditRewardType
+import fr.croumy.bouge.presentation.models.exercise.ExerciseType
+import fr.croumy.bouge.presentation.models.credit.CreditRewardType
 import fr.croumy.bouge.presentation.repositories.CreditRepository
 import fr.croumy.bouge.presentation.repositories.WalkRepository
 import fr.croumy.bouge.presentation.usecases.credits.CalculateCreditRewardParams

@@ -21,7 +21,8 @@ import androidx.compose.ui.unit.toIntSize
 @Composable
 fun AnimatedSprite(
     @DrawableRes imageId: Int,
-    frameCount: Int = 8
+    frameCount: Int,
+    animationDuration: Int = 800
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "sprite")
 
@@ -32,9 +33,9 @@ fun AnimatedSprite(
 
     val animatedFrame = infiniteTransition.animateFloat(
         initialValue = 0f,
-        targetValue = frameCount - 1f,
+        targetValue = frameCount.toFloat(),
         animationSpec = infiniteRepeatable(
-           animation = tween(1000, easing = LinearEasing),
+           animation = tween(animationDuration, easing = LinearEasing),
            repeatMode = RepeatMode.Restart
        ),
     )

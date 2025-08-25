@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.models
+package fr.croumy.bouge.presentation.models.credit
 
 enum class CreditRewardType {
     WALK, // steps during a consecutive walk

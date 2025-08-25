@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.models
+package fr.croumy.bouge.presentation.models.exercise
 
 import java.time.Duration
 import java.time.ZonedDateTime

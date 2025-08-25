@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import fr.croumy.bouge.presentation.extensions.asString
-import fr.croumy.bouge.presentation.models.Walk
+import fr.croumy.bouge.presentation.models.exercise.Walk
 import fr.croumy.bouge.presentation.theme.Dimensions
 
 @Composable
