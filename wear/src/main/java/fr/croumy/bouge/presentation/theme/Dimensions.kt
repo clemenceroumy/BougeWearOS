@@ -3,6 +3,7 @@ package fr.croumy.bouge.presentation.theme
 import androidx.compose.ui.unit.dp
 
 object Dimensions {
+    val xsmallPadding = 4.dp
     val smallPadding = 8.dp
     val mediumPadding = 16.dp
 

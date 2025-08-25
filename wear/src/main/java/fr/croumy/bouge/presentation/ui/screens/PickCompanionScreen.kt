@@ -7,23 +7,22 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowLeft
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.carousel.CarouselDefaults
-import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
-import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.models.companion.CompanionType
@@ -38,16 +37,24 @@ fun PickCompanionScreen(
     pickCompanionViewModel: PickCompanionViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
-    val companions = CompanionType.values
+    val companions = remember { CompanionType.values }
     val selectedCompanion = remember { mutableStateOf(companions.first()) }
-    val carouselState = rememberCarouselState { Int.MAX_VALUE / 2 }
+    val pagerState = rememberPagerState(initialPage = ((Int.MAX_VALUE / 2) - (Int.MAX_VALUE / 2 % companions.size))) {
+        Int.MAX_VALUE
+    }
+
+    LaunchedEffect(pagerState.currentPage) {
+        val index = pagerState.currentPage % companions.size
+        selectedCompanion.value = companions[index]
+    }
 
     Column(Modifier.fillMaxSize()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(top = Dimensions.smallPadding)
+                .padding(horizontal = Dimensions.xsmallPadding)
                 .weight(1f),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -56,19 +63,14 @@ fun PickCompanionScreen(
                 contentDescription = null,
                 modifier = Modifier.size(Dimensions.smallIcon)
             )
-            HorizontalUncontainedCarousel(
-                state = carouselState,
+            HorizontalPager(
                 modifier = Modifier.weight(1f),
-                flingBehavior = CarouselDefaults.singleAdvanceFlingBehavior(state = carouselState),
-                itemWidth = screenWidth - (Dimensions.smallIcon * 2)
-            ) { index ->
-                val itemIndex = index % companions.size
-                selectedCompanion.value = companions[itemIndex]
-
+                state = pagerState
+            ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceBetween
+                    verticalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(selectedCompanion.value.defaultName)
                     Box(
