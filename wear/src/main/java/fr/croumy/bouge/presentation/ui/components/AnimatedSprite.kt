@@ -8,6 +8,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,8 +21,10 @@ import androidx.compose.ui.unit.toIntSize
 
 @Composable
 fun AnimatedSprite(
+    modifier: Modifier = Modifier,
     @DrawableRes imageId: Int,
-    frameCount: Int = 8
+    frameCount: Int,
+    animationDuration: Int = 800
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "sprite")
 
@@ -32,14 +35,14 @@ fun AnimatedSprite(
 
     val animatedFrame = infiniteTransition.animateFloat(
         initialValue = 0f,
-        targetValue = frameCount - 1f,
+        targetValue = frameCount.toFloat(),
         animationSpec = infiniteRepeatable(
-           animation = tween(1000, easing = LinearEasing),
+           animation = tween(animationDuration, easing = LinearEasing),
            repeatMode = RepeatMode.Restart
        ),
     )
 
-    Canvas(modifier = Modifier.fillMaxSize()) {
+    Canvas(modifier = modifier.aspectRatio(1f)) {
         val srcOffset = IntOffset(
             x = animatedFrame.value.toInt() * spriteWidth,
             y = 0

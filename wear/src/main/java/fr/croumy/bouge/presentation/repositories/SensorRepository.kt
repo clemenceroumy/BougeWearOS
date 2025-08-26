@@ -8,9 +8,10 @@ import fr.croumy.bouge.presentation.services.SensorListener
 import jakarta.inject.Inject
 
 class SensorRepository @Inject constructor(
-    private val sensorListener: SensorListener
+    private val sensorListener: SensorListener,
+    private val context: Context
 ) {
-    private val sensorManager = MainActivity.Companion.context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     fun initSensors() {
         val accelerometer: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
