@@ -21,17 +21,11 @@ import javax.inject.Singleton
 class CompanionService @Inject constructor(
     private val companionRepository: CompanionRepository
 ) {
-    val myCompanion: StateFlow<Companion?> = getMyCompanion().stateIn(
-        CoroutineScope(Dispatchers.IO),
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = null
-    )
-
-    fun getMyCompanion(): Flow<Companion?> {
-        return companionRepository.getCurrentCompanion().transform {
-            emit(it?.toCompanion())
+    val myCompanion: Flow<Companion?> = companionRepository
+        .getCurrentCompanion()
+        .map {
+            it?.toCompanion()
         }
-    }
 
     fun selectCompanion(companionType: CompanionType) {
         val companionEntity = CompanionEntity(

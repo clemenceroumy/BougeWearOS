@@ -2,12 +2,14 @@ package fr.croumy.bouge.presentation.ui.screens
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.services.HealthService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.take
@@ -27,14 +29,11 @@ class StartViewModel @Inject constructor(
     val hasCompanion = mutableStateOf(false)
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
-            companionService.myCompanion
-                .take(2)
-                .onCompletion { isLoading.value = false }
+        this.viewModelScope.launch {
+            hasCompanion.value = companionService.myCompanion
                 .transform { emit(it != null) }
-                .collect {
-                    hasCompanion.value = it
-                }
+                .first()
+            isLoading.value = false
         }
     }
 

@@ -9,6 +9,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -22,6 +25,7 @@ fun StartScreen(
     startViewModel: StartViewModel = hiltViewModel()
 ) {
     val navController = LocalNavController.current
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 
     val locationPermissionState = rememberPermissionState(PermissionService.LOCATION)
     val activityRecognitionPermissionState = rememberPermissionState(PermissionService.ACTIVITY_RECOGNITION)
