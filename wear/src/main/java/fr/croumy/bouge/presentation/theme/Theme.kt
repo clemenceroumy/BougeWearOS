@@ -9,10 +9,12 @@ import androidx.compose.runtime.CompositionLocalProvider
 
 val lightTheme = darkColorScheme(
     primary = primary,
+    onPrimary = onPrimary,
     secondary = secondary,
     background = background,
     onBackground = onBackground,
-    surface = surface
+    surface = surface,
+    onSurface = onSurface
 )
 
 @Composable
