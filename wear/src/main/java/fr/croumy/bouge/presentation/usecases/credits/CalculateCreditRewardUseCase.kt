@@ -1,6 +1,6 @@
 package fr.croumy.bouge.presentation.usecases.credits
 
-import fr.croumy.bouge.presentation.models.CreditRewardType
+import fr.croumy.bouge.presentation.models.credit.CreditRewardType
 import fr.croumy.bouge.presentation.usecases.IUseCase
 import timber.log.Timber
 import javax.inject.Inject
