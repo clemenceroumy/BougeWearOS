@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.ui.screens
+package fr.croumy.bouge.presentation.ui.screens.pickCompanion
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,14 +29,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.croumy.bouge.presentation.extensions.fillMaxRectangleWidth
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
-import fr.croumy.bouge.presentation.ui.components.Button
 import fr.croumy.bouge.presentation.ui.components.IconButton
+import fr.croumy.bouge.presentation.ui.screens.pickCompanion.components.RenameCompanion
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,8 +49,10 @@ fun PickCompanionScreen(
     val navController = LocalNavController.current
     val coroutineScope = rememberCoroutineScope()
 
+
     val companions = remember { CompanionType.values }
     val selectedCompanion = remember { mutableStateOf(companions.first()) }
+    val customName = remember { mutableStateOf(selectedCompanion.value.defaultName) }
     val pagerState =
         rememberPagerState(initialPage = ((Int.MAX_VALUE / 2) - (Int.MAX_VALUE / 2 % companions.size))) {
             Int.MAX_VALUE
@@ -57,6 +61,7 @@ fun PickCompanionScreen(
     LaunchedEffect(pagerState.currentPage) {
         val index = pagerState.currentPage % companions.size
         selectedCompanion.value = companions[index]
+        customName.value = selectedCompanion.value.defaultName
     }
 
     Column(
@@ -84,17 +89,29 @@ fun PickCompanionScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(selectedCompanion.value.defaultName)
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .aspectRatio(1f)
-                    ) {
-                        AnimatedSprite(
-                            selectedCompanion.value.assetIdleId,
-                            selectedCompanion.value.assetIdleFrame,
-                        )
+                    RenameCompanion(customName) {
+                        Row(
+                            modifier = Modifier.fillMaxRectangleWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                Icons.Default.Edit,
+                                contentDescription = "",
+                                modifier = Modifier.size(Dimensions.xsmallIcon)
+                            )
+                            Text(
+                                customName.value,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        }
                     }
+                    AnimatedSprite(
+                        Modifier.weight(1f),
+                        selectedCompanion.value.assetIdleId,
+                        selectedCompanion.value.assetIdleFrame,
+                    )
                 }
             }
             ArrowBtn(Icons.AutoMirrored.Filled.ArrowRight) {
@@ -106,7 +123,7 @@ fun PickCompanionScreen(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             icon = Icons.Default.Check,
             onClick = {
-                pickCompanionViewModel.selectCompanion(selectedCompanion.value)
+                pickCompanionViewModel.selectCompanion(selectedCompanion.value, customName.value)
                 navController.navigate(NavRoutes.Home.route)
             },
         )

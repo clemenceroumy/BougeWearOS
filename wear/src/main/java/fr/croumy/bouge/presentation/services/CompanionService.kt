@@ -27,9 +27,9 @@ class CompanionService @Inject constructor(
             it?.toCompanion()
         }
 
-    fun selectCompanion(companionType: CompanionType) {
+    fun selectCompanion(companionType: CompanionType, customName: String) {
         val companionEntity = CompanionEntity(
-            name = companionType.defaultName,
+            name = customName,
             type = companionType::class.java.simpleName,
             birthDate = ZonedDateTime.now(),
         )

@@ -14,4 +14,5 @@ object Dimensions {
     val smallBtnHeight = 28.dp
 
     val smallIcon = 20.dp
+    val xsmallIcon = 15.dp
 }

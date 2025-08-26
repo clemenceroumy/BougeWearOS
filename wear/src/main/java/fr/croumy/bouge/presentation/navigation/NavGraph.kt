@@ -8,7 +8,7 @@ import androidx.wear.compose.navigation.composable
 import fr.croumy.bouge.presentation.ui.screens.HomeScreen
 import fr.croumy.bouge.presentation.ui.screens.StartScreen
 import fr.croumy.bouge.presentation.ui.screens.history.ExercisesHistoryScreen
-import fr.croumy.bouge.presentation.ui.screens.PickCompanionScreen
+import fr.croumy.bouge.presentation.ui.screens.pickCompanion.PickCompanionScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, navState: SwipeDismissableNavHostState) {
