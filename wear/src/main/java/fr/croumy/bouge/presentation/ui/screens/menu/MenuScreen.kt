@@ -14,7 +14,7 @@ import fr.croumy.bouge.presentation.ui.components.Button
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
-fun RedirectScreen() {
+fun MenuScreen() {
     val navController = LocalNavController.current
 
     ScalingLazyColumn(

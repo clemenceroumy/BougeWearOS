@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.ui.screens.main
+package fr.croumy.bouge.presentation.ui.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,13 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.croumy.bouge.R
-import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
 
 @Composable
-fun MainScreen(
-    viewModel: MainViewModel = hiltViewModel()
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val isWalking = viewModel.isWalking.collectAsState()
     val totalSteps = viewModel.totalSteps.collectAsState()
