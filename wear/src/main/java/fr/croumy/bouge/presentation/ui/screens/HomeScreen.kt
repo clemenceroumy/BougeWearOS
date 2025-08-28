@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.ui.screens.main.MainScreen
-import fr.croumy.bouge.presentation.ui.screens.redirect.RedirectScreen
+import fr.croumy.bouge.presentation.ui.screens.menu.RedirectScreen
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable

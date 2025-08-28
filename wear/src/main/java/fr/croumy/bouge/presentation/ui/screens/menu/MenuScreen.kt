@@ -1,11 +1,10 @@
-package fr.croumy.bouge.presentation.ui.screens.redirect
+package fr.croumy.bouge.presentation.ui.screens.menu
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import fr.croumy.bouge.presentation.injection.LocalNavController
