@@ -23,7 +23,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject lateinit var healthService: HealthService
+    @Inject
+    lateinit var healthService: HealthService
 
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,17 +36,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             CompositionLocalProvider(LocalNavController provides rememberSwipeDismissableNavController()) {
                 BougeTheme {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        TimeText()
-
-                        NavGraph(
-                            navController = LocalNavController.current,
-                            navState = rememberSwipeDismissableNavHostState()
-                        )
-                    }
+                    NavGraph(
+                        navController = LocalNavController.current,
+                        navState = rememberSwipeDismissableNavHostState()
+                    )
                 }
             }
         }

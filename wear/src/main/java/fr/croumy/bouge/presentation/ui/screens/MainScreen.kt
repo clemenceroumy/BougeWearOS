@@ -10,20 +10,22 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.ui.screens.home.HomeScreen
 import fr.croumy.bouge.presentation.ui.screens.menu.MenuScreen
+import fr.croumy.bouge.presentation.ui.screens.stats.CompanionStatsScreen
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun MainScreen() {
-    val homeScreens = listOf(NavRoutes.Home, NavRoutes.Menu)
-    val pagerState = rememberPagerState { homeScreens.size }
+    val homeScreens = listOf(NavRoutes.Stats, NavRoutes.Home, NavRoutes.Menu)
+    val pagerState = rememberPagerState(1) { homeScreens.size }
 
     HorizontalPager(
         modifier = Modifier.fillMaxSize(),
         state = pagerState
     ) { index ->
         when (index) {
-            0 -> HomeScreen()
-            1 -> MenuScreen()
+            0 -> CompanionStatsScreen()
+            1 -> HomeScreen()
+            2 -> MenuScreen()
         }
     }
 }
