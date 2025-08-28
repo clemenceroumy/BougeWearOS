@@ -19,3 +19,10 @@ adb shell am broadcast -a "whs.synthetic.user.STOP_EXERCISE" com.google.android.
 onNewDataPointsReceived() method delay emitting value :
 - With Service (allowing to retrieve value on Background) : at least 1 minute 
 - With Callback (only retrieve when app is in foreground) : almost immediate (for a walk, get step instantly)
+
+
+## KMP Windows
+Build jvm Main Class befor launching project
+```bash
+./gradlew :windows:jvmMainClasses
+```
