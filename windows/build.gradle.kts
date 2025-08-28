@@ -16,6 +16,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+            implementation("io.ktor:ktor-network:3.2.3")
         }
     }
 }

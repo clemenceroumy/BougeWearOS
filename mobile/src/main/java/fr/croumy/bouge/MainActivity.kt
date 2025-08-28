@@ -1,20 +1,60 @@
 package fr.croumy.bouge
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import io.ktor.network.selector.SelectorManager
+import io.ktor.network.sockets.aSocket
+import io.ktor.network.sockets.openWriteChannel
+import io.ktor.utils.io.writeStringUtf8
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        val selectorManager = SelectorManager(Dispatchers.IO)
+
+
+        setContent {
+            val errorMessage = remember { mutableStateOf("") }
+
+            suspend fun connectToServer() {
+                try {
+                    val socket = aSocket(selectorManager)
+                        .tcp()
+                        .connect("127.0.0.1", 9002)
+
+                    val sendChannel = socket.openWriteChannel(autoFlush = true)
+                    sendChannel.writeStringUtf8("helloworld\n")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    errorMessage.value = "Error: ${e.message}"
+                }
+            }
+
+            Scaffold {
+                Column(Modifier.padding(it)) {
+                    ElevatedButton(
+                        onClick = { CoroutineScope(Dispatchers.IO).launch { connectToServer() } }
+                    ) { Text("Connect") }
+                    Text(errorMessage.value)
+                }
+            }
         }
     }
 }
