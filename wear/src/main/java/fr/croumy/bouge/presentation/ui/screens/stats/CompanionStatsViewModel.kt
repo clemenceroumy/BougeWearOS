@@ -15,6 +15,11 @@ import javax.inject.Inject
 class CompanionStatsViewModel @Inject constructor(
     companionService: CompanionService
 ) : ViewModel() {
+    val companion = companionService.myCompanion.stateIn(
+        scope = viewModelScope,
+        started = WhileSubscribed(5_000),
+        initialValue = null
+    )
     val stats: StateFlow<Stats?> = companionService
         .getStats()
         .stateIn(

@@ -22,6 +22,7 @@ import fr.croumy.bouge.presentation.theme.Dimensions
 fun CompanionStatsScreen(
     viewModel: CompanionStatsViewModel = hiltViewModel()
 ) {
+    val companion = viewModel.companion.collectAsState()
     val stats = viewModel.stats.collectAsState()
 
     Column(
@@ -29,13 +30,13 @@ fun CompanionStatsScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        if (stats.value == null) CircularProgressIndicator()
+        if (stats.value == null || companion.value == null) CircularProgressIndicator()
         else Column(
             Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Stats")
+            Text("age: ${companion.value!!.age} days")
             ProgressBar(
                 progress = stats.value!!.happiness / 5f,
             )
