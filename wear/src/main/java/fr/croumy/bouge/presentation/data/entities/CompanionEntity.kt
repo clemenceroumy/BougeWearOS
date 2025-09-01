@@ -15,5 +15,5 @@ data class CompanionEntity(
     val totalSteps: Long = 0,
     val happiness: Int = 5, // 0 TO 5
     val hungriness: Int = 5, // 0 TO 5
-    val health: Int = 5, // 0 TO 5
+    val health: Float = 3f, // 0 TO 5, can be .5
 )

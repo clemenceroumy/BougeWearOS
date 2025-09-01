@@ -16,4 +16,8 @@ class CompanionRepository @Inject constructor(
     fun insertCompanion(companionEntity: CompanionEntity) {
         companionDao.insertCompanion(companionEntity)
     }
+
+    fun updateCompanionStats(companionEntity: CompanionEntity) {
+        companionDao.updateCompanionStats(companionEntity.happiness, companionEntity.hungriness, companionEntity.health)
+    }
 }

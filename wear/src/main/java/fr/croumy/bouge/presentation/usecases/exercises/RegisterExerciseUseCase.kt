@@ -2,13 +2,18 @@ package fr.croumy.bouge.presentation.usecases.exercises
 
 import fr.croumy.bouge.presentation.data.entities.CreditEntity
 import fr.croumy.bouge.presentation.data.entities.WalkEntity
+import fr.croumy.bouge.presentation.models.companion.StatsType
 import fr.croumy.bouge.presentation.models.exercise.ExerciseType
 import fr.croumy.bouge.presentation.models.credit.CreditRewardType
 import fr.croumy.bouge.presentation.repositories.CreditRepository
 import fr.croumy.bouge.presentation.repositories.WalkRepository
+import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.usecases.credits.CalculateCreditRewardParams
 import fr.croumy.bouge.presentation.usecases.credits.CalculateCreditRewardUseCase
 import fr.croumy.bouge.presentation.usecases.IUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.ZonedDateTime
 import javax.inject.Inject
@@ -22,6 +27,7 @@ data class RegisterExerciseParams(
 class RegisterExerciseUseCase @Inject constructor(
     private val creditRepository: CreditRepository,
     private val walkRepository: WalkRepository,
+    private val companionService: CompanionService,
     private val calculateCreditRewardUseCase: CalculateCreditRewardUseCase
 ) : IUseCase<RegisterExerciseParams, Unit> {
 
@@ -33,25 +39,30 @@ class RegisterExerciseUseCase @Inject constructor(
 
         Timber.tag("RegisterExercise").d("Registering exercise with params: $params")
 
-        val walk = walkRepository.insertWalk(
-            WalkEntity(
-                steps = params.steps,
-                start = params.startTime,
-                end = params.endTime
+        CoroutineScope(Dispatchers.IO).launch {
+            val walk = walkRepository.insertWalk(
+                WalkEntity(
+                    steps = params.steps,
+                    start = params.startTime,
+                    end = params.endTime
+                )
             )
-        )
 
-        creditRepository.insertCredit(
-            CreditEntity(
-                value = calculateCreditRewardUseCase(
-                    CalculateCreditRewardParams(
-                        value = params.steps,
-                        creditRewardType = CreditRewardType.WALK
-                    )
-                ),
-                type = ExerciseType.WALK,
-                exerciseUid = walk.uid
+            creditRepository.insertCredit(
+                CreditEntity(
+                    value = calculateCreditRewardUseCase(
+                        CalculateCreditRewardParams(
+                            value = params.steps,
+                            creditRewardType = CreditRewardType.WALK
+                        )
+                    ),
+                    type = ExerciseType.WALK,
+                    exerciseUid = walk.uid
+                )
             )
-        )
+
+            companionService.updateHealthStat(StatsType.UP(by = 1))
+        }
+
     }
 }

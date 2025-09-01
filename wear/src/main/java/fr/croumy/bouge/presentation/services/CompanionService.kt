@@ -2,14 +2,16 @@ package fr.croumy.bouge.presentation.services
 
 import fr.croumy.bouge.presentation.data.entities.CompanionEntity
 import fr.croumy.bouge.presentation.data.mappers.toCompanion
+import fr.croumy.bouge.presentation.models.Constants
 import fr.croumy.bouge.presentation.models.companion.Companion
 import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.models.companion.Stats
+import fr.croumy.bouge.presentation.models.companion.StatsType
 import fr.croumy.bouge.presentation.repositories.CompanionRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.merge
 import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -47,5 +49,21 @@ class CompanionService @Inject constructor(
                     stats
                 }
             }
+    }
+
+    suspend fun updateHealthStat(type: StatsType) {
+        val companion = companionRepository.getCurrentCompanion().first()
+        if (companion != null) {
+            val updatedStat =
+                if (companion.health == Constants.STAT_MAX) companion.health
+                else when (type) {
+                    is StatsType.UP -> companion.health + type.value
+                    is StatsType.DOWN -> companion.health - type.value
+                    else -> companion.health
+                }
+
+            val updatedCompanion = companion.copy(health = updatedStat)
+            companionRepository.updateCompanionStats(updatedCompanion)
+        }
     }
 }
