@@ -1,10 +1,12 @@
 package fr.croumy.bouge.presentation.ui.screens.stats
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -13,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
@@ -67,6 +70,7 @@ fun ProgressBar(
     LinearProgressIndicator(
         modifier = modifier
             .height(Dimensions.xsmallIcon)
+            .clip(CircleShape)
             .drawWithContent {
                 drawContent()
 
@@ -82,6 +86,8 @@ fun ProgressBar(
                 }
             },
         progress = { progress },
-        strokeCap = StrokeCap.Round,
+        strokeCap = StrokeCap.Butt,
+        gapSize = 0.dp,
+        drawStopIndicator = {}
     )
 }
