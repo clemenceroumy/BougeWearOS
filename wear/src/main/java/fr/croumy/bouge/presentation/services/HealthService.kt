@@ -14,23 +14,14 @@ import androidx.health.services.client.data.DataPointContainer
 import androidx.health.services.client.data.DataType
 import androidx.health.services.client.data.PassiveListenerConfig
 import dagger.hilt.android.AndroidEntryPoint
-import fr.croumy.bouge.R
-import fr.croumy.bouge.presentation.data.entities.DailyStepsEntity
-import fr.croumy.bouge.presentation.extensions.toYYYYMMDD
 import fr.croumy.bouge.presentation.models.Constants
-import fr.croumy.bouge.presentation.repositories.DailyStepsRepository
 import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCase
 import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCaseParams
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseParams
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseUseCase
 import timber.log.Timber
-import java.time.Duration
 import java.time.Instant
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.util.Date
 import javax.inject.Inject
-import kotlin.time.toKotlinDuration
 
 @AndroidEntryPoint
 class HealthService @Inject constructor() : PassiveListenerService() {
@@ -41,7 +32,7 @@ class HealthService @Inject constructor() : PassiveListenerService() {
     lateinit var dataService: DataService
 
     @Inject
-    lateinit var dailyStepsRepository: DailyStepsRepository
+    lateinit var dailyStepsService: DailyStepsService
 
     @Inject
     lateinit var registerExerciseUseCase: RegisterExerciseUseCase
@@ -108,7 +99,7 @@ class HealthService @Inject constructor() : PassiveListenerService() {
             val totalStepsTime = dataPointStepDaily.getEndInstant(bootInstant)
 
             dataService.setTotalSteps(dataPointStepDaily.value.toInt())
-            dailyStepsRepository.insert(DailyStepsEntity(totalStepsTime.toYYYYMMDD(), dataPointStepDaily.value.toInt()))
+            dailyStepsService.insert(totalStepsTime, dataPointStepDaily.value.toInt())
         }
 
         if (dataPoints.dataTypes.contains(DataType.STEPS)) {

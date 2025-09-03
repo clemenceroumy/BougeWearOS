@@ -10,8 +10,10 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import fr.croumy.bouge.presentation.models.Constants
 import fr.croumy.bouge.presentation.models.companion.StatsType
 import fr.croumy.bouge.presentation.services.CompanionService
+import fr.croumy.bouge.presentation.services.DailyStepsService
 import timber.log.Timber
 import java.time.Duration
 import java.time.LocalDateTime
@@ -22,13 +24,14 @@ import kotlin.time.Duration.Companion.seconds
 class DailyCheckWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    val companionService: CompanionService
+    val companionService: CompanionService,
+    val dailyStepsService: DailyStepsService
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        //TEMP: GO DOWN EVERYDAY
-        Timber.i("DailyCheckWorker executed")
-        companionService.updateHealthStat(StatsType.DOWN(1))
+        val todaySteps = dailyStepsService.getTodaySteps()
+
+        if(todaySteps < Constants.DAILY_STEPS_MIN_GOAL_TO_KEEP_HEALTH) companionService.updateHealthStat(StatsType.DOWN(1))
 
         return Result.success()
     }
