@@ -54,11 +54,15 @@ class CompanionService @Inject constructor(
     suspend fun updateHealthStat(type: StatsType) {
         val companion = companionRepository.getCurrentCompanion().first()
         if (companion != null) {
-            val updatedStat =
-                if (companion.health == Constants.STAT_MAX) companion.health
-                else when (type) {
-                    is StatsType.UP -> companion.health + type.value
-                    is StatsType.DOWN -> companion.health - type.value
+            val updatedStat = when (type) {
+                    is StatsType.UP -> {
+                        if (companion.health == Constants.STAT_MAX) companion.health
+                        else companion.health + type.value
+                    }
+                    is StatsType.DOWN -> {
+                        if(companion.health == 0f) companion.health
+                        else companion.health - type.value
+                    }
                     else -> companion.health
                 }
 

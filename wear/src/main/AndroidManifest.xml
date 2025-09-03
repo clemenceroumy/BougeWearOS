@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.type.watch" />
 
@@ -76,6 +77,11 @@
             android:permission="com.google.android.wearable.healthservices.permission.PASSIVE_DATA_BINDING"
             android:foregroundServiceType="health"
             android:exported="true" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove" />
     </application>
     <queries>
         <package android:name="com.google.android.wearable.healthservices" />
