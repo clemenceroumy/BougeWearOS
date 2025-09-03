@@ -15,7 +15,10 @@ import androidx.health.services.client.data.DataType
 import androidx.health.services.client.data.PassiveListenerConfig
 import dagger.hilt.android.AndroidEntryPoint
 import fr.croumy.bouge.R
+import fr.croumy.bouge.presentation.data.entities.DailyStepsEntity
+import fr.croumy.bouge.presentation.extensions.toYYYYMMDD
 import fr.croumy.bouge.presentation.models.Constants
+import fr.croumy.bouge.presentation.repositories.DailyStepsRepository
 import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCase
 import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCaseParams
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseParams
@@ -25,6 +28,7 @@ import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.Date
 import javax.inject.Inject
 import kotlin.time.toKotlinDuration
 
@@ -35,6 +39,9 @@ class HealthService @Inject constructor() : PassiveListenerService() {
 
     @Inject
     lateinit var dataService: DataService
+
+    @Inject
+    lateinit var dailyStepsRepository: DailyStepsRepository
 
     @Inject
     lateinit var registerExerciseUseCase: RegisterExerciseUseCase
@@ -97,8 +104,11 @@ class HealthService @Inject constructor() : PassiveListenerService() {
         if (dataPoints.dataTypes.contains(DataType.Companion.STEPS_DAILY)) {
             val dataPointStepDaily = dataPoints.getData(DataType.STEPS_DAILY).last()
 
-            val totalStepsToday = dataPointStepDaily.value
-            dataService.setTotalSteps(totalStepsToday.toInt())
+            val bootInstant = Instant.ofEpochMilli(System.currentTimeMillis() - SystemClock.elapsedRealtime())
+            val totalStepsTime = dataPointStepDaily.getEndInstant(bootInstant)
+
+            dataService.setTotalSteps(dataPointStepDaily.value.toInt())
+            dailyStepsRepository.insert(DailyStepsEntity(totalStepsTime.toYYYYMMDD(), dataPointStepDaily.value.toInt()))
         }
 
         if (dataPoints.dataTypes.contains(DataType.STEPS)) {
