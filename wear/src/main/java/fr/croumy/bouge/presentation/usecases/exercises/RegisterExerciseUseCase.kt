@@ -8,7 +8,7 @@ import fr.croumy.bouge.presentation.repositories.CreditRepository
 import fr.croumy.bouge.presentation.repositories.WalkRepository
 import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.usecases.credits.RegisterWonCreditsParams
-import fr.croumy.bouge.presentation.usecases.credits.RegisterWonCredits
+import fr.croumy.bouge.presentation.usecases.credits.RegisterWonCreditsUseCase
 import fr.croumy.bouge.presentation.usecases.IUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,7 @@ class RegisterExerciseUseCase @Inject constructor(
     private val creditRepository: CreditRepository,
     private val walkRepository: WalkRepository,
     private val companionService: CompanionService,
-    private val registerWonCredits: RegisterWonCredits
+    private val registerWonCreditsUseCase: RegisterWonCreditsUseCase
 ) : IUseCase<RegisterExerciseParams, Unit> {
 
     override fun invoke(params: RegisterExerciseParams?) {
@@ -47,7 +47,7 @@ class RegisterExerciseUseCase @Inject constructor(
                 )
             )
 
-            registerWonCredits(
+            registerWonCreditsUseCase(
                 RegisterWonCreditsParams(
                     value = params.steps,
                     creditRewardType = CreditRewardType.WALK,

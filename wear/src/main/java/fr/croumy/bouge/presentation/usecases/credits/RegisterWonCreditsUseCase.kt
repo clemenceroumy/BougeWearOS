@@ -16,7 +16,7 @@ data class RegisterWonCreditsParams(
     val exerciseId: UUID? = null
 )
 
-class RegisterWonCredits @Inject constructor(
+class RegisterWonCreditsUseCase @Inject constructor(
     private val creditRepository: CreditRepository
 ): IUseCase<RegisterWonCreditsParams, Unit> {
     override fun invoke(params: RegisterWonCreditsParams?): Unit {
@@ -37,7 +37,7 @@ class RegisterWonCredits @Inject constructor(
             CreditRewardType.EXERCISE -> {
                 10
             }
-            CreditRewardType.TOTAL_WALK -> {
+            CreditRewardType.TOTAL_DAILY_STEPS -> {
                 when(params.value) {
                     in 5000..10000 -> 100
                     in 10001..Int.MAX_VALUE -> 200
