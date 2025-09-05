@@ -16,4 +16,7 @@ interface CompanionDao {
 
     @Insert
     fun insertCompanion(companionEntity: CompanionEntity)
+
+    @Query("UPDATE companions SET happiness = :happiness, hungriness = :hungriness, health = :health WHERE deathDate IS NULL")
+    fun updateCompanionStats(happiness: Int, hungriness: Int, health: Float)
 }

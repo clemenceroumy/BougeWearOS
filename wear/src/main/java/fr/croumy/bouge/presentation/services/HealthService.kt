@@ -14,19 +14,14 @@ import androidx.health.services.client.data.DataPointContainer
 import androidx.health.services.client.data.DataType
 import androidx.health.services.client.data.PassiveListenerConfig
 import dagger.hilt.android.AndroidEntryPoint
-import fr.croumy.bouge.R
 import fr.croumy.bouge.presentation.models.Constants
 import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCase
 import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCaseParams
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseParams
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseUseCase
 import timber.log.Timber
-import java.time.Duration
 import java.time.Instant
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import javax.inject.Inject
-import kotlin.time.toKotlinDuration
 
 @AndroidEntryPoint
 class HealthService @Inject constructor() : PassiveListenerService() {
@@ -35,6 +30,9 @@ class HealthService @Inject constructor() : PassiveListenerService() {
 
     @Inject
     lateinit var dataService: DataService
+
+    @Inject
+    lateinit var dailyStepsService: DailyStepsService
 
     @Inject
     lateinit var registerExerciseUseCase: RegisterExerciseUseCase
@@ -97,8 +95,11 @@ class HealthService @Inject constructor() : PassiveListenerService() {
         if (dataPoints.dataTypes.contains(DataType.Companion.STEPS_DAILY)) {
             val dataPointStepDaily = dataPoints.getData(DataType.STEPS_DAILY).last()
 
-            val totalStepsToday = dataPointStepDaily.value
-            dataService.setTotalSteps(totalStepsToday.toInt())
+            val bootInstant = Instant.ofEpochMilli(System.currentTimeMillis() - SystemClock.elapsedRealtime())
+            val totalStepsTime = dataPointStepDaily.getEndInstant(bootInstant)
+
+            dataService.setTotalSteps(dataPointStepDaily.value.toInt())
+            dailyStepsService.insert(totalStepsTime, dataPointStepDaily.value.toInt())
         }
 
         if (dataPoints.dataTypes.contains(DataType.STEPS)) {

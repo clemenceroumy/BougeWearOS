@@ -45,7 +45,7 @@ fun StartScreen(
             startViewModel.initHealthService()
 
             navController.navigate(
-                if(hasCompanion) NavRoutes.Home.route else NavRoutes.PickCompanion.route
+                if(hasCompanion) NavRoutes.Main.route else NavRoutes.PickCompanion.route
             )
         }
     }

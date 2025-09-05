@@ -10,7 +10,7 @@ import java.util.UUID
 data class CreditEntity(
     @PrimaryKey val uid: UUID = UUID.randomUUID(),
     val value: Int,
-    val type: ExerciseType,
+    val type: ExerciseType? = null,
     val timestamp: ZonedDateTime = ZonedDateTime.now(),
-    val exerciseUid: UUID
+    val exerciseUid: UUID? = null
 )

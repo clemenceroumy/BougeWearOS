@@ -8,22 +8,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import fr.croumy.bouge.presentation.navigation.NavRoutes
-import fr.croumy.bouge.presentation.ui.screens.main.MainScreen
-import fr.croumy.bouge.presentation.ui.screens.redirect.RedirectScreen
+import fr.croumy.bouge.presentation.ui.screens.home.HomeScreen
+import fr.croumy.bouge.presentation.ui.screens.menu.MenuScreen
+import fr.croumy.bouge.presentation.ui.screens.stats.CompanionStatsScreen
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
-fun HomeScreen() {
-    val homeScreens = listOf(NavRoutes.Main, NavRoutes.Redirect)
-    val pagerState = rememberPagerState { homeScreens.size }
+fun MainScreen() {
+    val homeScreens = listOf(NavRoutes.Stats, NavRoutes.Home, NavRoutes.Menu)
+    val pagerState = rememberPagerState(1) { homeScreens.size }
 
     HorizontalPager(
         modifier = Modifier.fillMaxSize(),
         state = pagerState
     ) { index ->
         when (index) {
-            0 -> MainScreen()
-            1 -> RedirectScreen()
+            0 -> CompanionStatsScreen()
+            1 -> HomeScreen()
+            2 -> MenuScreen()
         }
     }
 }
