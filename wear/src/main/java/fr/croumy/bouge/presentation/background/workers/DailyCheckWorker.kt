@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.workers
+package fr.croumy.bouge.presentation.background.workers
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker

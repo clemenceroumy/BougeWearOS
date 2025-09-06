@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavGraph
 import fr.croumy.bouge.presentation.theme.BougeTheme
-import fr.croumy.bouge.presentation.workers.DailyCheckWorker
+import fr.croumy.bouge.presentation.background.workers.DailyCheckWorker
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
