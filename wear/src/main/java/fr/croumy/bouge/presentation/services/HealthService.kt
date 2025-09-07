@@ -22,8 +22,10 @@ import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseUseCase
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @AndroidEntryPoint
+@Singleton
 class HealthService @Inject constructor() : PassiveListenerService() {
     @Inject
     lateinit var context: Context
