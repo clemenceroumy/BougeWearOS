@@ -6,6 +6,7 @@ import android.content.pm.ServiceInfo
 import android.os.CountDownTimer
 import android.os.SystemClock
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.health.services.client.HealthServices
 import androidx.health.services.client.PassiveListenerCallback
@@ -77,6 +78,8 @@ class HealthService @Inject constructor() : PassiveListenerService() {
         super.onCreate()
         Timber.i("HealthService created")
 
+        NotificationManagerCompat.from(context).cancel(NotificationService.REBOOT_NOTIFICATION_ID)
+
         val notification = NotificationCompat
             .Builder(context, NotificationService.CHANNEL_ID_FOREGROUND)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -86,6 +89,15 @@ class HealthService @Inject constructor() : PassiveListenerService() {
             20,
             notification.build(),
             ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
+        )
+
+        val passiveMonitoringClient = HealthServices
+            .getClient(context)
+            .passiveMonitoringClient
+
+        passiveMonitoringClient.setPassiveListenerCallback(
+            passiveListenerConfig,
+            passiveListenerCallback
         )
     }
 
@@ -119,15 +131,6 @@ class HealthService @Inject constructor() : PassiveListenerService() {
     }
 
     fun initService() {
-        val passiveMonitoringClient = HealthServices
-            .getClient(context)
-            .passiveMonitoringClient
-
-        passiveMonitoringClient.setPassiveListenerCallback(
-            passiveListenerConfig,
-            passiveListenerCallback
-        )
-
         val serviceIntent = Intent(context, HealthService::class.java)
         context.startForegroundService(serviceIntent)
     }

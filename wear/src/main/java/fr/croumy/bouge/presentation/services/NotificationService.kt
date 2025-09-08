@@ -12,8 +12,9 @@ class NotificationService @Inject constructor(
     private val context: Context
 ) {
     companion object {
-        val CHANNEL_ID_FOREGROUND = "CHANNEL_ID_FOREGROUND_WALKS"
-        val CHANNEL_NAME_FOREGROUND = "ForegroundWalks"
+        val CHANNEL_ID_FOREGROUND = "CHANNEL_ID_FOREGROUND"
+        val CHANNEL_NAME_FOREGROUND = "Foreground"
+        val REBOOT_NOTIFICATION_ID = 0
     }
 
     fun initNotificationChannel() {
