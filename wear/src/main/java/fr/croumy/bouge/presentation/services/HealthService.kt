@@ -6,7 +6,6 @@ import android.content.pm.ServiceInfo
 import android.os.CountDownTimer
 import android.os.SystemClock
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.health.services.client.HealthServices
 import androidx.health.services.client.PassiveListenerCallback
@@ -36,6 +35,9 @@ class HealthService @Inject constructor() : PassiveListenerService() {
 
     @Inject
     lateinit var dailyStepsService: DailyStepsService
+
+    @Inject
+    lateinit var notificationService: NotificationService
 
     @Inject
     lateinit var registerExerciseUseCase: RegisterExerciseUseCase
@@ -78,27 +80,11 @@ class HealthService @Inject constructor() : PassiveListenerService() {
         super.onCreate()
         Timber.i("HealthService created")
 
-        NotificationManagerCompat.from(context).cancel(NotificationService.REBOOT_NOTIFICATION_ID)
+        notificationService.hideRebootNotification()
 
-        val notification = NotificationCompat
-            .Builder(context, NotificationService.CHANNEL_ID_FOREGROUND)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        initServiceForeground()
 
-        ServiceCompat.startForeground(
-            this,
-            20,
-            notification.build(),
-            ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
-        )
-
-        val passiveMonitoringClient = HealthServices
-            .getClient(context)
-            .passiveMonitoringClient
-
-        passiveMonitoringClient.setPassiveListenerCallback(
-            passiveListenerConfig,
-            passiveListenerCallback
-        )
+        startListeningData()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -133,5 +119,34 @@ class HealthService @Inject constructor() : PassiveListenerService() {
     fun initService() {
         val serviceIntent = Intent(context, HealthService::class.java)
         context.startForegroundService(serviceIntent)
+
+        // NEXT, WAIT FOR THE SERVICE TO BE SET AS FOREGROUND BY initServiceForeground()
+    }
+
+    private fun initServiceForeground() {
+        val notificationForeground = NotificationCompat
+            .Builder(context, NotificationService.CHANNEL_ID_FOREGROUND)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        ServiceCompat.startForeground(
+            this,
+            NotificationService.NOTIFICATION_FOREGROUND_HEALTH_SERVICE_ID,
+            notificationForeground,
+            ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
+        )
+
+        // NEXT, WE NEED TO START LISTENING DATA VIA startListeningData()
+    }
+
+    private fun startListeningData() {
+        val passiveMonitoringClient = HealthServices
+            .getClient(context)
+            .passiveMonitoringClient
+
+        passiveMonitoringClient.setPassiveListenerCallback(
+            passiveListenerConfig,
+            passiveListenerCallback
+        )
     }
 }
