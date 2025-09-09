@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Bouge</string>
     <string name="complication_label">Example complication</string>
+
+    <!-- COMMON -->
+    <string name="common_refresh">Refresh</string>
+
+    <!-- NOTIFICATIONS -->
+    <string name="notification_reboot_title">Rebooting</string>
+    <string name="notification_reboot_description">The app needs to reinitialize health data tracking</string>
 </resources>

@@ -22,8 +22,10 @@ import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseUseCase
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @AndroidEntryPoint
+@Singleton
 class HealthService @Inject constructor() : PassiveListenerService() {
     @Inject
     lateinit var context: Context
@@ -33,6 +35,9 @@ class HealthService @Inject constructor() : PassiveListenerService() {
 
     @Inject
     lateinit var dailyStepsService: DailyStepsService
+
+    @Inject
+    lateinit var notificationService: NotificationService
 
     @Inject
     lateinit var registerExerciseUseCase: RegisterExerciseUseCase
@@ -75,16 +80,11 @@ class HealthService @Inject constructor() : PassiveListenerService() {
         super.onCreate()
         Timber.i("HealthService created")
 
-        val notification = NotificationCompat
-            .Builder(context, NotificationService.CHANNEL_ID_FOREGROUND)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        notificationService.hideRebootNotification()
 
-        ServiceCompat.startForeground(
-            this,
-            20,
-            notification.build(),
-            ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
-        )
+        initServiceForeground()
+
+        startListeningData()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -117,6 +117,29 @@ class HealthService @Inject constructor() : PassiveListenerService() {
     }
 
     fun initService() {
+        val serviceIntent = Intent(context, HealthService::class.java)
+        context.startForegroundService(serviceIntent)
+
+        // NEXT, WAIT FOR THE SERVICE TO BE SET AS FOREGROUND BY initServiceForeground()
+    }
+
+    private fun initServiceForeground() {
+        val notificationForeground = NotificationCompat
+            .Builder(context, NotificationService.CHANNEL_ID_FOREGROUND)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        ServiceCompat.startForeground(
+            this,
+            NotificationService.NOTIFICATION_FOREGROUND_HEALTH_SERVICE_ID,
+            notificationForeground,
+            ServiceInfo.FOREGROUND_SERVICE_TYPE_HEALTH
+        )
+
+        // NEXT, WE NEED TO START LISTENING DATA VIA startListeningData()
+    }
+
+    private fun startListeningData() {
         val passiveMonitoringClient = HealthServices
             .getClient(context)
             .passiveMonitoringClient
@@ -125,8 +148,5 @@ class HealthService @Inject constructor() : PassiveListenerService() {
             passiveListenerConfig,
             passiveListenerCallback
         )
-
-        val serviceIntent = Intent(context, HealthService::class.java)
-        context.startForegroundService(serviceIntent)
     }
 }
