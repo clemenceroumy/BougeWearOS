@@ -29,5 +29,13 @@ fun MenuScreen() {
                 label = "walks"
             )
         }
+
+        item {
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { navController.navigate(NavRoutes.Shop.route) },
+                label = "shop"
+            )
+        }
     }
 }
