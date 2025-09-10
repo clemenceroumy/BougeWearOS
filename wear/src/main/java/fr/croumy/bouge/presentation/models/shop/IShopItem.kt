@@ -1,0 +1,11 @@
+package fr.croumy.bouge.presentation.models.shop
+
+import fr.croumy.bouge.presentation.models.companion.StatsType
+
+interface IShopItem {
+    val id: Int
+    val name: Int
+    val description: String
+    val price: Int
+    val statsBoost: Map<StatsType, Float>
+}

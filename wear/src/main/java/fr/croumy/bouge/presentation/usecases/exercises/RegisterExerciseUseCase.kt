@@ -1,7 +1,7 @@
 package fr.croumy.bouge.presentation.usecases.exercises
 
 import fr.croumy.bouge.presentation.data.entities.WalkEntity
-import fr.croumy.bouge.presentation.models.companion.StatsType
+import fr.croumy.bouge.presentation.models.companion.StatsUpdate
 import fr.croumy.bouge.presentation.models.exercise.ExerciseType
 import fr.croumy.bouge.presentation.models.credit.CreditRewardType
 import fr.croumy.bouge.presentation.repositories.CreditRepository
@@ -56,7 +56,7 @@ class RegisterExerciseUseCase @Inject constructor(
                 )
             )
 
-            companionService.updateHealthStat(StatsType.UP(by = 1))
+            companionService.updateHealthStat(StatsUpdate.UP(by = 1))
         }
 
     }

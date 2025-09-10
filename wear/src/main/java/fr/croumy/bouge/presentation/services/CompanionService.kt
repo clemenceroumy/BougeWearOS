@@ -6,7 +6,7 @@ import fr.croumy.bouge.presentation.models.Constants
 import fr.croumy.bouge.presentation.models.companion.Companion
 import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.models.companion.Stats
-import fr.croumy.bouge.presentation.models.companion.StatsType
+import fr.croumy.bouge.presentation.models.companion.StatsUpdate
 import fr.croumy.bouge.presentation.repositories.CompanionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -51,15 +51,15 @@ class CompanionService @Inject constructor(
             }
     }
 
-    suspend fun updateHealthStat(type: StatsType) {
+    suspend fun updateHealthStat(type: StatsUpdate) {
         val companion = companionRepository.getCurrentCompanion().first()
         if (companion != null) {
             val updatedStat = when (type) {
-                    is StatsType.UP -> {
+                    is StatsUpdate.UP -> {
                         if (companion.health == Constants.STAT_MAX) companion.health
                         else companion.health + type.value
                     }
-                    is StatsType.DOWN -> {
+                    is StatsUpdate.DOWN -> {
                         if(companion.health == 0f) companion.health
                         else companion.health - type.value
                     }
