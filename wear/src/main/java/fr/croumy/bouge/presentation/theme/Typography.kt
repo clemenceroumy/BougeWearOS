@@ -11,5 +11,8 @@ fun AppTypography() = Typography(
     ),
     bodySmall = TextStyle(
         fontSize = 10.sp
+    ),
+    labelMedium = TextStyle(
+        fontSize = 8.sp
     )
 )

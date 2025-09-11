@@ -23,7 +23,7 @@ abstract class FoodItem(
         price = 5,
         statsBoost = mapOf(StatsType.HEALTH to 0.25f)
     ) {
-        @DrawableRes override val assetId: Int = R.drawable.pastry_baguette
+        @DrawableRes override val assetId: Int = R.drawable.baguette
     }
 
     object Egg: FoodItem(
@@ -33,7 +33,7 @@ abstract class FoodItem(
         price = 10,
         statsBoost = mapOf(StatsType.HEALTH to 0.75f)
     ) {
-        @DrawableRes override val assetId: Int = R.drawable.eggs_softboiled
+        @DrawableRes override val assetId: Int = R.drawable.egg
     }
 
     object Onigiri: FoodItem(
@@ -43,7 +43,7 @@ abstract class FoodItem(
         price = 12,
         statsBoost = mapOf(StatsType.HEALTH to 1f)
     ) {
-        @DrawableRes override val assetId: Int = R.drawable.onigiri_2
+        @DrawableRes override val assetId: Int = R.drawable.onigiri
     }
 
     object Drink: FoodItem(
@@ -53,7 +53,7 @@ abstract class FoodItem(
         price = 5,
         statsBoost = mapOf(StatsType.HEALTH to 0.25f)
     ) {
-        @DrawableRes override val assetId: Int = R.drawable.soymilk_peach
+        @DrawableRes override val assetId: Int = R.drawable.drink
     }
 
     object Dessert: FoodItem(
@@ -63,7 +63,7 @@ abstract class FoodItem(
         price = 12,
         statsBoost = mapOf(StatsType.HEALTH to 0.5f, StatsType.HAPPINESS to 0.25f)
     ) {
-        @DrawableRes override val assetId: Int = R.drawable.cake_strawberry
+        @DrawableRes override val assetId: Int = R.drawable.cake
     }
 
     companion object {
