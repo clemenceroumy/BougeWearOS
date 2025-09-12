@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -33,7 +31,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.presentation.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.theme.Dimensions
-import fr.croumy.bouge.presentation.ui.components.Button
 
 @Composable
 fun ShopScreen(
@@ -57,7 +54,7 @@ fun ShopScreen(
                     Modifier
                         .fillMaxWidth()
                         .clickable {
-                            //BUY
+                            shopViewModel.buyItem(item.price, item.id)
                         }
                 ) {
                     Column(
