@@ -14,7 +14,7 @@ import androidx.health.services.client.data.DataPointContainer
 import androidx.health.services.client.data.DataType
 import androidx.health.services.client.data.PassiveListenerConfig
 import dagger.hilt.android.AndroidEntryPoint
-import fr.croumy.bouge.presentation.models.Constants
+import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCase
 import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCaseParams
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseParams

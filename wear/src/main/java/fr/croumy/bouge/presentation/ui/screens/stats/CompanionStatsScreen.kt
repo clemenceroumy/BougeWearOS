@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
-import fr.croumy.bouge.presentation.models.Constants
+import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.theme.Dimensions
 
 @Composable

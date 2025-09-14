@@ -7,7 +7,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import fr.croumy.bouge.presentation.models.Constants
+import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.models.companion.StatsUpdate
 import fr.croumy.bouge.presentation.models.credit.CreditRewardType
 import fr.croumy.bouge.presentation.services.CompanionService

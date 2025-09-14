@@ -2,7 +2,7 @@ package fr.croumy.bouge.presentation.services
 
 import fr.croumy.bouge.presentation.data.entities.CompanionEntity
 import fr.croumy.bouge.presentation.data.mappers.toCompanion
-import fr.croumy.bouge.presentation.models.Constants
+import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.models.companion.Companion
 import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.models.companion.Stats

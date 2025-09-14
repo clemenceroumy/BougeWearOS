@@ -2,7 +2,7 @@ package fr.croumy.bouge.presentation.usecases.exercises
 
 import android.os.SystemClock
 import androidx.health.services.client.data.IntervalDataPoint
-import fr.croumy.bouge.presentation.models.Constants
+import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.services.DataService
 import fr.croumy.bouge.presentation.usecases.IUseCase
 import java.time.Duration

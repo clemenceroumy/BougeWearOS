@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import fr.croumy.bouge.presentation.data.entities.CreditEntity
 import kotlinx.coroutines.flow.Flow
+import java.util.UUID
 
 @Dao
 interface CreditDao {

@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.models
+package fr.croumy.bouge.presentation.constants
 
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds

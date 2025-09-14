@@ -19,6 +19,8 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,60 +40,66 @@ fun ShopScreen(
 ) {
     val totalCredit = shopViewModel.totalCredit.collectAsState()
 
-    Column(
-        Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(totalCredit.value.toString())
-        LazyVerticalGrid(
-            modifier = Modifier.fillMaxRectangle(),
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
-            horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding)
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = shopViewModel.snackHostState) },
+    ) { innerPadding ->
+        Column(
+            Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(FoodItem.allFood) { item ->
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            shopViewModel.buyItem(item.price, item.id)
-                        }
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f)
-                            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(Dimensions.mediumRadius))
-                            .padding(Dimensions.xsmallPadding),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            stringResource(item.name),
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Image(
-                            painter = painterResource(item.assetId),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(Dimensions.iconBtnHeight)
-                                .aspectRatio(1f)
-                        )
-                        Spacer(Modifier.size(0.dp))
-                    }
-
+            Text(totalCredit.value.toString())
+            LazyVerticalGrid(
+                modifier = Modifier.fillMaxRectangle(),
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
+                horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding)
+            ) {
+                items(FoodItem.allFood) { item ->
                     Box(
                         Modifier
-                            .align(Alignment.BottomEnd)
-                            .size(Dimensions.smallIcon)
-                            .offset(-Dimensions.xsmallPadding, -Dimensions.xsmallPadding)
-                            .background(MaterialTheme.colorScheme.primary, CircleShape),
-                        contentAlignment = Alignment.Center
+                            .fillMaxWidth()
+                            .clickable {
+                                shopViewModel.buyItem(item.price, item.id)
+                            }
                     ) {
-                        Text(
-                            item.price.toString(),
-                            style = MaterialTheme.typography.labelMedium
-                        )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(1f)
+                                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(Dimensions.mediumRadius))
+                                .padding(Dimensions.xsmallPadding),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                stringResource(item.name),
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                            Image(
+                                painter = painterResource(item.assetId),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(Dimensions.iconBtnHeight)
+                                    .aspectRatio(1f)
+                            )
+                            Spacer(Modifier.size(0.dp))
+                        }
+
+                        Box(
+                            Modifier
+                                .align(Alignment.BottomEnd)
+                                .size(Dimensions.smallIcon)
+                                .offset(-Dimensions.xsmallPadding, -Dimensions.xsmallPadding)
+                                .background(MaterialTheme.colorScheme.primary, CircleShape),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                item.price.toString(),
+                                style = MaterialTheme.typography.labelMedium
+                            )
+                        }
                     }
                 }
             }

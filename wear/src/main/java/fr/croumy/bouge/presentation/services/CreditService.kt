@@ -15,17 +15,16 @@ import javax.inject.Singleton
 class CreditService @Inject constructor(
     val creditRepository: CreditRepository
 ) {
-    fun getTotalCredits() = creditRepository.getTotalCredits().stateIn(
-        CoroutineScope(Dispatchers.IO),
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = 0
-    )
+    fun getTotalCredits() = creditRepository.getTotalCredits()
 
     fun insertCredit(amount: Int, type: ExerciseType? = null, exerciseId: UUID? = null) {
         creditRepository.insertCredit(CreditEntity(value = amount, type = type, exerciseUid = exerciseId))
     }
 
-    fun spendCredit(amount: Int, shopId: Int?) {
-        creditRepository.insertCredit(CreditEntity(value = -amount, shopUid = shopId))
+    fun spendCredit(amount: Int, shopId: Int?): UUID {
+        val entity = CreditEntity(value = -amount, shopUid = shopId)
+        creditRepository.insertCredit(entity)
+
+        return entity.uid
     }
 }

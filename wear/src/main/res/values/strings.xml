@@ -11,6 +11,7 @@
     <string name="shop_food_onigiri">Onigiri</string>
     <string name="shop_food_drink">Drink</string>
     <string name="shop_food_dessert">Dessert</string>
+    <string name="shop_error_not_enough_credit">Not enough credit</string>
 
     <!-- NOTIFICATIONS -->
     <string name="notification_reboot_title">Rebooting</string>
