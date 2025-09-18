@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.transform
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 class CreditService @Inject constructor(
     val creditRepository: CreditRepository
 ) {
-    fun getTotalCredits() = creditRepository.getTotalCredits()
+    fun getTotalCredits() = creditRepository.getTotalCredits().transform { emit(it ?: 0) }
 
     fun insertCredit(amount: Int, type: ExerciseType? = null, exerciseId: UUID? = null) {
         creditRepository.insertCredit(CreditEntity(value = amount, type = type, exerciseUid = exerciseId))

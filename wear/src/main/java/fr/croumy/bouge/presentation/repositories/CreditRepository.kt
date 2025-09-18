@@ -14,7 +14,7 @@ class CreditRepository @Inject constructor(
         return creditDao.insertCredit(creditEntity)
     }
 
-    fun getTotalCredits(): Flow<Int> {
+    fun getTotalCredits(): Flow<Int?> {
         return creditDao.getTotal()
     }
 }

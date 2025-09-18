@@ -30,22 +30,21 @@ class ShopViewModel @Inject constructor(
     )
 
     fun buyItem(amount: Int, itemId: Int) {
-        try {
-            buyItemUseCase(
-                BuyItemParams(
-                    itemId = itemId,
-                    price = amount
+        viewModelScope.launch {
+            try {
+                buyItemUseCase(
+                    BuyItemParams(
+                        itemId = itemId,
+                        price = amount
+                    )
                 )
-            )
-        } catch (e: Exception) {
-            if(e is AppError) {
-                viewModelScope.launch {
+            } catch (e: Exception) {
+                if(e is AppError) {
                     snackHostState.showSnackbar(
                         context.getString(e.stringRes)
                     )
                 }
             }
         }
-
     }
 }
