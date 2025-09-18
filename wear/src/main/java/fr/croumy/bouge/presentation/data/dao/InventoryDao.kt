@@ -8,7 +8,7 @@ import fr.croumy.bouge.presentation.data.entities.InventoryEntity
 @Dao
 interface InventoryDao {
     @Query("SELECT * FROM inventory")
-    fun getInventory(): List<InventoryEntity>
+    fun getAll(): List<InventoryEntity>
 
     @Insert
     fun insertItem(item: InventoryEntity)

@@ -68,5 +68,6 @@ abstract class FoodItem(
 
     companion object {
         val allFood = listOf(Bread, Egg, Onigiri, Drink, Dessert)
+        fun fromId(id: Int): FoodItem? = allFood.firstOrNull { it.id == id }
     }
 }

@@ -1,6 +1,7 @@
 package fr.croumy.bouge.presentation.services
 
 import fr.croumy.bouge.presentation.data.entities.InventoryEntity
+import fr.croumy.bouge.presentation.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.repositories.InventoryRepository
 import java.util.UUID
 import javax.inject.Inject
@@ -17,5 +18,13 @@ class InventoryService @Inject constructor(
                 creditEntityId = creditEntityId
             )
         )
+    }
+
+    fun getAllFoodItems(): List<Pair<FoodItem, Int>> {
+        return inventoryRepository.getAllItems()
+            .mapNotNull { inventoryItem -> FoodItem.fromId(inventoryItem.itemId) } // Retrieve only food items
+            .groupingBy { it }
+            .eachCount()
+            .toList()
     }
 }

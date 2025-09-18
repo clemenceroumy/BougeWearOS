@@ -14,4 +14,8 @@ class InventoryRepository @Inject constructor(
     fun insertItem(item: InventoryEntity) {
         inventoryDao.insertItem(item)
     }
+
+    fun getAllItems(): List<InventoryEntity> {
+        return inventoryDao.getAll()
+    }
 }
