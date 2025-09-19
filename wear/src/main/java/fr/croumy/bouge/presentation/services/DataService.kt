@@ -1,7 +1,7 @@
 package fr.croumy.bouge.presentation.services
 
 import fr.croumy.bouge.presentation.models.AccelerometerValue
-import fr.croumy.bouge.presentation.models.Constants
+import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

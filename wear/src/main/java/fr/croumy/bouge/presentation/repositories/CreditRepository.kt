@@ -11,10 +11,10 @@ class CreditRepository @Inject constructor(
     private val creditDao = database.creditsDao()
 
     fun insertCredit(creditEntity: CreditEntity) {
-        creditDao.insertCredit(creditEntity)
+        return creditDao.insertCredit(creditEntity)
     }
 
-    fun getTotalCredits(): Flow<Int> {
+    fun getTotalCredits(): Flow<Int?> {
         return creditDao.getTotal()
     }
 }

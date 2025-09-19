@@ -7,8 +7,8 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import fr.croumy.bouge.presentation.models.Constants
-import fr.croumy.bouge.presentation.models.companion.StatsType
+import fr.croumy.bouge.presentation.constants.Constants
+import fr.croumy.bouge.presentation.models.companion.StatsUpdate
 import fr.croumy.bouge.presentation.models.credit.CreditRewardType
 import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.services.DailyStepsService
@@ -29,7 +29,7 @@ class DailyCheckWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val todaySteps = dailyStepsService.getTodaySteps()
-        if(todaySteps < Constants.DAILY_STEPS_MIN_GOAL_TO_KEEP_HEALTH) companionService.updateHealthStat(StatsType.DOWN(1))
+        if(todaySteps < Constants.DAILY_STEPS_MIN_GOAL_TO_KEEP_HEALTH) companionService.updateHealthStat(StatsUpdate.DOWN(1))
 
         registerWonCreditsUseCase(
             RegisterWonCreditsParams(

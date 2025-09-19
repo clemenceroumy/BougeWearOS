@@ -8,4 +8,6 @@ open class NavRoutes(val route: String) {
     object Home: NavRoutes("Home")
     object Menu: NavRoutes("Menu")
     object ExercisesHistory: NavRoutes("ExercisesHistory")
+    object Shop: NavRoutes("Shop")
+    object Feed: NavRoutes("Feed")
 }

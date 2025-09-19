@@ -1,9 +1,8 @@
 package fr.croumy.bouge.presentation.usecases.credits
 
-import fr.croumy.bouge.presentation.data.entities.CreditEntity
 import fr.croumy.bouge.presentation.models.credit.CreditRewardType
 import fr.croumy.bouge.presentation.models.exercise.ExerciseType
-import fr.croumy.bouge.presentation.repositories.CreditRepository
+import fr.croumy.bouge.presentation.services.CreditService
 import fr.croumy.bouge.presentation.usecases.IUseCase
 import timber.log.Timber
 import java.util.UUID
@@ -17,7 +16,7 @@ data class RegisterWonCreditsParams(
 )
 
 class RegisterWonCreditsUseCase @Inject constructor(
-    private val creditRepository: CreditRepository
+    private val creditService: CreditService
 ): IUseCase<RegisterWonCreditsParams, Unit> {
     override fun invoke(params: RegisterWonCreditsParams?): Unit {
         if (params == null) {
@@ -49,12 +48,6 @@ class RegisterWonCreditsUseCase @Inject constructor(
             }
         }
 
-        creditRepository.insertCredit(
-            CreditEntity(
-                value = calculatedCredits,
-                type = params.exerciseType,
-                exerciseUid = params.exerciseId
-            )
-        )
+        creditService.insertCredit(calculatedCredits, params.exerciseType,params.exerciseId)
     }
 }
