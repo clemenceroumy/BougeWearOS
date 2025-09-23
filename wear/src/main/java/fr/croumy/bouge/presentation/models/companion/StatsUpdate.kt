@@ -1,13 +1,13 @@
 package fr.croumy.bouge.presentation.models.companion
 
 abstract class StatsUpdate {
-    abstract val value: Int
+    abstract val value: Float
 
-    class UP(by: Int): StatsUpdate() {
-        override val value: Int = by
+    class UP(by: Float): StatsUpdate() {
+        override val value: Float = by
     }
 
-    class DOWN(by: Int): StatsUpdate() {
-        override val value: Int = by
+    class DOWN(by: Float): StatsUpdate() {
+        override val value: Float = by
     }
 }

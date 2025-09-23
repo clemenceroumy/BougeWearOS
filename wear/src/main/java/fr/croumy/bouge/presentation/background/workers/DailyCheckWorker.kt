@@ -29,7 +29,7 @@ class DailyCheckWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val todaySteps = dailyStepsService.getTodaySteps()
-        if(todaySteps < Constants.DAILY_STEPS_MIN_GOAL_TO_KEEP_HEALTH) companionService.updateHealthStat(StatsUpdate.DOWN(1))
+        if(todaySteps < Constants.DAILY_STEPS_MIN_GOAL_TO_KEEP_HEALTH) companionService.updateHealthStat(StatsUpdate.DOWN(1f))
 
         registerWonCreditsUseCase(
             RegisterWonCreditsParams(

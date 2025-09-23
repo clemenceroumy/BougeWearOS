@@ -51,22 +51,46 @@ class CompanionService @Inject constructor(
             }
     }
 
+    private fun updateStat(type: StatsUpdate, currentValue: Float): Float {
+        return when (type) {
+            is StatsUpdate.UP -> {
+                if (currentValue == Constants.STAT_MAX) currentValue
+                else currentValue + type.value
+            }
+            is StatsUpdate.DOWN -> {
+                if(currentValue == 0f) currentValue
+                else currentValue - type.value
+            }
+            else -> currentValue
+        }
+    }
+
     suspend fun updateHealthStat(type: StatsUpdate) {
         val companion = companionRepository.getCurrentCompanion().first()
         if (companion != null) {
-            val updatedStat = when (type) {
-                    is StatsUpdate.UP -> {
-                        if (companion.health == Constants.STAT_MAX) companion.health
-                        else companion.health + type.value
-                    }
-                    is StatsUpdate.DOWN -> {
-                        if(companion.health == 0f) companion.health
-                        else companion.health - type.value
-                    }
-                    else -> companion.health
-                }
+            val updatedStat = updateStat(type, companion.health)
 
             val updatedCompanion = companion.copy(health = updatedStat)
+            companionRepository.updateCompanionStats(updatedCompanion)
+        }
+    }
+
+    suspend fun updateHappinessStat(type: StatsUpdate) {
+        val companion = companionRepository.getCurrentCompanion().first()
+        if (companion != null) {
+            val updatedStat = updateStat(type, companion.happiness)
+
+            val updatedCompanion = companion.copy(happiness = updatedStat)
+            companionRepository.updateCompanionStats(updatedCompanion)
+        }
+    }
+
+    suspend fun updateHungrinessStat(type: StatsUpdate) {
+        val companion = companionRepository.getCurrentCompanion().first()
+        if (companion != null) {
+            val updatedStat = updateStat(type, companion.hungriness)
+
+            val updatedCompanion = companion.copy(hungriness = updatedStat)
             companionRepository.updateCompanionStats(updatedCompanion)
         }
     }

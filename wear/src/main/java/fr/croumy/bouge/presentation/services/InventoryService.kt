@@ -20,6 +20,10 @@ class InventoryService @Inject constructor(
         )
     }
 
+    fun useItem(itemId: Int) {
+        inventoryRepository.removeItem(itemId)
+    }
+
     fun getAllFoodItems(): List<Pair<FoodItem, Int>> {
         return inventoryRepository.getAllItems()
             .mapNotNull { inventoryItem -> FoodItem.fromId(inventoryItem.itemId) } // Retrieve only food items

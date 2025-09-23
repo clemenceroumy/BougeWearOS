@@ -8,11 +8,9 @@ import fr.croumy.bouge.presentation.models.companion.Companion
 import fr.croumy.bouge.presentation.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.services.InventoryService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.SharingStarted
+import fr.croumy.bouge.presentation.usecases.companion.FeedParams
+import fr.croumy.bouge.presentation.usecases.companion.FeedUseCase
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +18,7 @@ import javax.inject.Inject
 class FeedViewModel @Inject constructor(
     val inventoryService: InventoryService,
     val companionService: CompanionService,
+    val feedUseCase: FeedUseCase
 ): ViewModel() {
     val companion = mutableStateOf<Companion?>(null)
     val allFoodItems = inventoryService.getAllFoodItems()
@@ -31,8 +30,6 @@ class FeedViewModel @Inject constructor(
     }
 
     fun feedCompanion(foodItem: FoodItem) {
-
-        //REMOVE 1 ITEM IN DB
-        // APPLY ITEM STATS
+        feedUseCase(FeedParams(foodItem = foodItem))
     }
 }
