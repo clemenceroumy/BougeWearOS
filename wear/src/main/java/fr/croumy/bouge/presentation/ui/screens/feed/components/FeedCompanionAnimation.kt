@@ -1,7 +1,7 @@
 package fr.croumy.bouge.presentation.ui.screens.feed.components
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.keyframes
@@ -39,7 +39,7 @@ fun FeedCompanionAnimation(
     val scale = animateFloatAsState(
         targetValue = animatable.value,
         animationSpec = keyframes {
-            durationMillis = 2000
+            durationMillis = 1000
             1f at 0
             0.5f at 1000
             0.01f at 2000

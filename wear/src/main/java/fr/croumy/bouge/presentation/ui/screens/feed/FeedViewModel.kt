@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     val inventoryService: InventoryService,
-    val companionService: CompanionService
+    val companionService: CompanionService,
 ): ViewModel() {
     val companion = mutableStateOf<Companion?>(null)
     val allFoodItems = inventoryService.getAllFoodItems()
@@ -31,6 +31,7 @@ class FeedViewModel @Inject constructor(
     }
 
     fun feedCompanion(foodItem: FoodItem) {
+
         //REMOVE 1 ITEM IN DB
         // APPLY ITEM STATS
     }

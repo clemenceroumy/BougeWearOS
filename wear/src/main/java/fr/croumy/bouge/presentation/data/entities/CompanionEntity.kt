@@ -13,7 +13,7 @@ data class CompanionEntity(
     val birthDate: ZonedDateTime,
     val deathDate: ZonedDateTime? = null,
     val totalSteps: Long = 0,
-    val happiness: Int = 5, // 0 TO 5
-    val hungriness: Int = 5, // 0 TO 5
+    val happiness: Float = 5f, // 0 TO 5, can be .25
+    val hungriness: Float = 5f, // 0 TO 5, can be .25
     val health: Float = 3f, // 0 TO 5, can be .5
 )
