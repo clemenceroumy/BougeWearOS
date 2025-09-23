@@ -15,6 +15,10 @@ class InventoryRepository @Inject constructor(
         inventoryDao.insertItem(item)
     }
 
+    fun removeItem(itemId: Int) {
+        inventoryDao.deleteItem(itemId)
+    }
+
     fun getAllItems(): List<InventoryEntity> {
         return inventoryDao.getAll()
     }

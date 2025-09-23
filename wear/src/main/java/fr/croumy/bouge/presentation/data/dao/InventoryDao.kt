@@ -12,4 +12,7 @@ interface InventoryDao {
 
     @Insert
     fun insertItem(item: InventoryEntity)
+
+    @Query("DELETE FROM inventory WHERE rowid = (SELECT rowid FROM inventory WHERE itemId = :itemId LIMIT 1)")
+    fun deleteItem(itemId: Int)
 }
