@@ -46,7 +46,7 @@ fun FeedScreen(
             verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
             horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding)
         ) {
-            items(feedViewModel.allFoodItems) { item ->
+            items(feedViewModel.allFoodItems.value) { item ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
