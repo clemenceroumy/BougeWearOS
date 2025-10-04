@@ -21,7 +21,7 @@ abstract class FoodItem(
         name = R.string.shop_food_bread,
         description = "",
         price = 5,
-        statsBoost = mapOf(StatsType.HEALTH to 0.25f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 0.25f)
     ) {
         @DrawableRes override val assetId: Int = R.drawable.baguette
     }
@@ -31,7 +31,7 @@ abstract class FoodItem(
         name = R.string.shop_food_egg,
         description = "",
         price = 10,
-        statsBoost = mapOf(StatsType.HEALTH to 0.75f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 0.75f)
     ) {
         @DrawableRes override val assetId: Int = R.drawable.egg
     }
@@ -41,7 +41,7 @@ abstract class FoodItem(
         name = R.string.shop_food_onigiri,
         description = "",
         price = 12,
-        statsBoost = mapOf(StatsType.HEALTH to 1f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 1f)
     ) {
         @DrawableRes override val assetId: Int = R.drawable.onigiri
     }
@@ -51,7 +51,7 @@ abstract class FoodItem(
         name = R.string.shop_food_drink,
         description = "",
         price = 5,
-        statsBoost = mapOf(StatsType.HEALTH to 0.25f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 0.25f)
     ) {
         @DrawableRes override val assetId: Int = R.drawable.drink
     }
@@ -61,7 +61,7 @@ abstract class FoodItem(
         name = R.string.shop_food_dessert,
         description = "",
         price = 12,
-        statsBoost = mapOf(StatsType.HEALTH to 0.5f, StatsType.HAPPINESS to 0.25f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 0.5f, StatsType.HAPPINESS to 0.25f)
     ) {
         @DrawableRes override val assetId: Int = R.drawable.cake
     }
