@@ -1,10 +1,14 @@
 package fr.croumy.bouge.presentation.ui.screens.stats
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -16,15 +20,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.presentation.constants.Constants
+import fr.croumy.bouge.presentation.models.companion.StatsType
 import fr.croumy.bouge.presentation.theme.Dimensions
 
 @Composable
@@ -46,14 +50,17 @@ fun CompanionStatsScreen(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text("age: ${companion.value!!.age} days")
-            ProgressBar(
-                progress = stats.value!!.happiness / Constants.STAT_MAX,
+            IconProgressBar(
+                progress = stats.value!!.happiness,
+                stat = StatsType.HAPPINESS
             )
-            ProgressBar(
-                progress = stats.value!!.hungriness / Constants.STAT_MAX,
+            IconProgressBar(
+                progress = stats.value!!.hungriness,
+                stat = StatsType.HUNGRINESS
             )
-            ProgressBar(
-                progress = stats.value!!.health / Constants.STAT_MAX,
+            IconProgressBar(
+                progress = stats.value!!.health,
+                stat = StatsType.HEALTH
             )
             Spacer(Modifier.height(0.dp))
         }
@@ -61,33 +68,44 @@ fun CompanionStatsScreen(
 }
 
 @Composable
-fun ProgressBar(
+fun IconProgressBar(
     progress: Float,
-    modifier: Modifier = Modifier,
+    stat: StatsType
 ) {
-    val segmentColor = MaterialTheme.colorScheme.onPrimary
-
-    LinearProgressIndicator(
-        modifier = modifier
+    Row(
+        Modifier
+            .fillMaxWidth()
             .height(Dimensions.xsmallIcon)
-            .clip(CircleShape)
-            .drawWithContent {
-                drawContent()
+    ) {
+        val full = progress.toInt()
+        val partial = progress - full
+        val empty = (Constants.STAT_MAX - progress).toInt()
 
-                val segmentSize = this.size.width / Constants.STAT_MAX
-                (1 until Constants.STAT_MAX.toInt()).forEach { i ->
-                    val x = i * segmentSize
-                    drawLine(
-                        color = segmentColor,
-                        strokeWidth = 2f,
-                        start = Offset(x, 0f),
-                        end = Offset(x, this.size.height),
-                    )
-                }
-            },
-        progress = { progress },
-        strokeCap = StrokeCap.Butt,
-        gapSize = 0.dp,
-        drawStopIndicator = {}
+        List(full) { stat.assetFromProgress(1f) }.map {
+            IconProgress(it, stat.name)
+        }
+
+        if (partial > 0f) {
+            val asset = stat.assetFromProgress(partial)
+            IconProgress(asset, stat.name)
+        }
+
+        List(empty) { stat.assetFromProgress(0f) }.map {
+           IconProgress(it, stat.name)
+        }
+    }
+}
+
+@Composable
+fun RowScope.IconProgress(
+    asset: Int,
+    description: String
+) {
+    Image(
+        painterResource(asset),
+        contentDescription = description,
+        Modifier
+            .weight(1f)
+            .aspectRatio(1f)
     )
 }
