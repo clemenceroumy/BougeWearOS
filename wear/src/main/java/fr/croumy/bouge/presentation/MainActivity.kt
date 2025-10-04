@@ -9,6 +9,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavHostState
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,9 +17,14 @@ import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavGraph
 import fr.croumy.bouge.presentation.theme.BougeTheme
 import fr.croumy.bouge.presentation.background.workers.DailyCheckWorker
+import fr.croumy.bouge.presentation.background.workers.WorkerHelper
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var workerHelper: WorkerHelper
+
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -33,6 +39,8 @@ class MainActivity : ComponentActivity() {
                 ExistingPeriodicWorkPolicy.REPLACE,
                 DailyCheckWorker.setupWork
             )
+
+        workerHelper.launchHungrinessWorker(ExistingWorkPolicy.KEEP)
 
         setContent {
             CompositionLocalProvider(LocalNavController provides rememberSwipeDismissableNavController()) {
