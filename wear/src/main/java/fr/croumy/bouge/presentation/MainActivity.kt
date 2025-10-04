@@ -16,9 +16,14 @@ import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavGraph
 import fr.croumy.bouge.presentation.theme.BougeTheme
 import fr.croumy.bouge.presentation.background.workers.DailyCheckWorker
+import fr.croumy.bouge.presentation.background.workers.WorkerHelper
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var workerHelper: WorkerHelper
+
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -33,6 +38,8 @@ class MainActivity : ComponentActivity() {
                 ExistingPeriodicWorkPolicy.REPLACE,
                 DailyCheckWorker.setupWork
             )
+
+        workerHelper.launchHungrinessWorker()
 
         setContent {
             CompositionLocalProvider(LocalNavController provides rememberSwipeDismissableNavController()) {

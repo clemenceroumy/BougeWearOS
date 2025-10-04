@@ -1,5 +1,6 @@
 package fr.croumy.bouge.presentation.usecases.companion
 
+import fr.croumy.bouge.presentation.background.workers.WorkerHelper
 import fr.croumy.bouge.presentation.models.companion.StatsType
 import fr.croumy.bouge.presentation.models.companion.StatsUpdate
 import fr.croumy.bouge.presentation.models.shop.food.FoodItem
@@ -17,7 +18,8 @@ data class FeedParams(
 
 class FeedUseCase @Inject constructor(
     val inventoryService: InventoryService,
-    val companionService: CompanionService
+    val companionService: CompanionService,
+    val workerHelper: WorkerHelper
 ): IUseCase<FeedParams, Unit> {
     override fun invoke(params: FeedParams?) {
         if (params == null) return
@@ -33,6 +35,9 @@ class FeedUseCase @Inject constructor(
                     StatsType.HAPPINESS -> companionService.updateHappinessStat(StatsUpdate.UP(entry.value))
                 }
             }
+
+            // TRIGGER HUNGRINESS WORKER TO DECREASE HUNGRINESS AGAIN IN 6 HOURS
+            workerHelper.launchHungrinessWorker()
         }
     }
 }
