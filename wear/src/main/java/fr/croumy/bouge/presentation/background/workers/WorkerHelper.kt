@@ -8,12 +8,14 @@ import javax.inject.Inject
 class WorkerHelper @Inject constructor(
     val context: Context
 ) {
-    fun launchHungrinessWorker() {
+    fun launchHungrinessWorker(
+        policy: ExistingWorkPolicy = ExistingWorkPolicy.REPLACE
+    ) {
         WorkManager
             .getInstance(context.applicationContext)
             .enqueueUniqueWork(
                 "decrease_hungriness",
-                ExistingWorkPolicy.REPLACE,
+                policy,
                 HungrinessWorker.setupWork
             )
     }

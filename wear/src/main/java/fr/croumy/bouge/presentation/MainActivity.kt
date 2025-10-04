@@ -9,6 +9,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavHostState
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +40,7 @@ class MainActivity : ComponentActivity() {
                 DailyCheckWorker.setupWork
             )
 
-        workerHelper.launchHungrinessWorker()
+        workerHelper.launchHungrinessWorker(ExistingWorkPolicy.KEEP)
 
         setContent {
             CompositionLocalProvider(LocalNavController provides rememberSwipeDismissableNavController()) {
