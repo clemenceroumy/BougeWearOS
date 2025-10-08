@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +30,7 @@ class ShopViewModel @Inject constructor(
         initialValue = 0
     )
 
-    fun buyItem(amount: Int, itemId: Int) {
+    fun buyItem(amount: Int, itemId: UUID) {
         viewModelScope.launch {
             try {
                 buyItemUseCase(

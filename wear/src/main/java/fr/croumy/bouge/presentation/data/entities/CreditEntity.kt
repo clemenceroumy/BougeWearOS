@@ -14,5 +14,5 @@ data class CreditEntity(
     val timestamp: ZonedDateTime = ZonedDateTime.now(),
     // TODO: link to specific exercise or shop entity
     val exerciseUid: UUID? = null, // credit won from a specific exercise
-    val shopUid: Int? = null // credit spent in the shop
+    val shopUid: UUID? = null // credit spent in the shop
 )

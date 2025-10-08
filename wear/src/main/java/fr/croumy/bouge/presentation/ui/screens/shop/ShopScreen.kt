@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
@@ -31,6 +32,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
+import fr.croumy.bouge.R
+import fr.croumy.bouge.presentation.models.shop.IShopItem
+import fr.croumy.bouge.presentation.models.shop.background.BackgroundItem
 import fr.croumy.bouge.presentation.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.theme.Dimensions
 
@@ -56,53 +60,75 @@ fun ShopScreen(
                 verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
                 horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding)
             ) {
-                items(FoodItem.allFood) { item ->
-                    Box(
-                        Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                shopViewModel.buyItem(item.price, item.id)
-                            }
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .aspectRatio(1f)
-                                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(Dimensions.mediumRadius))
-                                .padding(Dimensions.xsmallPadding),
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                stringResource(item.name),
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                            Image(
-                                painter = painterResource(item.assetId),
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .size(Dimensions.iconBtnHeight)
-                                    .aspectRatio(1f)
-                            )
-                            Spacer(Modifier.size(0.dp))
-                        }
-
-                        Box(
-                            Modifier
-                                .align(Alignment.BottomEnd)
-                                .size(Dimensions.smallIcon)
-                                .offset(-Dimensions.xsmallPadding, -Dimensions.xsmallPadding)
-                                .background(MaterialTheme.colorScheme.primary, CircleShape),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                item.price.toString(),
-                                style = MaterialTheme.typography.labelMedium
-                            )
-                        }
+                item(span = { GridItemSpan(2) }) {
+                    Column {
+                        Text(stringResource(R.string.shop_type_food))
+                        Spacer(Modifier.size(Dimensions.xsmallPadding))
                     }
                 }
+                items(FoodItem.allFood) { item ->
+                    ShopItemComponent(item, { shopViewModel.buyItem(item.price, item.id) })
+                }
+
+                item(span = { GridItemSpan(2) }) {
+                    Column {
+                        Text(stringResource(R.string.shop_type_background))
+                        Spacer(Modifier.size(Dimensions.xsmallPadding))
+                    }
+                }
+                items(BackgroundItem.allBackgrounds) { item ->
+                    ShopItemComponent(item, { shopViewModel.buyItem(item.price, item.id) })
+                }
             }
+        }
+    }
+}
+
+@Composable
+fun ShopItemComponent(
+    item: IShopItem,
+    onClick: () -> Unit,
+) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
+                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(Dimensions.mediumRadius))
+                .padding(Dimensions.xsmallPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                stringResource(item.name),
+                style = MaterialTheme.typography.bodySmall
+            )
+            Image(
+                painter = painterResource(item.assetId),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(Dimensions.iconBtnHeight)
+                    .aspectRatio(1f)
+            )
+            Spacer(Modifier.size(0.dp))
+        }
+
+        Box(
+            Modifier
+                .align(Alignment.BottomEnd)
+                .size(Dimensions.smallIcon)
+                .offset(-Dimensions.xsmallPadding, -Dimensions.xsmallPadding)
+                .background(MaterialTheme.colorScheme.primary, CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                item.price.toString(),
+                style = MaterialTheme.typography.labelMedium
+            )
         }
     }
 }

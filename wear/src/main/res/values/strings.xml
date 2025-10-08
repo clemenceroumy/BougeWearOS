@@ -5,6 +5,10 @@
     <!-- COMMON -->
     <string name="common_refresh">Refresh</string>
 
+    <!-- SHOP TYPE -->
+    <string name="shop_type_food">Food</string>
+    <string name="shop_type_background">Background</string>
+
     <!-- SHOP -->
     <string name="shop_food_bread">Bread</string>
     <string name="shop_food_egg">Egg</string>

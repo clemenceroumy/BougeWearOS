@@ -11,7 +11,7 @@ import javax.inject.Singleton
 class InventoryService @Inject constructor(
     val inventoryRepository: InventoryRepository
 ) {
-    fun addItemToInventory(itemId: Int, creditEntityId: UUID) {
+    fun addItemToInventory(itemId: UUID, creditEntityId: UUID) {
         inventoryRepository.insertItem(
             InventoryEntity(
                 itemId = itemId,
@@ -20,7 +20,7 @@ class InventoryService @Inject constructor(
         )
     }
 
-    fun useItem(itemId: Int) {
+    fun useItem(itemId: UUID) {
         inventoryRepository.removeItem(itemId)
     }
 
