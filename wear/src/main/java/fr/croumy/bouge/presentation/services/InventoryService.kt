@@ -1,6 +1,7 @@
 package fr.croumy.bouge.presentation.services
 
 import fr.croumy.bouge.presentation.data.entities.InventoryEntity
+import fr.croumy.bouge.presentation.models.shop.background.BackgroundItem
 import fr.croumy.bouge.presentation.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.repositories.InventoryRepository
 import java.util.UUID
@@ -29,6 +30,12 @@ class InventoryService @Inject constructor(
             .mapNotNull { inventoryItem -> FoodItem.fromId(inventoryItem.itemId) } // Retrieve only food items
             .groupingBy { it }
             .eachCount()
+            .toList()
+    }
+
+    fun getAllBackgroundItems(): List<BackgroundItem> {
+        return inventoryRepository.getAllItems()
+            .mapNotNull { inventoryItem -> BackgroundItem.fromId(inventoryItem.itemId) }
             .toList()
     }
 }

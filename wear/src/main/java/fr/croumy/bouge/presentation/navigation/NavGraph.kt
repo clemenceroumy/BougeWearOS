@@ -7,6 +7,7 @@ import androidx.wear.compose.navigation.SwipeDismissableNavHostState
 import androidx.wear.compose.navigation.composable
 import fr.croumy.bouge.presentation.ui.screens.MainScreen
 import fr.croumy.bouge.presentation.ui.screens.StartScreen
+import fr.croumy.bouge.presentation.ui.screens.background.BackgroundScreen
 import fr.croumy.bouge.presentation.ui.screens.feed.FeedScreen
 import fr.croumy.bouge.presentation.ui.screens.history.ExercisesHistoryScreen
 import fr.croumy.bouge.presentation.ui.screens.pickCompanion.PickCompanionScreen
@@ -40,6 +41,10 @@ fun NavGraph(navController: NavHostController, navState: SwipeDismissableNavHost
 
         composable(NavRoutes.Feed.route) {
             FeedScreen()
+        }
+
+        composable(NavRoutes.Background.route) {
+            BackgroundScreen()
         }
     }
 }

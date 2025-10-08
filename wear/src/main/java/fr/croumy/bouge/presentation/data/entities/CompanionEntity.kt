@@ -2,6 +2,7 @@ package fr.croumy.bouge.presentation.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import fr.croumy.bouge.presentation.models.shop.IShopItem
 import java.time.ZonedDateTime
 import java.util.UUID
 
@@ -12,6 +13,7 @@ data class CompanionEntity(
     val type: String,
     val birthDate: ZonedDateTime,
     val deathDate: ZonedDateTime? = null,
+    val currentBackgroundUid: UUID? = null,
     val totalSteps: Long = 0,
     val happiness: Float = 3f, // 0 TO 5, can be .25
     val hungriness: Float = 3f, // 0 TO 5, can be .25

@@ -16,7 +16,7 @@ abstract class BackgroundItem(
         id = IShopItem.BACKGROUND_FOREST_UUID,
         name = R.string.shop_background_forest,
         description = "",
-        price = 0,
+        price = 50,
         assetId = R.drawable.background_forest
     )
 

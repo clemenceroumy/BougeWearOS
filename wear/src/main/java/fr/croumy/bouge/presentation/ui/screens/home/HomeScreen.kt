@@ -36,11 +36,13 @@ fun HomeScreen(
 
     if (companion.value != null) {
         Box(Modifier.fillMaxSize()) {
-            Image(
-                painter = painterResource(BackgroundItem.fromId(companion.value!!.backgroundId)!!.assetId),
-                contentDescription = "Background",
-                modifier = Modifier.fillMaxSize(),
-            )
+            companion.value!!.backgroundId?.let { background ->
+                Image(
+                    painter = painterResource(BackgroundItem.fromId(background)!!.assetId),
+                    contentDescription = "Background",
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
 
             Column(
                 modifier = Modifier
@@ -70,6 +72,8 @@ fun HomeScreen(
                     text = "Walk: ${walks.value}",
                     style = MaterialTheme.typography.bodySmall
                 )
+
+                Spacer(modifier = Modifier.width(8.dp))
 
                 Text(
                     companion.value!!.name,

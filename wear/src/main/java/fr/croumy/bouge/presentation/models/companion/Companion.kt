@@ -9,7 +9,7 @@ data class Companion(
     val name: String,
     val type: CompanionType,
     val birthDate: ZonedDateTime,
-    val backgroundId: UUID = IShopItem.BACKGROUND_FOREST_UUID,
+    val backgroundId: UUID?,
 ) {
     val age: Int = Duration.between(birthDate, ZonedDateTime.now()).toDays().toInt()
 }
