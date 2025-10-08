@@ -4,20 +4,18 @@ import androidx.annotation.DrawableRes
 import fr.croumy.bouge.R
 import fr.croumy.bouge.presentation.models.companion.StatsType
 import fr.croumy.bouge.presentation.models.shop.IShopItem
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 abstract class FoodItem(
-    override val id: Int,
+    override val id: String,
     override val name: Int,
     override val description: String,
     override val price: Int,
-    override val statsBoost: Map<StatsType, Float>
+    val statsBoost: Map<StatsType, Float>
 ) : IShopItem {
     abstract val assetId: Int
 
     object Bread: FoodItem(
-        id = 1,
+        id = IShopItem.FOOD_BREAD_UUID,
         name = R.string.shop_food_bread,
         description = "",
         price = 5,
@@ -27,7 +25,7 @@ abstract class FoodItem(
     }
 
     object Egg: FoodItem(
-        id = 2,
+        id = IShopItem.FOOD_EGG_UUID,
         name = R.string.shop_food_egg,
         description = "",
         price = 10,
@@ -37,7 +35,7 @@ abstract class FoodItem(
     }
 
     object Onigiri: FoodItem(
-        id = 3,
+        id = IShopItem.FOOD_ONIGIRI_UUID,
         name = R.string.shop_food_onigiri,
         description = "",
         price = 12,
@@ -47,7 +45,7 @@ abstract class FoodItem(
     }
 
     object Drink: FoodItem(
-        id = 4,
+        id = IShopItem.FOOD_DRINK_UUID,
         name = R.string.shop_food_drink,
         description = "",
         price = 5,
@@ -57,7 +55,7 @@ abstract class FoodItem(
     }
 
     object Dessert: FoodItem(
-        id = 5,
+        id = IShopItem.FOOD_DESSERT_UUID,
         name = R.string.shop_food_dessert,
         description = "",
         price = 12,
@@ -68,6 +66,6 @@ abstract class FoodItem(
 
     companion object {
         val allFood = listOf(Bread, Egg, Onigiri, Drink, Dessert)
-        fun fromId(id: Int): FoodItem? = allFood.firstOrNull { it.id == id }
+        fun fromId(id: String): FoodItem? = allFood.firstOrNull { it.id == id }
     }
 }
