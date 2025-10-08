@@ -1,6 +1,5 @@
 package fr.croumy.bouge.presentation.models.shop
 
-import fr.croumy.bouge.presentation.models.shop.food.FoodItem
 import java.util.UUID
 
 interface IShopItem {
@@ -11,8 +10,6 @@ interface IShopItem {
     val assetId: Int
 
     companion object {
-        val allShopItems = FoodItem.allFood
-
         // ITEMS UUIDs
         //FOOD
         val FOOD_BREAD_UUID = UUID.fromString("6eced88c-5282-4bbc-bd3a-78379e9f16e2")
