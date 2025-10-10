@@ -27,6 +27,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -67,7 +71,7 @@ fun ShopScreen(
                     }
                 }
                 items(FoodItem.allFood) { item ->
-                    ShopItemComponent(item, { shopViewModel.buyItem(item.price, item.id) })
+                    ShopItemComponent(item, onClick = { shopViewModel.buyItem(item.price, item.id) })
                 }
 
                 item(span = { GridItemSpan(2) }) {
@@ -77,7 +81,11 @@ fun ShopScreen(
                     }
                 }
                 items(BackgroundItem.allBackgrounds) { item ->
-                    ShopItemComponent(item, { shopViewModel.buyItem(item.price, item.id) })
+                    ShopItemComponent(
+                        item,
+                        disabled = shopViewModel.getAlreadyPossessedBackgrounds.value.any { it.id == item.id },
+                        { shopViewModel.buyItem(item.price, item.id) }
+                    )
                 }
             }
         }
@@ -87,18 +95,22 @@ fun ShopScreen(
 @Composable
 fun ShopItemComponent(
     item: IShopItem,
+    disabled: Boolean = false,
     onClick: () -> Unit,
 ) {
     Box(
         Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
+            .clickable { if(!disabled) onClick() }
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
-                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(Dimensions.mediumRadius))
+                .background(
+                    MaterialTheme.colorScheme.surface,
+                    RoundedCornerShape(Dimensions.mediumRadius)
+                )
                 .padding(Dimensions.xsmallPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
@@ -112,12 +124,13 @@ fun ShopItemComponent(
                 contentDescription = null,
                 modifier = Modifier
                     .size(Dimensions.iconBtnHeight)
-                    .aspectRatio(1f)
+                    .aspectRatio(1f),
+                colorFilter = if(disabled) ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }) else null
             )
             Spacer(Modifier.size(0.dp))
         }
 
-        Box(
+        if(!disabled) Box(
             Modifier
                 .align(Alignment.BottomEnd)
                 .size(Dimensions.smallIcon)
