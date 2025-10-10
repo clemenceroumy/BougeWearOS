@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.single
 import java.time.ZonedDateTime
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,6 +35,10 @@ class CompanionService @Inject constructor(
             birthDate = ZonedDateTime.now(),
         )
         companionRepository.insertCompanion(companionEntity)
+    }
+
+    fun selectBackground(itemId: UUID) {
+        companionRepository.updateCompanionBackground(itemId)
     }
 
     fun getStats(): Flow<Stats> {

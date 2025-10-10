@@ -10,4 +10,5 @@ open class NavRoutes(val route: String) {
     object ExercisesHistory: NavRoutes("ExercisesHistory")
     object Shop: NavRoutes("Shop")
     object Feed: NavRoutes("Feed")
+    object Background: NavRoutes("Background")
 }

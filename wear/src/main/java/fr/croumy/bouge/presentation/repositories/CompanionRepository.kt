@@ -2,6 +2,7 @@ package fr.croumy.bouge.presentation.repositories
 
 import fr.croumy.bouge.presentation.data.AppDatabase
 import fr.croumy.bouge.presentation.data.entities.CompanionEntity
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,6 +16,10 @@ class CompanionRepository @Inject constructor(
 
     fun insertCompanion(companionEntity: CompanionEntity) {
         companionDao.insertCompanion(companionEntity)
+    }
+
+    fun updateCompanionBackground(backgroundUid: UUID) {
+        companionDao.updateCompanionBackground(backgroundUid)
     }
 
     fun updateCompanionStats(companionEntity: CompanionEntity) {

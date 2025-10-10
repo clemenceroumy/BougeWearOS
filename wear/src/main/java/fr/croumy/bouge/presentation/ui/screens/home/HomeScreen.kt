@@ -1,6 +1,8 @@
 package fr.croumy.bouge.presentation.ui.screens.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.croumy.bouge.presentation.models.shop.background.BackgroundItem
 import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
 
 @Composable
@@ -30,54 +34,66 @@ fun HomeScreen(
     val walks = viewModel.walks.collectAsState()
     val companion = viewModel.companion.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                Icons.AutoMirrored.Outlined.DirectionsWalk,
-                contentDescription = "Walking Icon",
-                Modifier.size(20.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-            Text(
-                text = totalSteps.value.toString(),
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text(
-            text = "Walk: ${walks.value}",
-            style = MaterialTheme.typography.bodySmall
-        )
-
-        if(companion.value != null) {
-            if (isWalking.value) {
-                AnimatedSprite(
-                    Modifier.weight(1f),
-                    imageId = companion.value!!.type.assetWalkingId,
-                    frameCount = companion.value!!.type.assetWalkingFrame
-                )
-            } else {
-                AnimatedSprite(
-                    Modifier.weight(1f),
-                    imageId = companion.value!!.type.assetIdleId,
-                    frameCount = companion.value!!.type.assetIdleFrame
+    if (companion.value != null) {
+        Box(Modifier.fillMaxSize()) {
+            companion.value!!.backgroundId?.let { background ->
+                Image(
+                    painter = painterResource(BackgroundItem.fromId(background)!!.assetId),
+                    contentDescription = "Background",
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
 
-            Text(
-                companion.value!!.name,
-                style = MaterialTheme.typography.bodySmall
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        Icons.AutoMirrored.Outlined.DirectionsWalk,
+                        contentDescription = "Walking Icon",
+                        Modifier.size(20.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = totalSteps.value.toString(),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text(
+                    text = "Walk: ${walks.value}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text(
+                    companion.value!!.name,
+                    style = MaterialTheme.typography.bodySmall
+                )
+
+                if (isWalking.value) {
+                    AnimatedSprite(
+                        Modifier.weight(1f),
+                        imageId = companion.value!!.type.assetWalkingId,
+                        frameCount = companion.value!!.type.assetWalkingFrame
+                    )
+                } else {
+                    AnimatedSprite(
+                        Modifier.weight(1f),
+                        imageId = companion.value!!.type.assetIdleId,
+                        frameCount = companion.value!!.type.assetIdleFrame
+                    )
+                }
+            }
         }
     }
 }

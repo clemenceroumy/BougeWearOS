@@ -22,7 +22,7 @@ class CreditService @Inject constructor(
         creditRepository.insertCredit(CreditEntity(value = amount, type = type, exerciseUid = exerciseId))
     }
 
-    fun spendCredit(amount: Int, shopId: Int?): UUID {
+    fun spendCredit(amount: Int, shopId: UUID?): UUID {
         val entity = CreditEntity(value = -amount, shopUid = shopId)
         creditRepository.insertCredit(entity)
 

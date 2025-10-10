@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Fastfood
+import androidx.compose.material.icons.rounded.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
@@ -35,7 +36,12 @@ fun MenuScreen() {
                     icon = Icons.Rounded.Fastfood
                 )
 
-                Spacer(Modifier.weight(1f))
+                Button(
+                    modifier = Modifier.weight(1f),
+                    onClick = { navController.navigate(NavRoutes.Background.route) },
+                    label = "background",
+                    icon = Icons.Rounded.Image
+                )
             }
         }
 

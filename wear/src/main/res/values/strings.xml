@@ -5,6 +5,10 @@
     <!-- COMMON -->
     <string name="common_refresh">Refresh</string>
 
+    <!-- SHOP TYPE -->
+    <string name="shop_type_food">Food</string>
+    <string name="shop_type_background">Background</string>
+
     <!-- SHOP -->
     <string name="shop_food_bread">Bread</string>
     <string name="shop_food_egg">Egg</string>
@@ -12,6 +16,11 @@
     <string name="shop_food_drink">Drink</string>
     <string name="shop_food_dessert">Dessert</string>
     <string name="shop_error_not_enough_credit">Not enough credit</string>
+    <string name="shop_background_forest">Forest</string>
+    <string name="shop_background_ocean">Ocean</string>
+    <string name="shop_background_mountain">Mountain</string>
+    <string name="shop_background_city">City</string>
+    <string name="shop_background_space">Space</string>
 
     <!-- NOTIFICATIONS -->
     <string name="notification_reboot_title">Rebooting</string>
