@@ -1,5 +1,6 @@
 package fr.croumy.bouge.presentation.services
 
+import android.content.Context
 import fr.croumy.bouge.presentation.models.AccelerometerValue
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseUseCase
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
+import java.io.File
 import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,14 +20,9 @@ import javax.inject.Singleton
 @OptIn(FlowPreview::class)
 @Singleton
 class DataService @Inject constructor(
-    val registerExerciseUseCase: RegisterExerciseUseCase
+    val registerExerciseUseCase: RegisterExerciseUseCase,
+    val context: Context
 ) {
-    private val _accelerometerValue = MutableStateFlow(AccelerometerValue())
-    val accelerometerValue = _accelerometerValue.asStateFlow()
-
-    private val _heartrateValue = MutableStateFlow(0)
-    val heartrateValue = _heartrateValue.asStateFlow()
-
     val firstStepTime = MutableStateFlow(ZonedDateTime.now())
     val lastStepTime = MutableStateFlow(ZonedDateTime.now())
     private val _isWalking = MutableStateFlow(false)
@@ -65,5 +62,10 @@ class DataService @Inject constructor(
                 }
 
         }
+    }
+
+    fun retrieveGyroSensor(data: AccelerometerValue) {
+        val file = File(context.filesDir, "sensor_data.txt")
+        file.appendText("${data.x},${data.y},${data.z},${System.currentTimeMillis()}\n")
     }
 }

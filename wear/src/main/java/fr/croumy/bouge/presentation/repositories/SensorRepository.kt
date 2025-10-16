@@ -16,12 +16,6 @@ class SensorRepository @Inject constructor(
     fun initSensors() {
         val accelerometer: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         sensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL)
-
-        val heartRate: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE)
-        sensorManager.registerListener(sensorListener, heartRate, SensorManager.SENSOR_DELAY_NORMAL)
-
-        val stepDetector: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
-        sensorManager.registerListener(sensorListener, stepDetector, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     fun unregisterSensors() {

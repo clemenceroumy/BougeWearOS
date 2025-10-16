@@ -18,12 +18,16 @@ import fr.croumy.bouge.presentation.navigation.NavGraph
 import fr.croumy.bouge.presentation.theme.BougeTheme
 import fr.croumy.bouge.presentation.background.workers.DailyCheckWorker
 import fr.croumy.bouge.presentation.background.workers.WorkerHelper
+import fr.croumy.bouge.presentation.repositories.SensorRepository
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var workerHelper: WorkerHelper
+
+    @Inject
+    lateinit var sensorRepository: SensorRepository
 
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +45,7 @@ class MainActivity : ComponentActivity() {
             )
 
         workerHelper.launchHungrinessWorker(ExistingWorkPolicy.KEEP)
+        sensorRepository.initSensors()
 
         setContent {
             CompositionLocalProvider(LocalNavController provides rememberSwipeDismissableNavController()) {
