@@ -23,6 +23,7 @@ class DataService @Inject constructor(
     val registerExerciseUseCase: RegisterExerciseUseCase,
     val context: Context
 ) {
+    val accelerometerValue = MutableStateFlow(AccelerometerValue(0f, 0f, 0f))
     val firstStepTime = MutableStateFlow(ZonedDateTime.now())
     val lastStepTime = MutableStateFlow(ZonedDateTime.now())
     private val _isWalking = MutableStateFlow(false)
@@ -67,5 +68,7 @@ class DataService @Inject constructor(
     fun retrieveGyroSensor(data: AccelerometerValue) {
         val file = File(context.filesDir, "sensor_data.txt")
         file.appendText("${data.x},${data.y},${data.z},${System.currentTimeMillis()}\n")
+
+        accelerometerValue.value = data
     }
 }
