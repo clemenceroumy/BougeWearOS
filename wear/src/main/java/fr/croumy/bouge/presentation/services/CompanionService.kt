@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.single
 import java.time.ZonedDateTime
 import java.util.UUID
 import javax.inject.Inject
@@ -57,7 +56,7 @@ class CompanionService @Inject constructor(
             }
     }
 
-    private fun updateStat(type: StatsUpdate, currentValue: Float): Float {
+    private fun setStatValue(type: StatsUpdate, currentValue: Float): Float {
         return when (type) {
             is StatsUpdate.UP -> {
                 if (currentValue == Constants.STAT_MAX) currentValue
@@ -71,33 +70,45 @@ class CompanionService @Inject constructor(
         }
     }
 
+    private fun updateStat(updatedCompanion: CompanionEntity) {
+        companionRepository.updateCompanionStats(updatedCompanion)
+
+        checkIsDead(updatedCompanion)
+    }
+
+    private fun checkIsDead(companion: CompanionEntity) {
+        if (companion.health == 0f || companion.happiness == 0f || companion.hungriness == 0f) {
+            companionRepository.updateCompanionDeath(ZonedDateTime.now())
+        }
+    }
+
     suspend fun updateHealthStat(type: StatsUpdate) {
         val companion = companionRepository.getCurrentCompanion().first()
         if (companion != null) {
-            val updatedStat = updateStat(type, companion.health)
+            val updatedStat = setStatValue(type, companion.health)
 
             val updatedCompanion = companion.copy(health = updatedStat)
-            companionRepository.updateCompanionStats(updatedCompanion)
+            updateStat(updatedCompanion)
         }
     }
 
     suspend fun updateHappinessStat(type: StatsUpdate) {
         val companion = companionRepository.getCurrentCompanion().first()
         if (companion != null) {
-            val updatedStat = updateStat(type, companion.happiness)
+            val updatedStat = setStatValue(type, companion.happiness)
 
             val updatedCompanion = companion.copy(happiness = updatedStat)
-            companionRepository.updateCompanionStats(updatedCompanion)
+            updateStat(updatedCompanion)
         }
     }
 
     suspend fun updateHungrinessStat(type: StatsUpdate) {
         val companion = companionRepository.getCurrentCompanion().first()
         if (companion != null) {
-            val updatedStat = updateStat(type, companion.hungriness)
+            val updatedStat = setStatValue(type, companion.hungriness)
 
             val updatedCompanion = companion.copy(hungriness = updatedStat)
-            companionRepository.updateCompanionStats(updatedCompanion)
+            updateStat(updatedCompanion)
         }
     }
 }
