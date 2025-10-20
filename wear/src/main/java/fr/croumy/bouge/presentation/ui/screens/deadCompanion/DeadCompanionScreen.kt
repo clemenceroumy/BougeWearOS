@@ -1,10 +1,8 @@
 package fr.croumy.bouge.presentation.ui.screens.deadCompanion
 
 import androidx.compose.animation.core.AnimationState
-import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.animateTo
 import androidx.compose.animation.core.isFinished
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -14,7 +12,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
@@ -37,7 +34,10 @@ fun DeadCompanionScreen(
     )
 
     LaunchedEffect(goodbyeAnimation.isFinished) {
-        navController.navigate(NavRoutes.PickCompanion.route)
+        if(goodbyeAnimation.isFinished) {
+            viewModel.screenSeen()
+            navController.navigate(NavRoutes.PickCompanion.route)
+        }
     }
 
     Column(
