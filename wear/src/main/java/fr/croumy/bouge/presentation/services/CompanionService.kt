@@ -27,6 +27,10 @@ class CompanionService @Inject constructor(
             it?.toCompanion()
         }
 
+    fun getLastestDeadCompanion(): Companion? {
+        return companionRepository.getLatestDeadCompanion().toCompanion()
+    }
+
     fun selectCompanion(companionType: CompanionType, customName: String) {
         val companionEntity = CompanionEntity(
             name = customName,

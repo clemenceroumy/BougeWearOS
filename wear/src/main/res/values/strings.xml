@@ -5,6 +5,10 @@
     <!-- COMMON -->
     <string name="common_refresh">Refresh</string>
 
+    <!-- COMPANION -->
+    <string name="companion_dead_desc">Oh no, your companion is dead :\'(</string>
+    <string name="companion_good_bye">GoodBye…</string>
+
     <!-- SHOP TYPE -->
     <string name="shop_type_food">Food</string>
     <string name="shop_type_background">Background</string>

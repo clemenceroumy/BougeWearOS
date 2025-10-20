@@ -1,6 +1,7 @@
 [versions]
 accompanistPermissions = "0.37.3"
 agp = "8.11.0"
+datastorePreferences = "1.1.7"
 firebaseBom = "34.0.0"
 kotlin = "2.1.20"
 coreKtx = "1.15.0"
@@ -33,6 +34,7 @@ work_version = "2.10.3"
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
