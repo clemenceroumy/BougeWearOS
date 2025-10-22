@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.ui.screens.history
+package fr.croumy.bouge.presentation.ui.screens.historyExercises
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -8,7 +8,7 @@ import fr.croumy.bouge.presentation.repositories.WalkRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class HistoryViewModel @Inject constructor(
+class HistoryExercisesViewModel @Inject constructor(
     walkRepository: WalkRepository
 ): ViewModel() {
     val walks = mutableStateOf(emptyList<Walk>())

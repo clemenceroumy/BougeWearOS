@@ -36,7 +36,11 @@ class CompanionService @Inject constructor(
         }
 
     fun getLastestDeadCompanion(): Companion? {
-        return companionRepository.getLatestDeadCompanion().toCompanion()
+        return companionRepository.getDeadCompanions().first().toCompanion()
+    }
+
+    fun getDeadCompanions(): List<Companion> {
+        return companionRepository.getDeadCompanions().map { it.toCompanion() }
     }
 
     fun selectCompanion(companionType: CompanionType, customName: String) {

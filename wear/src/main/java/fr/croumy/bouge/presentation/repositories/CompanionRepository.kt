@@ -15,7 +15,7 @@ class CompanionRepository @Inject constructor(
 
     fun getCurrentCompanion() = companionDao.getCurrentCompanion()
 
-    fun getLatestDeadCompanion() = companionDao.getCompanionHistory().first()
+    fun getDeadCompanions() = companionDao.getCompanionHistory()
 
     fun insertCompanion(companionEntity: CompanionEntity) {
         companionDao.insertCompanion(companionEntity)
