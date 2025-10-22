@@ -27,7 +27,8 @@ import javax.inject.Singleton
 @Singleton
 class CompanionService @Inject constructor(
     private val companionRepository: CompanionRepository,
-    private val dataStore: DataStore<Preferences>
+    private val dataStore: DataStore<Preferences>,
+    private val notificationService: NotificationService
 ) {
     val myCompanion: Flow<Companion?> = companionRepository
         .getCurrentCompanion()
@@ -97,6 +98,7 @@ class CompanionService @Inject constructor(
             CoroutineScope(Dispatchers.IO).launch {
                 dataStore.edit { preferences -> preferences[KeyStore.COMPANION_DEATH_SEEN] = false }
                 companionRepository.updateCompanionDeath(ZonedDateTime.now())
+                notificationService.sendDeadNotification()
             }
         }
     }

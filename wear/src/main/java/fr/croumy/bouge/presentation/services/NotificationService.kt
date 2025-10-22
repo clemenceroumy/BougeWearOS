@@ -20,17 +20,24 @@ class NotificationService @Inject constructor(
 ) {
     companion object {
         val CHANNEL_ID_FOREGROUND = "CHANNEL_ID_FOREGROUND"
+        val CHANNEL_ID_COMPANION = "CHANNEL_ID_COMPANION"
         val CHANNEL_NAME_FOREGROUND = "Foreground"
+        val CHANNEL_NAME_COMPANION = "Companion"
         val REBOOT_NOTIFICATION_ID = 0
         val NOTIFICATION_FOREGROUND_HEALTH_SERVICE_ID = 1
+        val NOTIFICATION_DEAD_COMPANION_ID = 2
     }
 
-    fun initNotificationChannel() {
-        val name = CHANNEL_NAME_FOREGROUND
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(CHANNEL_ID_FOREGROUND, name, importance)
+    fun initNotificationChannels() {
         val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
+        val channels = listOf(
+            NotificationChannel(CHANNEL_ID_FOREGROUND, CHANNEL_NAME_FOREGROUND, NotificationManager.IMPORTANCE_DEFAULT),
+            NotificationChannel(CHANNEL_ID_COMPANION, CHANNEL_NAME_COMPANION, NotificationManager.IMPORTANCE_DEFAULT)
+        )
+
+        channels.forEach {
+            notificationManager.createNotificationChannel(it)
+        }
     }
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
@@ -56,5 +63,16 @@ class NotificationService @Inject constructor(
 
     fun hideRebootNotification() {
         NotificationManagerCompat.from(context).cancel(REBOOT_NOTIFICATION_ID)
+    }
+
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
+    fun sendDeadNotification() {
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID_COMPANION)
+            .setSmallIcon(R.drawable.splash_icon)
+            .setContentText(context.getString(R.string.companion_dead_desc))
+            .setAutoCancel(true)
+            .build()
+
+        NotificationManagerCompat.from(context).notify(NOTIFICATION_DEAD_COMPANION_ID, notification)
     }
 }

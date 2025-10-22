@@ -25,7 +25,7 @@ class MainApplication : Application(), Configuration.Provider {
 
         Timber.plant(CrashReportingTree());
 
-        notificationService.initNotificationChannel()
+        notificationService.initNotificationChannels()
     }
 
     private class CrashReportingTree: Timber.Tree() {
