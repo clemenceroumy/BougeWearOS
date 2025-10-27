@@ -14,7 +14,7 @@ class DeadCompanionViewModel @Inject constructor(
     companionService: CompanionService,
     val dataStore: DataStore<Preferences>
 ): ViewModel() {
-    val deadCompanion = companionService.getLastestDeadCompanion()!!
+    val deadCompanion = companionService.getLastestDeadCompanion()
 
     suspend fun screenSeen() {
         dataStore.edit { preferences ->

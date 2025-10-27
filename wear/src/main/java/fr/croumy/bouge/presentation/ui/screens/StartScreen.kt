@@ -52,7 +52,7 @@ fun StartScreen(
             startViewModel.initHealthService()
 
             when {
-                hasCompanion -> navController.navigate(NavRoutes.Main.route)
+                hasCompanion -> navController.navigate(NavRoutes.HasCompanionScreens.route)
                 !hasCompanion && !isDeadSeen -> navController.navigate(NavRoutes.DeadCompanion.route)
                 else -> navController.navigate(NavRoutes.PickCompanion.route)
             }

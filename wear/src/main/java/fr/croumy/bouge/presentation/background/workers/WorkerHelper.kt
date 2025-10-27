@@ -1,6 +1,7 @@
 package fr.croumy.bouge.presentation.background.workers
 
 import android.content.Context
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import javax.inject.Inject
@@ -17,6 +18,16 @@ class WorkerHelper @Inject constructor(
                 "decrease_hungriness",
                 policy,
                 HungrinessWorker.setupWork
+            )
+    }
+
+    fun launchDailyWorker() {
+        WorkManager
+            .getInstance(context.applicationContext)
+            .enqueueUniquePeriodicWork(
+                "send_reminder_periodic",
+                ExistingPeriodicWorkPolicy.REPLACE,
+                DailyCheckWorker.setupWork
             )
     }
 }

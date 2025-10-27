@@ -47,32 +47,34 @@ fun DeadCompanionScreen(
         }
     }
 
-    Column(
-        Modifier.fillMaxRectangle(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            stringResource(R.string.companion_dead_desc),
-            style = MaterialTheme.typography.labelMedium
-        )
-        AnimatedSprite(
-            modifier = Modifier
-                .weight(1f)
-                .aspectRatio(1f)
-                .alpha(goodbyeAnimation.value),
-            imageId = viewModel.deadCompanion.type.assetIdleId,
-            frameCount = viewModel.deadCompanion.type.assetIdleFrame,
-        )
-        Text(
-            viewModel.deadCompanion.name,
-            style = MaterialTheme.typography.labelMedium
-        )
-        Spacer(Modifier.height(Dimensions.xsmallPadding))
-        Button(
-            onClick = { opacity.floatValue = 0f },
-            label = stringResource(R.string.companion_good_bye),
-            size = Dimensions.iconBtnHeight
-        )
+    viewModel.deadCompanion?.let{ deadCompanion ->
+        Column(
+            Modifier.fillMaxRectangle(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                stringResource(R.string.companion_dead_desc),
+                style = MaterialTheme.typography.labelMedium
+            )
+            AnimatedSprite(
+                modifier = Modifier
+                    .weight(1f)
+                    .aspectRatio(1f)
+                    .alpha(goodbyeAnimation.value),
+                imageId = deadCompanion.type.assetIdleId,
+            frameCount = deadCompanion.type.assetIdleFrame,
+            )
+            Text(
+                deadCompanion.name,
+                style = MaterialTheme.typography.labelMedium
+            )
+            Spacer(Modifier.height(Dimensions.xsmallPadding))
+            Button(
+                onClick = { opacity.floatValue = 0f },
+                label = stringResource(R.string.companion_good_bye),
+                size = Dimensions.iconBtnHeight
+            )
+        }
     }
 }

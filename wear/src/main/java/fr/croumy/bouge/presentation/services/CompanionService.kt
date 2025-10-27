@@ -3,10 +3,10 @@ package fr.croumy.bouge.presentation.services
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import fr.croumy.bouge.presentation.data.entities.CompanionEntity
-import fr.croumy.bouge.presentation.data.mappers.toCompanion
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.constants.KeyStore
+import fr.croumy.bouge.presentation.data.entities.CompanionEntity
+import fr.croumy.bouge.presentation.data.mappers.toCompanion
 import fr.croumy.bouge.presentation.models.companion.Companion
 import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.models.companion.Stats
@@ -37,7 +37,7 @@ class CompanionService @Inject constructor(
         }
 
     fun getLastestDeadCompanion(): Companion? {
-        return companionRepository.getDeadCompanions().first().toCompanion()
+        return companionRepository.getDeadCompanions().firstOrNull()?.toCompanion()
     }
 
     fun getDeadCompanions(): List<Companion> {
@@ -77,10 +77,12 @@ class CompanionService @Inject constructor(
         return when (type) {
             is StatsUpdate.UP -> {
                 if (currentValue == Constants.STAT_MAX) currentValue
+                else if (currentValue + type.value > Constants.STAT_MAX) Constants.STAT_MAX
                 else currentValue + type.value
             }
             is StatsUpdate.DOWN -> {
                 if(currentValue == 0f) currentValue
+                else if(currentValue - type.value < 0f) 0f
                 else currentValue - type.value
             }
             else -> currentValue

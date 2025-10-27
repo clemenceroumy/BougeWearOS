@@ -2,6 +2,7 @@ package fr.croumy.bouge.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.navigation
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.SwipeDismissableNavHostState
 import androidx.wear.compose.navigation.composable
@@ -33,28 +34,33 @@ fun NavGraph(navController: NavHostController, navState: SwipeDismissableNavHost
             DeadCompanionScreen()
         }
 
-        composable(NavRoutes.Main.route) {
-            MainScreen()
-        }
+        navigation(
+            startDestination = NavRoutes.Main.route,
+            route = NavRoutes.HasCompanionScreens.route
+        ) {
+            composable(NavRoutes.Main.route) {
+                MainScreen()
+            }
 
-        composable(NavRoutes.CompanionHistory.route) {
-            HistoryCompanionScreen()
-        }
+            composable(NavRoutes.CompanionHistory.route) {
+                HistoryCompanionScreen()
+            }
 
-        composable(NavRoutes.ExercisesHistory.route) {
-            ExercisesHistoryScreen()
-        }
+            composable(NavRoutes.ExercisesHistory.route) {
+                ExercisesHistoryScreen()
+            }
 
-        composable(NavRoutes.Shop.route) {
-            ShopScreen()
-        }
+            composable(NavRoutes.Shop.route) {
+                ShopScreen()
+            }
 
-        composable(NavRoutes.Feed.route) {
-            FeedScreen()
-        }
+            composable(NavRoutes.Feed.route) {
+                FeedScreen()
+            }
 
-        composable(NavRoutes.Background.route) {
-            BackgroundScreen()
+            composable(NavRoutes.Background.route) {
+                BackgroundScreen()
+            }
         }
     }
 }

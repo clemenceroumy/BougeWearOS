@@ -124,7 +124,7 @@ fun PickCompanionScreen(
             icon = Icons.Default.Check,
             onClick = {
                 pickCompanionViewModel.selectCompanion(selectedCompanion.value, customName.value)
-                navController.navigate(NavRoutes.Main.route)
+                navController.navigate(NavRoutes.HasCompanionScreens.route)
             },
         )
     }
