@@ -48,6 +48,14 @@ fun MenuScreen() {
         item {
             Button(
                 modifier = Modifier.fillMaxWidth(),
+                onClick = { navController.navigate(NavRoutes.CompanionHistory.route) },
+                label = "companions"
+            )
+        }
+
+        item {
+            Button(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = { navController.navigate(NavRoutes.ExercisesHistory.route) },
                 label = "walks"
             )

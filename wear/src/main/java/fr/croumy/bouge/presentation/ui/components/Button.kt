@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import fr.croumy.bouge.presentation.theme.Dimensions
 
 @Composable
@@ -23,7 +24,8 @@ fun Button(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     label: String,
-    icon: Int? = null
+    icon: Int? = null,
+    size: Dp = Dimensions.btnHeight
 ) {
     BtnItem(
         modifier,
@@ -36,7 +38,8 @@ fun Button(
                     contentDescription = null,
                 )
             }
-        }
+        },
+        size = size
     )
 }
 
@@ -45,7 +48,8 @@ fun Button(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     label: String,
-    icon: ImageVector?
+    icon: ImageVector?,
+    size: Dp = Dimensions.btnHeight
 ) {
     BtnItem(
         modifier,
@@ -58,7 +62,8 @@ fun Button(
                     contentDescription = null,
                 )
             }
-        }
+        },
+        size = size
     )
 }
 
@@ -67,11 +72,12 @@ fun BtnItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     label: String,
-    icon: @Composable () -> Unit = {}
+    icon: @Composable () -> Unit = {},
+    size: Dp
 ) {
     Row(
         modifier = modifier
-            .height(Dimensions.btnHeight)
+            .height(size)
             .fillMaxWidth()
             .background(
                 brush = Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)),

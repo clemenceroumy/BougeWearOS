@@ -6,6 +6,7 @@ import androidx.room.Query
 import androidx.room.Update
 import fr.croumy.bouge.presentation.data.entities.CompanionEntity
 import kotlinx.coroutines.flow.Flow
+import java.time.ZonedDateTime
 import java.util.UUID
 
 @Dao
@@ -24,4 +25,7 @@ interface CompanionDao {
 
     @Query("UPDATE companions SET happiness = :happiness, hungriness = :hungriness, health = :health WHERE deathDate IS NULL")
     fun updateCompanionStats(happiness: Float, hungriness: Float, health: Float)
+
+    @Query("UPDATE companions SET deathDate = :deathDate WHERE deathDate IS NULL")
+    fun updateCompanionDeath(deathDate: ZonedDateTime)
 }

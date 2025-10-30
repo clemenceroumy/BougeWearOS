@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.ui.screens.history
+package fr.croumy.bouge.presentation.ui.screens.historyExercises
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,12 +10,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
-import fr.croumy.bouge.presentation.ui.screens.history.components.HistoryItem
+import fr.croumy.bouge.presentation.ui.screens.historyExercises.components.HistoryItem
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun ExercisesHistoryScreen(
-    viewModel: HistoryViewModel = hiltViewModel()
+    viewModel: HistoryExercisesViewModel = hiltViewModel()
 ) {
     val walksByDay = viewModel.walksByDay
 

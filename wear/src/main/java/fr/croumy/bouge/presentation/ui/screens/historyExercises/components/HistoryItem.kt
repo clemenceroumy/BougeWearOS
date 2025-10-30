@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.ui.screens.history.components
+package fr.croumy.bouge.presentation.ui.screens.historyExercises.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
