@@ -14,6 +14,7 @@ import fr.croumy.bouge.presentation.ui.screens.deadCompanion.DeadCompanionScreen
 import fr.croumy.bouge.presentation.ui.screens.feed.FeedScreen
 import fr.croumy.bouge.presentation.ui.screens.historyExercises.ExercisesHistoryScreen
 import fr.croumy.bouge.presentation.ui.screens.pickCompanion.PickCompanionScreen
+import fr.croumy.bouge.presentation.ui.screens.play.PlayScreen
 import fr.croumy.bouge.presentation.ui.screens.shop.ShopScreen
 
 @Composable
@@ -52,6 +53,10 @@ fun NavGraph(navController: NavHostController, navState: SwipeDismissableNavHost
 
         composable(NavRoutes.Feed.route) {
             FeedScreen()
+        }
+
+        composable(NavRoutes.Play.route) {
+            PlayScreen()
         }
 
         composable(NavRoutes.Background.route) {

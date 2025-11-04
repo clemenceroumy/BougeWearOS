@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="wear">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-10-27T10:53:56.309560532Z">
+        <DropdownSelection timestamp="2025-10-30T09:21:54.984996043Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=/home/croumy/.android/avd/Wear_OS_Small_Round.avd" />
