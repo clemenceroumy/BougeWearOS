@@ -2,16 +2,17 @@ package fr.croumy.bouge.presentation.injection
 
 import android.app.Application
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
+
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import fr.croumy.bouge.presentation.MainActivity
 import fr.croumy.bouge.presentation.data.AppDatabase
+import fr.croumy.bouge.presentation.extensions.dataStore
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,4 +30,9 @@ class AppModule {
         )
         .allowMainThreadQueries()
         .build()
+
+    @Provides
+    fun provideDataStore(context: Application): DataStore<Preferences> {
+        return context.dataStore
+    }
 }

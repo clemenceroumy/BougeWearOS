@@ -2,6 +2,7 @@ package fr.croumy.bouge.presentation.repositories
 
 import fr.croumy.bouge.presentation.data.AppDatabase
 import fr.croumy.bouge.presentation.data.entities.CreditEntity
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class CreditRepository @Inject constructor(
@@ -10,10 +11,10 @@ class CreditRepository @Inject constructor(
     private val creditDao = database.creditsDao()
 
     fun insertCredit(creditEntity: CreditEntity) {
-        creditDao.insertCredit(creditEntity)
+        return creditDao.insertCredit(creditEntity)
     }
 
-    fun getTotalCredits(): Int {
+    fun getTotalCredits(): Flow<Int?> {
         return creditDao.getTotal()
     }
 }

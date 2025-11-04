@@ -1,11 +1,34 @@
 <resources>
     <string name="app_name">Bouge</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string name="hello_world">From the Square world,\nHello, %1$s!</string>
-    <string name="tile_label">Example tile</string>
     <string name="complication_label">Example complication</string>
-    <string name="title_activity_main">MainActivity</string>
+
+    <!-- COMMON -->
+    <string name="common_refresh">Refresh</string>
+
+    <!-- COMPANION -->
+    <string name="companion_dead_desc">Oh no, your companion is dead :\'(</string>
+    <string name="companion_good_bye">GoodBye…</string>
+    <string name="companion_age">%1$d days old</string>
+
+    <!-- SHOP TYPE -->
+    <string name="shop_type_food">Food</string>
+    <string name="shop_type_background">Background</string>
+
+    <!-- SHOP -->
+    <string name="shop_food_bread">Bread</string>
+    <string name="shop_food_egg">Egg</string>
+    <string name="shop_food_onigiri">Onigiri</string>
+    <string name="shop_food_drink">Drink</string>
+    <string name="shop_food_dessert">Dessert</string>
+    <string name="shop_error_not_enough_credit">Not enough credit</string>
+    <string name="shop_play_ball">Ball</string>
+    <string name="shop_background_forest">Forest</string>
+    <string name="shop_background_ocean">Ocean</string>
+    <string name="shop_background_mountain">Mountain</string>
+    <string name="shop_background_city">City</string>
+    <string name="shop_background_space">Space</string>
+
+    <!-- NOTIFICATIONS -->
+    <string name="notification_reboot_title">Rebooting</string>
+    <string name="notification_reboot_description">The app needs to reinitialize health data tracking</string>
 </resources>

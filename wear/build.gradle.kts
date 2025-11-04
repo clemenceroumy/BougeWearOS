@@ -69,11 +69,14 @@ dependencies {
     implementation(libs.androidx.material3.adaptive.navigation.suite)
     implementation(libs.androidx.health.services.client)
     implementation(libs.timber)
+    implementation(libs.androidx.datastore.preferences)
 
+    implementation(libs.androidx.work)
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
-    ksp(libs.hilt.compiler)
-    ksp(libs.androidx.hilt.compiler)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics)

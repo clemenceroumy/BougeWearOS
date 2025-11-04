@@ -10,7 +10,9 @@ import java.util.UUID
 data class CreditEntity(
     @PrimaryKey val uid: UUID = UUID.randomUUID(),
     val value: Int,
-    val type: ExerciseType,
+    val type: ExerciseType? = null,
     val timestamp: ZonedDateTime = ZonedDateTime.now(),
-    val exerciseUid: UUID
+    // TODO: link to specific exercise or shop entity
+    val exerciseUid: UUID? = null, // credit won from a specific exercise
+    val shopUid: UUID? = null // credit spent in the shop
 )
