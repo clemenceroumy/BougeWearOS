@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BackHand
 import androidx.compose.material.icons.rounded.Fastfood
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.runtime.Composable
@@ -38,11 +39,19 @@ fun MenuScreen() {
 
                 Button(
                     modifier = Modifier.weight(1f),
-                    onClick = { navController.navigate(NavRoutes.Background.route) },
-                    label = "background",
-                    icon = Icons.Rounded.Image
+                    onClick = { navController.navigate(NavRoutes.Play.route) },
+                    label = "play",
+                    icon = Icons.Rounded.BackHand
                 )
             }
+        }
+
+        item {
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { navController.navigate(NavRoutes.Background.route) },
+                label = "background",
+            )
         }
 
         item {
