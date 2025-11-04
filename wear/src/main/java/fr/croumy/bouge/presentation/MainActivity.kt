@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
 
         workerHelper.launchDailyWorker()
         workerHelper.launchHungrinessWorker(ExistingWorkPolicy.KEEP)
+        workerHelper.launchHappinessWorker(ExistingWorkPolicy.KEEP)
 
         setContent {
             val navigator = rememberSwipeDismissableNavController()

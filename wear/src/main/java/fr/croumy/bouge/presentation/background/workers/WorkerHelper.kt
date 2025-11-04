@@ -21,6 +21,18 @@ class WorkerHelper @Inject constructor(
             )
     }
 
+    fun launchHappinessWorker(
+        policy: ExistingWorkPolicy = ExistingWorkPolicy.REPLACE
+    ) {
+        WorkManager
+            .getInstance(context.applicationContext)
+            .enqueueUniqueWork(
+                "decrease_happiness",
+                policy,
+                HappinessWorker.setupWork
+            )
+    }
+
     fun launchDailyWorker() {
         WorkManager
             .getInstance(context.applicationContext)

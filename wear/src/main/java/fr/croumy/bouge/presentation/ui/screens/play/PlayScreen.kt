@@ -26,15 +26,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.croumy.bouge.R
 import fr.croumy.bouge.presentation.injection.LocalNavController
+import fr.croumy.bouge.presentation.models.shop.toy.ToyItem
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
 import kotlinx.coroutines.delay
 
 @Composable
 fun PlayScreen(
-    viewModel: PlayViewModel = hiltViewModel()
+    viewModel: PlayViewModel = hiltViewModel(),
+    playItem: ToyItem = ToyItem.Ball
 ) {
     val navController = LocalNavController.current
     val screenHeight = LocalConfiguration.current.smallestScreenWidthDp
@@ -52,6 +53,7 @@ fun PlayScreen(
     LaunchedEffect(ballThrown.value) {
         if(ballThrown.value) {
             delay(1100) // Animation duration
+            viewModel.play(playItem)
             navController.popBackStack()
         }
     }
@@ -91,7 +93,7 @@ fun PlayScreen(
                                 ballY.floatValue = delta
                             }
                         ),
-                    painter = painterResource(id = R.drawable.ball),
+                    painter = painterResource(id = playItem.assetId),
                     contentDescription = null
                 )
             }
