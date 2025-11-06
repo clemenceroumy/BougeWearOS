@@ -24,5 +24,5 @@ onNewDataPointsReceived() method delay emitting value :
 ## KMP Windows
 Build jvm Main Class befor launching project
 ```bash
-./gradlew :windows:jvmMainClasses
+./gradlew :desktop:jvmMainClasses
 ```

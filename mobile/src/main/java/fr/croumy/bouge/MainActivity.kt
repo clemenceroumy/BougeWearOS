@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 try {
                     val socket = aSocket(selectorManager)
                         .tcp()
-                        .connect("127.0.0.1", 9002)
+                        .connect("192.168.1.48", 9002)
 
                     val sendChannel = socket.openWriteChannel(autoFlush = true)
                     sendChannel.writeStringUtf8("helloworld\n")

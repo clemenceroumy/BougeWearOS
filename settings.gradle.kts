@@ -22,5 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "Bouge"
 include(":mobile")
 include(":wear")
-include(":windows")
+include(":desktop")
  
