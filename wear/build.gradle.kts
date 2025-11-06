@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.androidx.health.services.client)
     implementation(libs.timber)
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.ktor.network)
 
     implementation(libs.androidx.work)
     implementation(libs.androidx.hilt.work)

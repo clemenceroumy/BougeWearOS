@@ -26,7 +26,7 @@ fun main() = application {
             val selectorManager = SelectorManager(Dispatchers.IO)
             val serverSocket = aSocket(selectorManager)
                 .tcp()
-                .bind("192.168.1.48", 9002)
+                .bind("192.168.1.199", 9002)
             println("Server is listening at ${serverSocket.localAddress}")
             while (true) {
                 val socket = serverSocket.accept()

@@ -10,6 +10,7 @@ import fr.croumy.bouge.presentation.ui.historyCompanion.HistoryCompanionScreen
 import fr.croumy.bouge.presentation.ui.screens.MainScreen
 import fr.croumy.bouge.presentation.ui.screens.StartScreen
 import fr.croumy.bouge.presentation.ui.screens.background.BackgroundScreen
+import fr.croumy.bouge.presentation.ui.screens.connect.ConnectScreen
 import fr.croumy.bouge.presentation.ui.screens.deadCompanion.DeadCompanionScreen
 import fr.croumy.bouge.presentation.ui.screens.feed.FeedScreen
 import fr.croumy.bouge.presentation.ui.screens.historyExercises.ExercisesHistoryScreen
@@ -61,6 +62,10 @@ fun NavGraph(navController: NavHostController, navState: SwipeDismissableNavHost
 
         composable(NavRoutes.Background.route) {
             BackgroundScreen()
+        }
+
+        composable(NavRoutes.Connect.route) {
+            ConnectScreen()
         }
     }
 }
