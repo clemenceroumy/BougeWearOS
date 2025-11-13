@@ -1,6 +1,5 @@
-package fr.croumy.bouge.presentation.ui.components
+package fr.croumy.bouge.core.ui.components
 
-import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -9,29 +8,29 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toIntSize
-
+import fr.croumy.bouge.core.mr.SharedRes
+import java.io.File
 
 @Composable
 fun AnimatedSprite(
     modifier: Modifier = Modifier,
-    @DrawableRes imageId: Int,
+    imageId: Int,
     frameCount: Int,
     animationDuration: Int = 800
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "sprite")
 
-    val imageBitmap = ImageBitmap.imageResource(id = imageId)
+    val image = SharedRes.images.idle_duck.image
+    //val imgFile = File("/storage/emulated/0/Download/GeekforGeeksphoto.png")
 
-    val spriteWidth = imageBitmap.width / frameCount
-    val spriteHeight = imageBitmap.height
+    val spriteWidth = image.width / frameCount
+    val spriteHeight = image.height
 
     val animatedFrame = infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -51,7 +50,7 @@ fun AnimatedSprite(
         val dstSize = this.size.toIntSize()
 
         drawImage(
-            image = imageBitmap,
+            image = image.toComposeImageBitmap(),
             srcOffset = srcOffset,
             srcSize = srcSize,
             dstOffset = IntOffset.Zero,

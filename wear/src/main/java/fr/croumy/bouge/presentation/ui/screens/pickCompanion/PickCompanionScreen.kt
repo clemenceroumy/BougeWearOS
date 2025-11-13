@@ -34,7 +34,7 @@ import fr.croumy.bouge.presentation.extensions.fillMaxRectangleWidth
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.theme.Dimensions
-import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
+import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.ui.components.IconButton
 import fr.croumy.bouge.presentation.ui.screens.pickCompanion.components.RenameCompanion
 import kotlinx.coroutines.launch

@@ -11,7 +11,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.android.kotlinMultiplatform.library) apply false
-    kotlin("plugin.serialization") version "2.2.21"
+    kotlin("plugin.serialization") version libs.versions.kotlin
 }
 
 buildscript {

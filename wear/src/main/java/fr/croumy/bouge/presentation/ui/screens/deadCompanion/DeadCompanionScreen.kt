@@ -1,9 +1,6 @@
 package fr.croumy.bouge.presentation.ui.screens.deadCompanion
 
-import androidx.compose.animation.core.AnimationState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateTo
-import androidx.compose.animation.core.isFinished
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -27,9 +23,8 @@ import fr.croumy.bouge.R
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.theme.Dimensions
-import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
+import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.ui.components.Button
-import kotlinx.coroutines.launch
 
 @Composable
 fun DeadCompanionScreen(

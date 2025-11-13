@@ -29,7 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.models.shop.toy.ToyItem
 import fr.croumy.bouge.presentation.theme.Dimensions
-import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
+import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import kotlinx.coroutines.delay
 
 @Composable

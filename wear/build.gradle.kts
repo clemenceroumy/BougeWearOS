@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "fr.croumy.bouge"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "fr.croumy.bouge"

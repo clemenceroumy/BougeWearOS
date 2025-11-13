@@ -1,5 +1,9 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.composeHotReload)
+
     // can't use atm because moko-resources not up to date -> https://github.com/icerockdev/moko-resources/issues/843
     //alias(libs.plugins.android.kotlinMultiplatform.library)
     // using deprecated com.android.library until moko-resources is fixed
@@ -14,6 +18,8 @@ android {
     defaultConfig {
         minSdk = 24
     }
+
+    sourceSets["main"].res.srcDir(File(buildDir, "generated/moko-resources/androidMain/res"))
 }
 
 kotlin {
@@ -27,13 +33,22 @@ kotlin {
         withJava()
         androidResources { enable = true }
     }*/
-    jvm()
+    jvm("core")
 
     sourceSets {
         commonMain {
             dependencies {
                 implementation("dev.icerock.moko:resources:0.25.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+                implementation(libs.kotlinx.serialization.json)
+
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
+                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
             }
         }
     }
