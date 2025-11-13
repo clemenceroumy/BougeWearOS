@@ -1,4 +1,0 @@
-/mnt/home/croumy/Documents/bouge/core/src/commonMain/kotlin/fr/croumy/bouge/core/models/companion/Companion.kt
-/mnt/home/croumy/Documents/bouge/core/build/generated/moko-resources/commonMain/src/fr/croumy/bouge/core/mr/SharedRes.kt
-/mnt/home/croumy/Documents/bouge/core/src/commonMain/kotlin/fr/croumy/bouge/core/models/companion/CompanionType.kt
-/mnt/home/croumy/Documents/bouge/core/build/generated/moko-resources/androidMain/src/fr/croumy/bouge/core/mr/SharedRes.kt
