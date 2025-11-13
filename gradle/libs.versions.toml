@@ -104,3 +104,4 @@ firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-kotlinMultiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" } #https://developer.android.com/kotlin/multiplatform/plugin?hl=fr

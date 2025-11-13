@@ -1,0 +1,97 @@
+[
+    {
+        "name": "images",
+        "parentObjectName": "SharedRes",
+        "resourceType": "IMAGES",
+        "resources": [
+            {
+                "resourceType": "dev.icerock.gradle.metadata.resource.ImageMetadata",
+                "key": "walking_duck",
+                "values": [
+                    {
+                        "quality": "1",
+                        "appearance": "LIGHT",
+                        "filePath": "/mnt/home/croumy/Documents/bouge/core/src/commonMain/moko-resources/images/walking_duck@1x.png"
+                    }
+                ]
+            },
+            {
+                "resourceType": "dev.icerock.gradle.metadata.resource.ImageMetadata",
+                "key": "walking_frog",
+                "values": [
+                    {
+                        "quality": "1",
+                        "appearance": "LIGHT",
+                        "filePath": "/mnt/home/croumy/Documents/bouge/core/src/commonMain/moko-resources/images/walking_frog@1x.png"
+                    }
+                ]
+            },
+            {
+                "resourceType": "dev.icerock.gradle.metadata.resource.ImageMetadata",
+                "key": "idle_pig",
+                "values": [
+                    {
+                        "quality": "1",
+                        "appearance": "LIGHT",
+                        "filePath": "/mnt/home/croumy/Documents/bouge/core/src/commonMain/moko-resources/images/idle_pig@1x.png"
+                    }
+                ]
+            },
+            {
+                "resourceType": "dev.icerock.gradle.metadata.resource.ImageMetadata",
+                "key": "idle_duck",
+                "values": [
+                    {
+                        "quality": "1",
+                        "appearance": "LIGHT",
+                        "filePath": "/mnt/home/croumy/Documents/bouge/core/src/commonMain/moko-resources/images/idle_duck@1x.png"
+                    }
+                ]
+            },
+            {
+                "resourceType": "dev.icerock.gradle.metadata.resource.ImageMetadata",
+                "key": "idle_frog",
+                "values": [
+                    {
+                        "quality": "1",
+                        "appearance": "LIGHT",
+                        "filePath": "/mnt/home/croumy/Documents/bouge/core/src/commonMain/moko-resources/images/idle_frog@1x.png"
+                    }
+                ]
+            },
+            {
+                "resourceType": "dev.icerock.gradle.metadata.resource.ImageMetadata",
+                "key": "walking_fox",
+                "values": [
+                    {
+                        "quality": "1",
+                        "appearance": "LIGHT",
+                        "filePath": "/mnt/home/croumy/Documents/bouge/core/src/commonMain/moko-resources/images/walking_fox@1x.png"
+                    }
+                ]
+            },
+            {
+                "resourceType": "dev.icerock.gradle.metadata.resource.ImageMetadata",
+                "key": "idle_fox",
+                "values": [
+                    {
+                        "quality": "1",
+                        "appearance": "LIGHT",
+                        "filePath": "/mnt/home/croumy/Documents/bouge/core/src/commonMain/moko-resources/images/idle_fox@1x.png"
+                    }
+                ]
+            },
+            {
+                "resourceType": "dev.icerock.gradle.metadata.resource.ImageMetadata",
+                "key": "walking_pig",
+                "values": [
+                    {
+                        "quality": "1",
+                        "appearance": "LIGHT",
+                        "filePath": "/mnt/home/croumy/Documents/bouge/core/src/commonMain/moko-resources/images/walking_pig@1x.png"
+                    }
+                ]
+            }
+        ]
+    }
+]

@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /mnt/home/croumy/Documents/bouge/core/src/androidMain/AndroidManifest.xml:2:1-4:12
+INJECTED from /mnt/home/croumy/Documents/bouge/core/src/androidMain/AndroidManifest.xml:2:1-4:12
+	package
+		INJECTED from /mnt/home/croumy/Documents/bouge/core/src/androidMain/AndroidManifest.xml
+	xmlns:android
+		ADDED from /mnt/home/croumy/Documents/bouge/core/src/androidMain/AndroidManifest.xml:2:11-69
+uses-sdk
+INJECTED from /mnt/home/croumy/Documents/bouge/core/src/androidMain/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /mnt/home/croumy/Documents/bouge/core/src/androidMain/AndroidManifest.xml
+INJECTED from /mnt/home/croumy/Documents/bouge/core/src/androidMain/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /mnt/home/croumy/Documents/bouge/core/src/androidMain/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /mnt/home/croumy/Documents/bouge/core/src/androidMain/AndroidManifest.xml

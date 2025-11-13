@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
-import fr.croumy.bouge.presentation.models.companion.Companion
+import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.presentation.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.AnimatedSprite

@@ -10,6 +10,7 @@
         <option name="modules">
           <set>
             <option value="/mnt/home/croumy/Documents/bouge" />
+            <option value="/mnt/home/croumy/Documents/bouge/core" />
             <option value="/mnt/home/croumy/Documents/bouge/desktop" />
             <option value="/mnt/home/croumy/Documents/bouge/mobile" />
             <option value="/mnt/home/croumy/Documents/bouge/wear" />

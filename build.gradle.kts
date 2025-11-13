@@ -10,4 +10,15 @@ plugins {
     alias(libs.plugins.composeHotReload) apply false
     alias(libs.plugins.composeMultiplatform) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.android.kotlinMultiplatform.library) apply false
+}
+
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath("dev.icerock.moko:resources-generator:0.25.1")
+    }
 }

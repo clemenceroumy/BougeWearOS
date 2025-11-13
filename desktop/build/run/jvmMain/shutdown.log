@@ -1,8 +1,0 @@
-Shutting down (DevTools '12216')
-Shutdown actions registered: 2
-Shutdown actions completed: 2, failed: 0
-Shutdown duration: 48ms
- | 14:31:56.017 | DevTools | Info  | Main | AWT-EventQueue-0 | Composing '0' windows
- | 14:31:56.653 | DevTools | Info  | ShutdownKt | shutdown | Shutting down...
- | 14:31:56.674 | DevTools | Info  | ProcessKt | Thread-0 | parentPid: Parent process with pid=19088 exited
- | 14:31:56.711 | DevTools | Debug | RecompilerKt | Recompiler | BuildSystem: 'Gradle' finished w/ exitCode=ExitCode(code=1)

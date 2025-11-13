@@ -1,0 +1,9 @@
+fr.croumy.bouge.core
+drawable idle_duck
+drawable idle_fox
+drawable idle_frog
+drawable idle_pig
+drawable walking_duck
+drawable walking_fox
+drawable walking_frog
+drawable walking_pig

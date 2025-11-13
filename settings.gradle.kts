@@ -23,4 +23,4 @@ rootProject.name = "Bouge"
 include(":mobile")
 include(":wear")
 include(":desktop")
- 
+include(":core")

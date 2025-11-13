@@ -3,12 +3,12 @@ package fr.croumy.bouge.presentation.services
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import fr.croumy.bouge.core.models.companion.Companion
+import fr.croumy.bouge.core.models.companion.CompanionType
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.constants.KeyStore
 import fr.croumy.bouge.presentation.data.entities.CompanionEntity
 import fr.croumy.bouge.presentation.data.mappers.toCompanion
-import fr.croumy.bouge.presentation.models.companion.Companion
-import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.models.companion.Stats
 import fr.croumy.bouge.presentation.models.companion.StatsUpdate
 import fr.croumy.bouge.presentation.repositories.CompanionRepository

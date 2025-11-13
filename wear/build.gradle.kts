@@ -42,6 +42,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
+
     implementation(libs.play.services.wearable)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
