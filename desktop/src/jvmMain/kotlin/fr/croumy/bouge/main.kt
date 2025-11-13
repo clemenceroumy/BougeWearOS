@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import fr.croumy.bouge.core.models.companion.Companion
 import io.ktor.network.selector.SelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
@@ -16,7 +17,7 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "BougeWearOS",
     ) {
-        val companion = mutableStateOf("")
+        val companion = mutableStateOf<Companion?>(null)
 
         LaunchedEffect(Unit) {
             val selectorManager = SelectorManager(Dispatchers.IO)
@@ -35,7 +36,7 @@ fun main() = application {
                         val companionData = receiveChannel.readUTF8Line()
                         println(companionData)
                         if(companionData != null) {
-                            companion.value = companionData
+                            companion.value = Companion.decodeFromJson(companionData)
                         }
                     }
                 } catch (e: Throwable) {
@@ -45,6 +46,10 @@ fun main() = application {
         }
 
         Text("WINDOWS")
-        Text(companion.value)
+        if(companion.value != null) {
+            Text(companion.value!!.name)
+            Text(companion.value!!.age.toString())
+            Text(companion.value!!.type.toString())
+        }
     }
 }

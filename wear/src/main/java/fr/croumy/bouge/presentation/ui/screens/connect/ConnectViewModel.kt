@@ -34,7 +34,7 @@ class ConnectViewModel @Inject constructor(
                 .connect("192.168.1.199", 9002) // TODO: REMOVE IP
 
             val sendChannel = socket.openWriteChannel(autoFlush = true)
-            sendChannel.writeStringUtf8("${companion.value?.toString()}\n")
+            sendChannel.writeStringUtf8("${companion.value?.encodeToJson()}\n")
         } catch (e: Exception) {
             e.printStackTrace()
             connectionError.value = "Error: ${e.message}"

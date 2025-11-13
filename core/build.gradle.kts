@@ -27,11 +27,13 @@ kotlin {
         withJava()
         androidResources { enable = true }
     }*/
+    jvm()
 
     sourceSets {
         commonMain {
             dependencies {
                 implementation("dev.icerock.moko:resources:0.25.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
             }
         }
     }

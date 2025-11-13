@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.android.kotlinMultiplatform.library) apply false
+    kotlin("plugin.serialization") version "2.2.21"
 }
 
 buildscript {
@@ -20,5 +21,6 @@ buildscript {
 
     dependencies {
         classpath("dev.icerock.moko:resources-generator:0.25.1")
+        classpath(libs.kotlinx.serialization.json)
     }
 }
