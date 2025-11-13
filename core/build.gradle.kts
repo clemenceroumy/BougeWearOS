@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
+    // can't use atm because moko-resources not up to date -> https://github.com/icerockdev/moko-resources/issues/843
     //alias(libs.plugins.android.kotlinMultiplatform.library)
     id("com.android.library")
 
