@@ -10,6 +10,7 @@ plugins {
     id("com.android.library")
 
     id("dev.icerock.mobile.multiplatform-resources")
+    id("kotlinx-serialization")
 }
 
 android {

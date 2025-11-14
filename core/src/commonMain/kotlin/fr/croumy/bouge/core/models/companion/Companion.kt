@@ -1,5 +1,7 @@
 package fr.croumy.bouge.core.models.companion
 
+import fr.croumy.bouge.core.utils.serializer.KUUIDSerializer
+import fr.croumy.bouge.core.utils.serializer.KZonedDateTimeSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.time.Duration
@@ -10,9 +12,9 @@ import java.util.UUID
 data class Companion(
     val name: String,
     val type: CompanionType,
-    val birthDate: ZonedDateTime,
-    val deathDate: ZonedDateTime?,
-    val backgroundId: UUID?,
+    @Serializable(KZonedDateTimeSerializer::class) val birthDate: ZonedDateTime,
+    @Serializable(KZonedDateTimeSerializer::class) val deathDate: ZonedDateTime?,
+    @Serializable(KUUIDSerializer::class) val backgroundId: UUID?,
 ) {
     @Suppress("NewApi")
     val age: Int = Duration.between(birthDate, deathDate ?: ZonedDateTime.now()).toDays().toInt()

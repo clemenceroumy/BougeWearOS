@@ -1,8 +1,13 @@
 package fr.croumy.bouge
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import fr.croumy.bouge.core.models.companion.Companion
@@ -18,7 +23,7 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "BougeWearOS",
     ) {
-        val companion = mutableStateOf<Companion?>(null)
+        val companion = remember { mutableStateOf<Companion?>(null) }
 
         LaunchedEffect(Unit) {
             val selectorManager = SelectorManager(Dispatchers.IO)
@@ -28,34 +33,34 @@ fun main() = application {
 
             println("Server is listening at ${serverSocket.localAddress}")
 
-            while (true) {
-                val socket = serverSocket.accept()
-                println("Accepted $socket")
-                val receiveChannel = socket.openReadChannel()
-                try {
-                    while (true) {
-                        val companionData = receiveChannel.readUTF8Line()
-                        println(companionData)
-                        if(companionData != null) {
-                            companion.value = Companion.decodeFromJson(companionData)
-                        }
+            val socket = serverSocket.accept()
+            println("Accepted $socket")
+            val receiveChannel = socket.openReadChannel()
+            try {
+                while (true) {
+                    val companionData = receiveChannel.readUTF8Line()
+                    println(companionData)
+                    if(companionData != null) {
+                        companion.value = Companion.decodeFromJson(companionData)
                     }
-                } catch (e: Throwable) {
-                    socket.close()
                 }
+            } catch (e: Throwable) {
+                socket.close()
             }
         }
 
-        Text("WINDOWS")
-        if(companion.value != null) {
-            Text(companion.value!!.name)
-            Text(companion.value!!.age.toString())
-            Text(companion.value!!.type.toString())
-            AnimatedSprite(
-                imageId = companion.value!!.type.assetWalkingId,
-                frameCount = companion.value!!.type.assetWalkingFrame,
-                animationDuration = 600
-            )
+        Column {
+            if(companion.value != null) {
+                Text(companion.value!!.name)
+                Text(companion.value!!.age.toString())
+                AnimatedSprite(
+                    modifier = Modifier.size(120.dp),
+                    imageId = companion.value!!.type.assetIdleId,
+                    frameCount = companion.value!!.type.assetIdleFrame,
+                )
+            } else {
+                Text("No companion data received yet.")
+            }
         }
     }
 }
