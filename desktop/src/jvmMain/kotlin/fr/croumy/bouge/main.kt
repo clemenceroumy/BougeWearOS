@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import fr.croumy.bouge.core.models.companion.Companion
+import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import io.ktor.network.selector.SelectorManager
 import io.ktor.network.sockets.aSocket
 import io.ktor.network.sockets.openReadChannel
@@ -50,6 +51,11 @@ fun main() = application {
             Text(companion.value!!.name)
             Text(companion.value!!.age.toString())
             Text(companion.value!!.type.toString())
+            AnimatedSprite(
+                imageId = companion.value!!.type.assetWalkingId,
+                frameCount = companion.value!!.type.assetWalkingFrame,
+                animationDuration = 600
+            )
         }
     }
 }

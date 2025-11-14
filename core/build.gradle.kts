@@ -18,8 +18,6 @@ android {
     defaultConfig {
         minSdk = 24
     }
-
-    sourceSets["main"].res.srcDir(File(buildDir, "generated/moko-resources/androidMain/res"))
 }
 
 kotlin {
@@ -31,7 +29,7 @@ kotlin {
         minSdk = 24
 
         withJava()
-        androidResources { enable = true }
+        androidResources.enable = true
     }*/
     jvm("core")
 

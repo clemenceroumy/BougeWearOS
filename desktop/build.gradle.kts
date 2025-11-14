@@ -8,7 +8,7 @@ plugins {
 }
 
 kotlin {
-    jvm("desktop")
+    jvm()
 
     sourceSets {
         commonMain.dependencies {
@@ -16,6 +16,7 @@ kotlin {
 
             implementation(compose.runtime)
             implementation(compose.foundation)
+            implementation(compose.components.resources)
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.network)

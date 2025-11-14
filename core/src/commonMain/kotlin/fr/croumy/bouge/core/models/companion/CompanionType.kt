@@ -1,18 +1,27 @@
 package fr.croumy.bouge.core.models.companion
 
-import fr.croumy.bouge.core.mr.SharedRes
+import bouge.core.generated.resources.Res
+import bouge.core.generated.resources.idle_duck
+import bouge.core.generated.resources.idle_fox
+import bouge.core.generated.resources.idle_frog
+import bouge.core.generated.resources.idle_pig
+import bouge.core.generated.resources.walking_duck
+import bouge.core.generated.resources.walking_fox
+import bouge.core.generated.resources.walking_frog
+import bouge.core.generated.resources.walking_pig
+import org.jetbrains.compose.resources.DrawableResource
 
 abstract class CompanionType(
-    val assetIdleId: Int,
+    val assetIdleId: DrawableResource,
     val assetIdleFrame: Int,
-    val assetWalkingId: Int,
+    val assetWalkingId: DrawableResource,
     val assetWalkingFrame: Int,
     val defaultName: String
 ) {
-    object Frog : CompanionType(SharedRes.images.idle_frog.drawableResId, 4, SharedRes.images.walking_frog.drawableResId, 7, "Froggy")
-    object Pig : CompanionType(SharedRes.images.idle_pig.drawableResId, 5, SharedRes.images.walking_pig.drawableResId, 4, "Piggy")
-    object Fox : CompanionType(SharedRes.images.idle_fox.drawableResId, 2, SharedRes.images.walking_fox.drawableResId, 4, "Foxy")
-    object Duck : CompanionType(SharedRes.images.idle_duck.drawableResId, 2, SharedRes.images.walking_duck.drawableResId, 6, "Ducky")
+    object Frog : CompanionType(Res.drawable.idle_frog, 4, Res.drawable.walking_frog, 7, "Froggy")
+    object Pig : CompanionType(Res.drawable.idle_pig, 5, Res.drawable.walking_pig, 4, "Piggy")
+    object Fox : CompanionType(Res.drawable.idle_fox, 2, Res.drawable.walking_fox, 4, "Foxy")
+    object Duck : CompanionType(Res.drawable.idle_duck, 2, Res.drawable.walking_duck, 6, "Ducky")
 
     companion object {
         val values = listOf(Frog, Pig, Fox, Duck)

@@ -10,24 +10,22 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toIntSize
-import fr.croumy.bouge.core.mr.SharedRes
-import java.io.File
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.imageResource
 
 @Composable
 fun AnimatedSprite(
     modifier: Modifier = Modifier,
-    imageId: Int,
+    imageId: DrawableResource,
     frameCount: Int,
     animationDuration: Int = 800
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "sprite")
 
-    val image = SharedRes.images.idle_duck.image
-    //val imgFile = File("/storage/emulated/0/Download/GeekforGeeksphoto.png")
+    val image = imageResource(imageId)
 
     val spriteWidth = image.width / frameCount
     val spriteHeight = image.height
@@ -50,7 +48,7 @@ fun AnimatedSprite(
         val dstSize = this.size.toIntSize()
 
         drawImage(
-            image = image.toComposeImageBitmap(),
+            image = image,
             srcOffset = srcOffset,
             srcSize = srcSize,
             dstOffset = IntOffset.Zero,
