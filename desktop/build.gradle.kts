@@ -20,6 +20,9 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.network)
+
+            api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+            implementation("com.juul.kable:kable-core:0.40.0")
         }
     }
 }

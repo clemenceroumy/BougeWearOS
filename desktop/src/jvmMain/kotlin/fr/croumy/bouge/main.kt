@@ -1,7 +1,9 @@
 package fr.croumy.bouge
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -59,6 +61,29 @@ fun main() = application {
                     frameCount = companion.value!!.type.assetIdleFrame,
                 )
             } else {
+                if(!BleScanner.isScanning.value) {
+                    Button(
+                        onClick = { BleScanner.scan() }
+                    ) {
+                        Text("START SERVER")
+                    }
+                } else {
+                    Text("Scanning for connections...")
+                    BleScanner.peripherals.value.map {
+                        Row {
+                            Text(
+                                it.toString(),
+                                modifier = Modifier.weight(1f)
+                            )
+                            Button(
+                                onClick = { BleScanner.selectPeripheral(it) }
+                            ) {
+                                Text("CONNECT")
+                            }
+                        }
+                    }
+                }
+
                 Text("No companion data received yet.")
             }
         }
