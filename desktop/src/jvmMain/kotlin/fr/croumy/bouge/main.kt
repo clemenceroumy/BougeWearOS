@@ -29,30 +29,6 @@ fun main() = application {
         val isConnected = BleScanner.isConnected.collectAsState()
         val companion = remember { mutableStateOf<Companion?>(null) }
 
-        LaunchedEffect(Unit) {
-            val selectorManager = SelectorManager(Dispatchers.IO)
-            val serverSocket = aSocket(selectorManager)
-                .tcp()
-                .bind("192.168.1.199", 9002)
-
-            println("Server is listening at ${serverSocket.localAddress}")
-
-            val socket = serverSocket.accept()
-            println("Accepted $socket")
-            val receiveChannel = socket.openReadChannel()
-            try {
-                while (true) {
-                    val companionData = receiveChannel.readUTF8Line()
-                    println(companionData)
-                    if(companionData != null) {
-                        companion.value = Companion.decodeFromJson(companionData)
-                    }
-                }
-            } catch (e: Throwable) {
-                socket.close()
-            }
-        }
-
         Column {
             if(companion.value != null) {
                 Text(companion.value!!.name)
