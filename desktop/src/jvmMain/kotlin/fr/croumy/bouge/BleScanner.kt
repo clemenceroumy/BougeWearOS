@@ -81,6 +81,11 @@ object BleScanner {
             try {
                 connectionScope = selectedPeripheral.value!!.connect()
                 println("Connected to peripheral: $peripheral")
+                /*
+                 * There's currently an issue with service detection on Linux in Kable (cf.https://github.com/JuulLabs/kable/issues/989)
+                 * Due to this, reading charac fail
+                 * TODO: try on Windows and wait for bug to be fixed
+                 */
                 val result = selectedPeripheral.value?.read(readCharacteristic)
                 println(result)
             } catch (e: Exception) {
