@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothGattServer
 import android.bluetooth.BluetoothGattServerCallback
 import android.bluetooth.BluetoothGattService
 import android.bluetooth.BluetoothManager
+import android.bluetooth.BluetoothProfile
 import android.bluetooth.le.AdvertiseCallback
 import android.bluetooth.le.AdvertiseData
 import android.bluetooth.le.AdvertiseSettings
@@ -17,6 +18,7 @@ import android.os.ParcelUuid
 import android.util.Log
 import androidx.annotation.RequiresPermission
 import timber.log.Timber
+import java.nio.charset.StandardCharsets
 import java.util.UUID
 import javax.inject.Inject
 
@@ -25,14 +27,16 @@ class BleServer @Inject constructor(
 ) {
     companion object {
         const val SERVICE_UUID = "0000A3EF-0000-1000-8000-00805F9B34FB"
-        const val READ_CHARACTERISTIC_UUID = "000087FA-0001-1000-8000-00805F9B34FB"
-        const val WRITE_CHARACTERISTIC_UUID = "00004B62-0002-1000-8000-00805F9B34FB"
+        const val READ_CHARACTERISTIC_UUID = "000087FA-0000-1000-8000-00805F9B34FB"
+        const val WRITE_CHARACTERISTIC_UUID = "00004B62-0000-1000-8000-00805F9B34FB"
     }
 
     private val bluetoothManager: BluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
     private val advertiser get() = bluetoothManager.adapter.bluetoothLeAdvertiser
 
     private val advertiseSettings = AdvertiseSettings.Builder()
+        .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
+        .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH)
         .setConnectable(true)
         .build()
 
@@ -78,38 +82,52 @@ class BleServer @Inject constructor(
     private val serverCallback = object : BluetoothGattServerCallback() {
         override fun onConnectionStateChange(device: BluetoothDevice?, status: Int, newState: Int) {
             super.onConnectionStateChange(device, status, newState)
-            /* newState values:
-                int STATE_DISCONNECTED = 0;
-                int STATE_CONNECTING = 1;
-                int STATE_CONNECTED = 2;
-                int STATE_DISCONNECTING = 3;
-             */
-            Log.i("BLESERVER","Connection state changed: $device, status: $status, newState: $newState")
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                Log.d("BleServer", "Device connected: ${device?.address}")
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                Log.d("BleServer", "Device disconnected: ${device?.address}")
+            }
         }
 
         @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
         override fun onCharacteristicReadRequest(
-            device: BluetoothDevice?,
+            device: BluetoothDevice,
             requestId: Int,
             offset: Int,
-            characteristic: BluetoothGattCharacteristic?
+            characteristic: BluetoothGattCharacteristic
         ) {
             super.onCharacteristicReadRequest(device, requestId, offset, characteristic)
-            Log.i("BLESERVER","Characteristic read request: $device, requestId: $requestId, offset: $offset, characteristic: $characteristic")
-            gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, characteristic?.value)
+
+            if (characteristic.uuid == UUID.fromString(READ_CHARACTERISTIC_UUID)) {
+                Log.d("BleServer", "Read request for ${characteristic.uuid}")
+
+                val response = "helloworld".toByteArray(StandardCharsets.UTF_8)
+                gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, response)
+            } else {
+                gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_FAILURE, offset, null)
+            }
         }
 
+        @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
         override fun onCharacteristicWriteRequest(
-            device: BluetoothDevice?,
+            device: BluetoothDevice,
             requestId: Int,
-            characteristic: BluetoothGattCharacteristic?,
+            characteristic: BluetoothGattCharacteristic,
             preparedWrite: Boolean,
             responseNeeded: Boolean,
             offset: Int,
             value: ByteArray?
         ) {
             super.onCharacteristicWriteRequest(device, requestId, characteristic, preparedWrite, responseNeeded, offset, value)
-            Log.i("BLESERVER","Characteristic write request: $device, requestId: $requestId, characteristic: $characteristic, preparedWrite: $preparedWrite, responseNeeded: $responseNeeded, offset: $offset, value: ${value?.decodeToString()}")
+
+            if (characteristic.uuid == UUID.fromString(WRITE_CHARACTERISTIC_UUID)) {
+                val receivedString = value?.toString(StandardCharsets.UTF_8) ?: ""
+                Log.d("BleServer", "Write request received: $receivedString")
+
+                if (responseNeeded) {
+                    gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, value)
+                }
+            }
         }
     }
 

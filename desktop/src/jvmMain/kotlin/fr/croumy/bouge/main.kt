@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "BougeWearOS",
     ) {
+        val isConnected = BleScanner.isConnected.collectAsState()
         val companion = remember { mutableStateOf<Companion?>(null) }
 
         LaunchedEffect(Unit) {
@@ -67,7 +69,7 @@ fun main() = application {
                     ) {
                         Text("START SERVER")
                     }
-                } else {
+                } else if(!isConnected.value) {
                     Text("Scanning for connections...")
                     BleScanner.peripherals.value.map {
                         Row {
@@ -82,9 +84,9 @@ fun main() = application {
                             }
                         }
                     }
+                } else {
+                    Text("Connected to peripheral, waiting for data...")
                 }
-
-                Text("No companion data received yet.")
             }
         }
     }

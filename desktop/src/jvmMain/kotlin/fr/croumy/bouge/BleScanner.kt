@@ -2,19 +2,26 @@ package fr.croumy.bouge
 
 import androidx.compose.runtime.mutableStateOf
 import com.juul.kable.Bluetooth
-import com.juul.kable.Filter
 import com.juul.kable.Peripheral
 import com.juul.kable.PlatformAdvertisement
 import com.juul.kable.Scanner
+import com.juul.kable.State
 import com.juul.kable.characteristicOf
 import com.juul.kable.logs.Logging
 import com.juul.kable.logs.SystemLogEngine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
@@ -22,7 +29,17 @@ object BleScanner {
     val isScanning = mutableStateOf(false)
     val peripherals = mutableStateOf<List<PlatformAdvertisement>>(emptyList())
 
-    val selectedPeripheral = mutableStateOf<Peripheral?>(null)
+    val selectedPeripheral = MutableStateFlow<Peripheral?>(null)
+    lateinit var connectionScope: CoroutineScope
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val isConnected: StateFlow<Boolean> = selectedPeripheral
+        .flatMapLatest { peripheral -> peripheral?.state?.map { state -> state is State.Connected } ?: flowOf(false) }
+        .stateIn(
+            scope = CoroutineScope(Dispatchers.IO),
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = false
+        )
 
     val readCharacteristic = characteristicOf(
         service = Bluetooth.BaseUuid + 0xA3EF,
@@ -31,9 +48,7 @@ object BleScanner {
 
     val scanner = Scanner {
         filters {
-            match {
-                services = listOf(Bluetooth.BaseUuid + 0xA3EF)
-            }
+            match { services = listOf(Bluetooth.BaseUuid + 0xA3EF) }
         }
         logging {
             engine = SystemLogEngine
@@ -58,26 +73,16 @@ object BleScanner {
     }
 
     fun selectPeripheral(peripheral: PlatformAdvertisement) {
-        println("Selected peripheral: $peripheral")
         selectedPeripheral.value = Peripheral(peripheral) {
-            logging {
-                level = Logging.Level.Events // or Data
-            }
-
-            onServicesDiscovered {
-                println(selectedPeripheral.value?.services?.value)
-            }
+            logging { level = Logging.Level.Events }
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            selectedPeripheral.value?.state?.collect { state ->
-                println("Peripheral state: $state" )
-            }
-        }
-
-        runBlocking {
             try {
-                selectedPeripheral.value!!.connect()
+                connectionScope = selectedPeripheral.value!!.connect()
+                println("Connected to peripheral: $peripheral")
+                val result = selectedPeripheral.value?.read(readCharacteristic)
+                println(result)
             } catch (e: Exception) {
                 println("Error connecting to peripheral: $e" )
             }
