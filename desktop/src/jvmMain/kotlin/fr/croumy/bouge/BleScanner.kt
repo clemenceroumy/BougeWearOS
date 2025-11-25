@@ -16,6 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -65,11 +66,12 @@ object BleScanner {
             scannerFlow
                 .onStart { isScanning.value = true }
                 .takeWhile { selectedPeripheral.value == null }
+                .filter { advertisement ->
+                    val someContains = peripherals.value.find { it.peripheralName == advertisement.peripheralName }
+                    someContains == null
+                }
                 .collect {
-                    if (!peripherals.value.contains(it)) {
-                        println("Found device: $it")
-                        peripherals.value += it
-                    }
+                    peripherals.value += it
                 }
         }
     }
