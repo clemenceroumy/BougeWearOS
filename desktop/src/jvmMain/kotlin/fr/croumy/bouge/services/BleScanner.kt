@@ -1,4 +1,4 @@
-package fr.croumy.bouge
+package fr.croumy.bouge.services
 
 import androidx.compose.runtime.mutableStateOf
 import com.juul.kable.Bluetooth
@@ -40,7 +40,7 @@ object BleScanner {
         .flatMapLatest { peripheral -> peripheral?.state?.map { state -> state is State.Connected } ?: flowOf(false) }
         .stateIn(
             scope = CoroutineScope(Dispatchers.IO),
-            started = SharingStarted.WhileSubscribed(5_000),
+            started = SharingStarted.Companion.WhileSubscribed(5_000),
             initialValue = false
         )
 
@@ -71,7 +71,8 @@ object BleScanner {
                     someContains == null
                 }
                 .collect {
-                    peripherals.value += it
+                    println(it)
+                    peripherals.value = peripherals.value.plus(it)
                 }
         }
     }
