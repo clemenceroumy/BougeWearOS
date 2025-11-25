@@ -1,7 +1,6 @@
 package fr.croumy.bouge.presentation.services
 
 import android.Manifest
-import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
@@ -17,19 +16,25 @@ import android.content.Context
 import android.os.ParcelUuid
 import android.util.Log
 import androidx.annotation.RequiresPermission
-import timber.log.Timber
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 import javax.inject.Inject
 
 class BleServer @Inject constructor(
-    private val context: Context
+    private val context: Context,
+    private val companionService: CompanionService
 ) {
     companion object {
         const val SERVICE_UUID = "0000A3EF-0000-1000-8000-00805F9B34FB"
         const val READ_CHARACTERISTIC_UUID = "000087FA-0000-1000-8000-00805F9B34FB"
         const val WRITE_CHARACTERISTIC_UUID = "00004B62-0000-1000-8000-00805F9B34FB"
     }
+
+    lateinit var currentCompanion: fr.croumy.bouge.core.models.companion.Companion
 
     private val bluetoothManager: BluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
     private val advertiser get() = bluetoothManager.adapter.bluetoothLeAdvertiser
@@ -73,10 +78,15 @@ class BleServer @Inject constructor(
     private val bleService = BluetoothGattService(
         UUID.fromString(SERVICE_UUID),
         BluetoothGattService.SERVICE_TYPE_PRIMARY,
-
     ).apply {
         addCharacteristic(readCharacteristic)
         addCharacteristic(writeCharacteristic)
+    }
+
+    init {
+        CoroutineScope(Dispatchers.IO).launch {
+            currentCompanion = companionService.myCompanion.first()!!
+        }
     }
 
     private val serverCallback = object : BluetoothGattServerCallback() {
@@ -98,10 +108,10 @@ class BleServer @Inject constructor(
         ) {
             super.onCharacteristicReadRequest(device, requestId, offset, characteristic)
 
-            if (characteristic.uuid == UUID.fromString(READ_CHARACTERISTIC_UUID)) {
-                Log.d("BleServer", "Read request for ${characteristic.uuid}")
+            Log.d("BleServer", "Read request for ${characteristic.uuid}")
 
-                val response = "helloworld".toByteArray(StandardCharsets.UTF_8)
+            if (characteristic.uuid == UUID.fromString(READ_CHARACTERISTIC_UUID)) {
+                val response = currentCompanion.encodeToJson().toByteArray(StandardCharsets.UTF_8)
                 gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, response)
             } else {
                 gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_FAILURE, offset, null)

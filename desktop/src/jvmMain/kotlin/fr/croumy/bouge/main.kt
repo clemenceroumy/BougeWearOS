@@ -27,7 +27,7 @@ fun main() = application {
         title = "BougeWearOS",
     ) {
         val isConnected = BleScanner.isConnected.collectAsState()
-        val companion = remember { mutableStateOf<Companion?>(null) }
+        val companion = BleScanner.currentCompanion
 
         Column {
             if(companion.value != null) {

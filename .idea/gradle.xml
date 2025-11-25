@@ -9,11 +9,11 @@
         <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
-            <option value="/mnt/home/croumy/Documents/bouge" />
-            <option value="/mnt/home/croumy/Documents/bouge/core" />
-            <option value="/mnt/home/croumy/Documents/bouge/desktop" />
-            <option value="/mnt/home/croumy/Documents/bouge/mobile" />
-            <option value="/mnt/home/croumy/Documents/bouge/wear" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/desktop" />
+            <option value="$PROJECT_DIR$/mobile" />
+            <option value="$PROJECT_DIR$/wear" />
           </set>
         </option>
       </GradleProjectSettings>

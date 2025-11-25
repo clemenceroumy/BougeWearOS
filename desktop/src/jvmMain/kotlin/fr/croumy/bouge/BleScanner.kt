@@ -9,6 +9,7 @@ import com.juul.kable.State
 import com.juul.kable.characteristicOf
 import com.juul.kable.logs.Logging
 import com.juul.kable.logs.SystemLogEngine
+import fr.croumy.bouge.core.models.companion.Companion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,6 +28,7 @@ import kotlin.uuid.ExperimentalUuidApi
 @OptIn(ExperimentalUuidApi::class)
 object BleScanner {
     val isScanning = mutableStateOf(false)
+    val currentCompanion = mutableStateOf<Companion?>(null)
     val peripherals = mutableStateOf<List<PlatformAdvertisement>>(emptyList())
 
     val selectedPeripheral = MutableStateFlow<Peripheral?>(null)
@@ -82,12 +84,16 @@ object BleScanner {
                 connectionScope = selectedPeripheral.value!!.connect()
                 println("Connected to peripheral: $peripheral")
                 /*
-                 * There's currently an issue with service detection on Linux in Kable (cf.https://github.com/JuulLabs/kable/issues/989)
-                 * Due to this, reading charac fail
-                 * TODO: try on Windows and wait for bug to be fixed
+                 * There's currently an issue with service detection on LINUX in Kable lib (cf.https://github.com/JuulLabs/kable/issues/989)
+                 * Due to this, reading charac fail on LINUX
+                 * On WINDOWS, everything works fine
                  */
                 val result = selectedPeripheral.value?.read(readCharacteristic)
-                println(result)
+                val resultString = result?.decodeToString()
+
+                if(resultString != null) {
+                    currentCompanion.value = Companion.decodeFromJson(resultString)
+                }
             } catch (e: Exception) {
                 println("Error connecting to peripheral: $e" )
             }
