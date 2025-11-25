@@ -1,9 +1,12 @@
 package fr.croumy.bouge
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -23,31 +26,8 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "BougeWearOS",
     ) {
-        val companion = remember { mutableStateOf<Companion?>(null) }
-
-        LaunchedEffect(Unit) {
-            val selectorManager = SelectorManager(Dispatchers.IO)
-            val serverSocket = aSocket(selectorManager)
-                .tcp()
-                .bind("192.168.1.199", 9002)
-
-            println("Server is listening at ${serverSocket.localAddress}")
-
-            val socket = serverSocket.accept()
-            println("Accepted $socket")
-            val receiveChannel = socket.openReadChannel()
-            try {
-                while (true) {
-                    val companionData = receiveChannel.readUTF8Line()
-                    println(companionData)
-                    if(companionData != null) {
-                        companion.value = Companion.decodeFromJson(companionData)
-                    }
-                }
-            } catch (e: Throwable) {
-                socket.close()
-            }
-        }
+        val isConnected = BleScanner.isConnected.collectAsState()
+        val companion = BleScanner.currentCompanion
 
         Column {
             if(companion.value != null) {
@@ -59,7 +39,30 @@ fun main() = application {
                     frameCount = companion.value!!.type.assetIdleFrame,
                 )
             } else {
-                Text("No companion data received yet.")
+                if(!BleScanner.isScanning.value) {
+                    Button(
+                        onClick = { BleScanner.scan() }
+                    ) {
+                        Text("START SERVER")
+                    }
+                } else if(!isConnected.value) {
+                    Text("Scanning for connections...")
+                    BleScanner.peripherals.value.map {
+                        Row {
+                            Text(
+                                it.toString(),
+                                modifier = Modifier.weight(1f)
+                            )
+                            Button(
+                                onClick = { BleScanner.selectPeripheral(it) }
+                            ) {
+                                Text("CONNECT")
+                            }
+                        }
+                    }
+                } else {
+                    Text("Connected to peripheral, waiting for data...")
+                }
             }
         }
     }
