@@ -11,5 +11,6 @@ fun CompanionEntity.toCompanion(): Companion {
         birthDate = this.birthDate,
         deathDate = this.deathDate,
         backgroundId = this.currentBackgroundUid,
+        available = this.available
     )
 }

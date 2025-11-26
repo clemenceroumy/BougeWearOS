@@ -134,4 +134,13 @@ class CompanionService @Inject constructor(
             updateStat(updatedCompanion)
         }
     }
+
+    fun sendToDesktop() {
+        companionRepository.updateAvailability(false)
+    }
+
+    fun retrieveFromDesktop() {
+        companionRepository.updateAvailability(true)
+        //TODO: update stats
+    }
 }

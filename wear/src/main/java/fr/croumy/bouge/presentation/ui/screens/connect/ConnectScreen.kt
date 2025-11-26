@@ -23,6 +23,7 @@ fun ConnectScreen(
     viewModel: ConnectViewModel = hiltViewModel()
 ) {
     val companion = viewModel.companion.collectAsState()
+    val isAdvertising = viewModel.isAdvertising.collectAsState()
 
     Column(
         Modifier.fillMaxSize(),
@@ -30,18 +31,21 @@ fun ConnectScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (companion.value != null) {
-            AnimatedSprite(
+            if(companion.value!!.available) AnimatedSprite(
                 modifier = Modifier.size(Dimensions.largeIcon),
                 imageId = companion.value!!.type.assetIdleId,
                 frameCount = companion.value!!.type.assetIdleFrame
-            )
+            ) else Text("AWAY...")
             ElevatedButton(
-                onClick = { CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.connectToServer()
-                } }
-            ) { Text("Connect") }
-
-            viewModel.connectionError.value?.let { Text(it) }
+                onClick = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        viewModel.connectToServer()
+                    }
+                },
+                enabled = companion.value!!.available && !isAdvertising.value
+            ) {
+                Text(if(isAdvertising.value) "Connecting..." else "Connect")
+            }
         } else {
             CircularProgressIndicator()
         }

@@ -42,7 +42,7 @@ fun StartScreen(
 
     val isLoading = startViewModel.isLoading.value
     val hasCompanion = startViewModel.hasCompanion.value
-    val isDeadSeen = runBlocking { context.dataStore.data.map { preferences -> preferences[KeyStore.COMPANION_DEATH_SEEN] ?: false }.first() }
+    val isDeadSeen = runBlocking { context.dataStore.data.map { preferences -> preferences[KeyStore.COMPANION_DEATH_SEEN] ?: true }.first() }
 
     LaunchedEffect(locationIsGranted, activityRecognitionIsGranted, notificationIsGranted, isLoading) {
         if(!activityRecognitionIsGranted) {

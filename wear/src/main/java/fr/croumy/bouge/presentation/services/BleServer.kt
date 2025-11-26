@@ -1,6 +1,7 @@
 package fr.croumy.bouge.presentation.services
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCharacteristic
@@ -13,11 +14,14 @@ import android.bluetooth.le.AdvertiseCallback
 import android.bluetooth.le.AdvertiseData
 import android.bluetooth.le.AdvertiseSettings
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.ParcelUuid
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import androidx.core.app.ActivityCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.nio.charset.StandardCharsets
@@ -26,7 +30,8 @@ import javax.inject.Inject
 
 class BleServer @Inject constructor(
     private val context: Context,
-    private val companionService: CompanionService
+    private val companionService: CompanionService,
+    private val permissionService: PermissionService
 ) {
     companion object {
         const val SERVICE_UUID = "0000A3EF-0000-1000-8000-00805F9B34FB"
@@ -35,6 +40,7 @@ class BleServer @Inject constructor(
     }
 
     lateinit var currentCompanion: fr.croumy.bouge.core.models.companion.Companion
+    val isAdvertising = MutableStateFlow(false)
 
     private val bluetoothManager: BluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
     private val advertiser get() = bluetoothManager.adapter.bluetoothLeAdvertiser
@@ -57,6 +63,7 @@ class BleServer @Inject constructor(
 
         override fun onStartFailure(errorCode: Int) {
             Log.e("BLESERVER","BLE Advertising failed to start with error code: $errorCode")
+            isAdvertising.value = false
             super.onStartFailure(errorCode)
         }
     }
@@ -94,8 +101,10 @@ class BleServer @Inject constructor(
             super.onConnectionStateChange(device, status, newState)
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 Log.d("BleServer", "Device connected: ${device?.address}")
+                stopAdvertising()
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 Log.d("BleServer", "Device disconnected: ${device?.address}")
+                companionService.retrieveFromDesktop()
             }
         }
 
@@ -112,6 +121,7 @@ class BleServer @Inject constructor(
 
             if (characteristic.uuid == UUID.fromString(READ_CHARACTERISTIC_UUID)) {
                 val response = currentCompanion.encodeToJson().toByteArray(StandardCharsets.UTF_8)
+                companionService.sendToDesktop()
                 gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, response)
             } else {
                 gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_FAILURE, offset, null)
@@ -141,22 +151,30 @@ class BleServer @Inject constructor(
         }
     }
 
-    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
-    fun start() {
-        //OPEN SERVER
-        if (gattServer == null) {
-            gattServer = bluetoothManager.openGattServer(context, serverCallback)
-            gattServer?.addService(bleService)
-        }
+    @SuppressLint("MissingPermission")
+    fun startAdvertising() {
+        if (permissionService.isBluetoothPermissionsGranted()) {
+            //OPEN SERVER
+            if (gattServer == null) {
+                gattServer = bluetoothManager.openGattServer(context, serverCallback)
+                gattServer?.addService(bleService)
+            }
 
-        advertiser.startAdvertising(advertiseSettings, advertiseData, advertiseCallback)
+            advertiser.startAdvertising(advertiseSettings, advertiseData, advertiseCallback)
+            isAdvertising.value = true
+        }
     }
 
-    @RequiresPermission(allOf = [Manifest.permission.BLUETOOTH_CONNECT, Manifest.permission.BLUETOOTH_ADVERTISE])
-    fun stop() {
-        advertiser?.stopAdvertising(advertiseCallback)
+    @SuppressLint("MissingPermission")
+    fun stopAdvertising() {
+        if (permissionService.isBluetoothPermissionsGranted()) {
+            advertiser?.stopAdvertising(advertiseCallback)
+            isAdvertising.value = false
+        }
+    }
 
-        // CLOSE SERVER
+    @SuppressLint("MissingPermission")
+    fun closeServer() {
         gattServer?.clearServices()
         gattServer?.close()
         gattServer = null
