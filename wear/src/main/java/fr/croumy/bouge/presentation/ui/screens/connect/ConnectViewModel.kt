@@ -17,6 +17,8 @@ class ConnectViewModel @Inject constructor(
     val bleServer: BleServer
 ): ViewModel() {
     val isAdvertising = bleServer.isAdvertising
+    val isConnected = bleServer.isConnected
+    val isSent = bleServer.isSent
 
     val companion = companionService.myCompanion.stateIn(
         CoroutineScope(Dispatchers.IO),

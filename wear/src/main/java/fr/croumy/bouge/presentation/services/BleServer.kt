@@ -41,6 +41,8 @@ class BleServer @Inject constructor(
 
     lateinit var currentCompanion: fr.croumy.bouge.core.models.companion.Companion
     val isAdvertising = MutableStateFlow(false)
+    val isConnected = MutableStateFlow(false)
+    val isSent = MutableStateFlow(false)
 
     private val bluetoothManager: BluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
     private val advertiser get() = bluetoothManager.adapter.bluetoothLeAdvertiser
@@ -102,9 +104,12 @@ class BleServer @Inject constructor(
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 Log.d("BleServer", "Device connected: ${device?.address}")
                 stopAdvertising()
+                isConnected.value = true
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 Log.d("BleServer", "Device disconnected: ${device?.address}")
                 companionService.retrieveFromDesktop()
+                isSent.value = false
+                isConnected.value = false
             }
         }
 
@@ -122,6 +127,7 @@ class BleServer @Inject constructor(
             if (characteristic.uuid == UUID.fromString(READ_CHARACTERISTIC_UUID)) {
                 val response = currentCompanion.encodeToJson().toByteArray(StandardCharsets.UTF_8)
                 companionService.sendToDesktop()
+                isSent.value = true
                 gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, response)
             } else {
                 gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_FAILURE, offset, null)

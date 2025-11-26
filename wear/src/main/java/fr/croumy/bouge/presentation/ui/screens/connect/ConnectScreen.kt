@@ -24,6 +24,8 @@ fun ConnectScreen(
 ) {
     val companion = viewModel.companion.collectAsState()
     val isAdvertising = viewModel.isAdvertising.collectAsState()
+    val isConnected = viewModel.isConnected.collectAsState()
+    val isSent = viewModel.isSent.collectAsState()
 
     Column(
         Modifier.fillMaxSize(),
@@ -31,7 +33,7 @@ fun ConnectScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (companion.value != null) {
-            if(companion.value!!.available) AnimatedSprite(
+            if (companion.value!!.available) AnimatedSprite(
                 modifier = Modifier.size(Dimensions.largeIcon),
                 imageId = companion.value!!.type.assetIdleId,
                 frameCount = companion.value!!.type.assetIdleFrame
@@ -42,9 +44,17 @@ fun ConnectScreen(
                         viewModel.connectToServer()
                     }
                 },
-                enabled = companion.value!!.available && !isAdvertising.value
+                enabled = companion.value!!.available && !isAdvertising.value && !isConnected.value && !isSent.value
             ) {
-                Text(if(isAdvertising.value) "Connecting..." else "Connect")
+                Text(
+                    when {
+                        !isAdvertising.value && !isConnected.value && !isSent.value -> "Connect"
+                        isAdvertising.value && !isConnected.value && !isSent.value -> "Connecting..."
+                        !isAdvertising.value && isConnected.value && !isSent.value -> "Sending..."
+                        !isAdvertising.value && isConnected.value && isSent.value -> "Done!"
+                        else -> ""
+                    }
+                )
             }
         } else {
             CircularProgressIndicator()
