@@ -28,7 +28,7 @@ fun MainScreen(
         while (true) {
             delay(800L) // ANIMATION SPEED
             direction.value = Direction.random()
-            println(direction.value)
+
             moveValue.value = when(direction.value){
                 Direction.LEFT -> moveValue.value - 10f
                 Direction.RIGHT -> moveValue.value + 10f

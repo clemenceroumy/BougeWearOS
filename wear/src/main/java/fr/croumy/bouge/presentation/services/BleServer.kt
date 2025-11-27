@@ -39,6 +39,8 @@ class BleServer @Inject constructor(
         const val WRITE_CHARACTERISTIC_UUID = "00004B62-0000-1000-8000-00805F9B34FB"
     }
 
+    val coroutineScope = CoroutineScope(Dispatchers.IO)
+
     lateinit var currentCompanion: fr.croumy.bouge.core.models.companion.Companion
     val isAdvertising = MutableStateFlow(false)
     val isConnected = MutableStateFlow(false)
@@ -93,7 +95,7 @@ class BleServer @Inject constructor(
     }
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        coroutineScope.launch {
             currentCompanion = companionService.myCompanion.first()!!
         }
     }
@@ -107,9 +109,11 @@ class BleServer @Inject constructor(
                 isConnected.value = true
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 Log.d("BleServer", "Device disconnected: ${device?.address}")
-                companionService.retrieveFromDesktop()
-                isSent.value = false
-                isConnected.value = false
+                coroutineScope.launch {
+                    companionService.retrieveFromDesktop()
+                    isSent.value = false
+                    isConnected.value = false
+                }
             }
         }
 
@@ -150,8 +154,9 @@ class BleServer @Inject constructor(
                 val receivedString = value?.toString(StandardCharsets.UTF_8) ?: ""
                 Log.d("BleServer", "Write request received: $receivedString")
 
-                if (responseNeeded) {
-                    gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, value)
+                //TODO: Handle received data (bonuses)
+                coroutineScope.launch {
+                    companionService.retrieveFromDesktop(emptyList())
                 }
             }
         }

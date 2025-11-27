@@ -12,87 +12,96 @@ import com.juul.kable.logs.SystemLogEngine
 import fr.croumy.bouge.core.models.companion.Companion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.launch
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
 object BleScanner {
+    val scanCoroutineScope = CoroutineScope(Dispatchers.IO)
+
     val isScanning = mutableStateOf(false)
+    val isConnected = MutableStateFlow(false)
     val currentCompanion = mutableStateOf<Companion?>(null)
     val peripherals = mutableStateOf<List<PlatformAdvertisement>>(emptyList())
-
     val selectedPeripheral = MutableStateFlow<Peripheral?>(null)
-    var peripheralState: StateFlow<State> = MutableStateFlow<State>(State.Disconnected())
-    lateinit var connectionScope: CoroutineScope
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val isConnected: StateFlow<Boolean> = selectedPeripheral
-        .flatMapLatest { peripheral -> peripheral?.state?.map { state -> state is State.Connected } ?: flowOf(false) }
+    var peripheralState = selectedPeripheral
+        .flatMapLatest { peripheral -> peripheral?.state ?: flowOf(State.Disconnected()) }
         .stateIn(
-            scope = CoroutineScope(Dispatchers.IO),
-            started = SharingStarted.Companion.WhileSubscribed(5_000),
-            initialValue = false
+            scanCoroutineScope,
+            SharingStarted.Lazily,
+            State.Disconnected()
         )
+
 
     val readCharacteristic = characteristicOf(
         service = Bluetooth.BaseUuid + 0xA3EF,
         characteristic = Bluetooth.BaseUuid + 0x87FA
     )
 
-    val scanner = Scanner {
-        filters {
-            match { services = listOf(Bluetooth.BaseUuid + 0xA3EF) }
-        }
-        logging {
-            engine = SystemLogEngine
-            level = Logging.Level.Warnings
-            format = Logging.Format.Multiline
-        }
-    }
-    val scannerFlow = scanner.advertisements
+    val writeCharacteristic = characteristicOf(
+        service = Bluetooth.BaseUuid + 0xA3EF,
+        characteristic = Bluetooth.BaseUuid + 0x4B62
+    )
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
-            selectedPeripheral
-                .filterNotNull()
-                .take(1)
-                .collect {
-                    peripheralState = it.state
-                }
-
             peripheralState.collect { state ->
-                if(state is State.Connected) {
-                    readCompanion()
-                } else if(state is State.Disconnected) {
-                    peripherals.value = emptyList()
+                when {
+                    state is State.Connected -> {
+                        println("Connected to peripheral")
+                        isConnected.value = true
+
+                        readCompanion()
+                    }
+
+                    state is State.Connecting -> isScanning.value = false
+                    state is State.Disconnected && isConnected.value -> {
+                        println("Disconnected from peripheral")
+                        isConnected.value = false
+                        peripherals.value = emptyList()
+                        selectedPeripheral.value = null
+                        currentCompanion.value = null
+                    }
+
+                    else -> {}
                 }
             }
         }
     }
 
     fun scan() {
-        CoroutineScope(Dispatchers.IO).launch {
-            scannerFlow
+        val scanner = Scanner {
+            filters {
+                match { services = listOf(Bluetooth.BaseUuid + 0xA3EF) }
+            }
+            logging {
+                engine = SystemLogEngine
+                level = Logging.Level.Warnings
+                format = Logging.Format.Multiline
+            }
+        }
+
+        scanCoroutineScope.launch {
+            scanner.advertisements
                 .onStart { isScanning.value = true }
-                .takeWhile { selectedPeripheral.value == null }
+                .onCompletion {
+                    println("Scan completed ${it ?: ""}")
+                    isScanning.value = false
+                }
                 .filter { advertisement ->
                     val someContains = peripherals.value.find { it.peripheralName == advertisement.peripheralName }
                     someContains == null
                 }
+                .takeWhile { selectedPeripheral.value == null }
                 .collect {
                     println(it)
                     peripherals.value = peripherals.value.plus(it)
@@ -105,11 +114,11 @@ object BleScanner {
             logging { level = Logging.Level.Events }
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        scanCoroutineScope.launch {
             try {
-                connectionScope = selectedPeripheral.value!!.connect()
+                selectedPeripheral.value!!.connect()
             } catch (e: Exception) {
-                println("Error connecting to peripheral: $e" )
+                println("Error connecting to peripheral: $e")
             }
         }
     }
@@ -124,11 +133,24 @@ object BleScanner {
             val result = selectedPeripheral.value?.read(readCharacteristic)
             val resultString = result?.decodeToString()
 
-            if(resultString != null) {
+            if (resultString != null) {
                 currentCompanion.value = Companion.decodeFromJson(resultString)
             }
         } catch (e: Exception) {
             println("Error reading characteristic: $e")
+        }
+    }
+
+    suspend fun writeCompanion() {
+        try {
+            selectedPeripheral.value?.write(
+                writeCharacteristic,
+                "".encodeToByteArray()
+            )
+
+            selectedPeripheral.value?.disconnect()
+        } catch (e: Exception) {
+            println("Error writing characteristic: $e")
         }
     }
 }

@@ -11,6 +11,7 @@ import fr.croumy.bouge.presentation.data.entities.CompanionEntity
 import fr.croumy.bouge.presentation.data.mappers.toCompanion
 import fr.croumy.bouge.presentation.models.companion.Stats
 import fr.croumy.bouge.presentation.models.companion.StatsUpdate
+import fr.croumy.bouge.presentation.models.shop.IShopItem
 import fr.croumy.bouge.presentation.repositories.CompanionRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -139,8 +140,11 @@ class CompanionService @Inject constructor(
         companionRepository.updateAvailability(false)
     }
 
-    fun retrieveFromDesktop() {
+    suspend fun retrieveFromDesktop(bonuses: List<IShopItem>? = null) {
         companionRepository.updateAvailability(true)
         //TODO: update stats
+        if(bonuses != null) {
+            updateHappinessStat(StatsUpdate.UP(Constants.STAT_MAX))
+        }
     }
 }

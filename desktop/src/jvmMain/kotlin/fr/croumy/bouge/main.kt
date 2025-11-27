@@ -1,7 +1,17 @@
 package fr.croumy.bouge
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -17,6 +27,9 @@ import androidx.compose.ui.window.rememberTrayState
 import androidx.compose.ui.window.rememberWindowState
 import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.ui.MainScreen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 fun main() = application {
     val companion = BleScanner.currentCompanion
@@ -30,6 +43,8 @@ fun main() = application {
     val isConnected = BleScanner.isConnected.collectAsState()
     val peripherals = BleScanner.peripherals
 
+    val coroutineScope = CoroutineScope(Dispatchers.IO)
+
     Tray(
         icon = TrayIcon,
         state = trayState,
@@ -37,16 +52,13 @@ fun main() = application {
         onAction = {},
         menu = {
             Item(
-                "Connect",
-                onClick = { BleScanner.scan() },
-                enabled = !BleScanner.isScanning.value && !isConnected.value
+                if(isConnected.value) "Disconnect" else "Connect",
+                onClick = {
+                    if(isConnected.value) coroutineScope.launch { BleScanner.writeCompanion() }
+                    else BleScanner.scan()
+                },
+                enabled = !BleScanner.isScanning.value
             )
-            peripherals.value.map {
-                Item(
-                    it.identifier.toString(),
-                    onClick = { BleScanner.connectPeripheral(it) }
-                )
-            }
 
             Item(
                 "Exit",
@@ -65,8 +77,25 @@ fun main() = application {
         resizable = false
         //visible = isVisible.value
     ) {
-        if (companion.value != null) {
-            MainScreen(companion.value!!)
+        Box(Modifier.fillMaxSize()) {
+            if (companion.value != null) {
+                MainScreen(companion.value!!)
+            } else if (BleScanner.isScanning.value) {
+                Column(
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .background(Color.White, RoundedCornerShape(10.dp))
+                ) {
+                    peripherals.value.map {
+                        TextButton(onClick = { BleScanner.connectPeripheral(it) }) {
+                            Text(
+                                it.identifier.toString(),
+                                style = MaterialTheme.typography.bodySmall
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
