@@ -4,8 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -85,8 +88,13 @@ fun main() = application {
                     Modifier
                         .align(Alignment.BottomCenter)
                         .background(Color.White, RoundedCornerShape(10.dp))
+                        .padding(5.dp)
                 ) {
-                    peripherals.value.map {
+                    if(peripherals.value.isEmpty()){
+                        CircularProgressIndicator(
+                            Modifier.size(30.dp)
+                        )
+                    } else peripherals.value.map {
                         TextButton(onClick = { BleScanner.connectPeripheral(it) }) {
                             Text(
                                 it.identifier.toString(),

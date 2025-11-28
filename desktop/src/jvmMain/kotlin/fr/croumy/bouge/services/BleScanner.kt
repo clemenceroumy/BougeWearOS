@@ -6,12 +6,14 @@ import com.juul.kable.Peripheral
 import com.juul.kable.PlatformAdvertisement
 import com.juul.kable.Scanner
 import com.juul.kable.State
+import com.juul.kable.WriteType
 import com.juul.kable.characteristicOf
 import com.juul.kable.logs.Logging
 import com.juul.kable.logs.SystemLogEngine
 import fr.croumy.bouge.core.models.companion.Companion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.filter
@@ -147,7 +149,7 @@ object BleScanner {
                 writeCharacteristic,
                 "".encodeToByteArray()
             )
-
+            delay(500L)
             selectedPeripheral.value?.disconnect()
         } catch (e: Exception) {
             println("Error writing characteristic: $e")

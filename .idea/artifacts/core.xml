@@ -1,8 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="core">
-    <output-path>/mnt/home/croumy/Documents/bouge/core/build/libs</output-path>
-    <root id="archive" name="core.jar">
-      <element id="module-output" name="Bouge.core.androidMain" />
-    </root>
+    <output-path>$PROJECT_DIR$/core/build/libs</output-path>
+    <root id="archive" name="core.jar" />
   </artifact>
 </component>
