@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -55,9 +56,9 @@ fun main() = application {
         onAction = {},
         menu = {
             Item(
-                if(isConnected.value) "Disconnect" else "Connect",
+                if (isConnected.value) "Disconnect" else "Connect",
                 onClick = {
-                    if(isConnected.value) coroutineScope.launch { BleScanner.writeCompanion() }
+                    if (isConnected.value) coroutineScope.launch { BleScanner.writeCompanion() }
                     else BleScanner.scan()
                 },
                 enabled = !BleScanner.isScanning.value
@@ -65,7 +66,12 @@ fun main() = application {
 
             Item(
                 "Exit",
-                onClick = ::exitApplication
+                onClick = {
+                    coroutineScope.launch {
+                        if(isConnected.value) BleScanner.writeCompanion()
+                        exitApplication()
+                    }
+                }
             )
         }
     )
@@ -80,26 +86,28 @@ fun main() = application {
         resizable = false
         //visible = isVisible.value
     ) {
-        Box(Modifier.fillMaxSize()) {
-            if (companion.value != null) {
-                MainScreen(companion.value!!)
-            } else if (BleScanner.isScanning.value) {
-                Column(
-                    Modifier
-                        .align(Alignment.BottomCenter)
-                        .background(Color.White, RoundedCornerShape(10.dp))
-                        .padding(5.dp)
-                ) {
-                    if(peripherals.value.isEmpty()){
-                        CircularProgressIndicator(
-                            Modifier.size(30.dp)
-                        )
-                    } else peripherals.value.map {
-                        TextButton(onClick = { BleScanner.connectPeripheral(it) }) {
-                            Text(
-                                it.identifier.toString(),
-                                style = MaterialTheme.typography.bodySmall
+        WindowDraggableArea {
+            Box(Modifier.fillMaxSize()) {
+                if (companion.value != null) {
+                    MainScreen(companion.value!!)
+                } else if (BleScanner.isScanning.value) {
+                    Column(
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .background(Color.White, RoundedCornerShape(10.dp))
+                            .padding(5.dp)
+                    ) {
+                        if (peripherals.value.isEmpty()) {
+                            CircularProgressIndicator(
+                                Modifier.size(30.dp)
                             )
+                        } else peripherals.value.map {
+                            TextButton(onClick = { BleScanner.connectPeripheral(it) }) {
+                                Text(
+                                    it.identifier.toString(),
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
                         }
                     }
                 }
