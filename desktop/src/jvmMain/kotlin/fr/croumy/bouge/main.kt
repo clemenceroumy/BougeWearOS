@@ -29,6 +29,7 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberTrayState
 import androidx.compose.ui.window.rememberWindowState
+import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.ui.MainScreen
 import kotlinx.coroutines.CoroutineScope
@@ -36,14 +37,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 fun main() = application {
-    val companion = BleScanner.currentCompanion
     val trayState = rememberTrayState()
     val windowState = rememberWindowState(
         placement = WindowPlacement.Floating,
         position = WindowPosition.Aligned(Alignment.BottomEnd),
-        size = DpSize(500.dp, 100.dp)
+        size = DpSize(Window.WIDTH.dp, Window.HEIGHT.dp)
     )
 
+    val companion = BleScanner.currentCompanion
     val isConnected = BleScanner.isConnected.collectAsState()
     val peripherals = BleScanner.peripherals
 

@@ -10,6 +10,7 @@ import com.juul.kable.WriteType
 import com.juul.kable.characteristicOf
 import com.juul.kable.logs.Logging
 import com.juul.kable.logs.SystemLogEngine
+import fr.croumy.bouge.core.mocks.companionMock
 import fr.croumy.bouge.core.models.companion.Companion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
