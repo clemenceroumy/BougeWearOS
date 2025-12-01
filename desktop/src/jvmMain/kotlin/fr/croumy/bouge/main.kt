@@ -1,21 +1,7 @@
 package fr.croumy.bouge
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.window.WindowDraggableArea
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -26,18 +12,11 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberTrayState
 import androidx.compose.ui.window.rememberWindowState
-
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.injection.appModule
-import fr.croumy.bouge.services.BleScanner
-import fr.croumy.bouge.ui.MainScreen
-import fr.croumy.bouge.ui.TrayComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import org.koin.compose.koinInject
-
+import fr.croumy.bouge.ui.StartScreen
+import fr.croumy.bouge.ui.tray.TrayComponent
 import org.koin.core.context.startKoin
 
 fun main() = application {
@@ -51,10 +30,6 @@ fun main() = application {
         size = DpSize(Window.WIDTH.dp, Window.HEIGHT.dp)
     )
 
-    val bleScanner: BleScanner = koinInject()
-    val companion = bleScanner.currentCompanion
-    val peripherals = bleScanner.peripherals
-
     TrayComponent()
 
     Window(
@@ -65,42 +40,9 @@ fun main() = application {
         undecorated = true,
         alwaysOnTop = true,
         resizable = false
-        //visible = isVisible.value
     ) {
         WindowDraggableArea {
-            Box(Modifier.fillMaxSize()) {
-                if (companion.value != null) {
-                    MainScreen(companion.value!!)
-                } else if (bleScanner.isScanning.value) {
-                    Column(
-                        Modifier
-                            .align(Alignment.BottomCenter)
-                            .background(Color.White, RoundedCornerShape(10.dp))
-                            .padding(5.dp)
-                    ) {
-                        if (peripherals.value.isEmpty()) {
-                            CircularProgressIndicator(
-                                Modifier.size(30.dp)
-                            )
-                        } else peripherals.value.map {
-                            TextButton(onClick = { bleScanner.connectPeripheral(it) }) {
-                                Text(
-                                    it.identifier.toString(),
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+            StartScreen()
         }
-    }
-}
-
-object TrayIcon : Painter() {
-    override val intrinsicSize = Size(256f, 256f)
-
-    override fun DrawScope.onDraw() {
-        drawOval(Color(0xFFFFA500))
     }
 }

@@ -1,4 +1,4 @@
-package fr.croumy.bouge.ui
+package fr.croumy.bouge.ui.main
 
 import androidx.lifecycle.ViewModel
 

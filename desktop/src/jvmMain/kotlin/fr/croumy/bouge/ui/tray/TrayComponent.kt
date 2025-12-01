@@ -1,27 +1,23 @@
-package fr.croumy.bouge.ui
+package fr.croumy.bouge.ui.tray
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.Tray
+import androidx.compose.ui.window.rememberTrayState
 import bouge.desktop.generated.resources.Res
 import bouge.desktop.generated.resources.menu_connect
 import bouge.desktop.generated.resources.menu_disconnect
 import bouge.desktop.generated.resources.menu_exit
-import fr.croumy.bouge.TrayIcon
 import fr.croumy.bouge.services.BleScanner
-import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.window.WindowPlacement
-import androidx.compose.ui.window.WindowPosition
-import androidx.compose.ui.window.rememberTrayState
-import androidx.compose.ui.window.rememberWindowState
-import fr.croumy.bouge.constants.Window
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 
@@ -60,4 +56,12 @@ fun ApplicationScope.TrayComponent(
             )
         }
     )
+}
+
+object TrayIcon : Painter() {
+    override val intrinsicSize = Size(256f, 256f)
+
+    override fun DrawScope.onDraw() {
+        drawOval(Color(0xFFFFA500))
+    }
 }

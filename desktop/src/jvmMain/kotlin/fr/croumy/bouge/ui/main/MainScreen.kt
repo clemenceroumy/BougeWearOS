@@ -1,12 +1,10 @@
-package fr.croumy.bouge.ui
+package fr.croumy.bouge.ui.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import bouge.desktop.generated.resources.Res
-import bouge.desktop.generated.resources.grass_0
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
