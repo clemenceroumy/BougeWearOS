@@ -3,6 +3,8 @@ accompanistPermissions = "0.37.3"
 agp = "8.11.0"
 datastorePreferences = "1.1.7"
 firebaseBom = "34.0.0"
+kableCore = "0.40.0"
+koinBom = "4.2.0-alpha3"
 kotlin = "2.1.20"
 coreKtx = "1.15.0"
 kotlinxSerializationJson = "1.9.0"
@@ -51,6 +53,11 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kable-core = { module = "com.juul.kable:kable-core", version.ref = "kableCore" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
+koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
+koin-core-coroutines = { module = "io.insert-koin:koin-core-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 ktor-network = { module = "io.ktor:ktor-network", version.ref = "ktorNetwork" }
 play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "playServicesWearable" }

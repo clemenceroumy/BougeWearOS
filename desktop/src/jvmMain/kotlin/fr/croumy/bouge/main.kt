@@ -22,60 +22,40 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberTrayState
 import androidx.compose.ui.window.rememberWindowState
+
 import fr.croumy.bouge.constants.Window
+import fr.croumy.bouge.injection.appModule
 import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.ui.MainScreen
+import fr.croumy.bouge.ui.TrayComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
+
+import org.koin.core.context.startKoin
 
 fun main() = application {
-    val trayState = rememberTrayState()
+    startKoin {
+        modules(appModule)
+    }
+
     val windowState = rememberWindowState(
         placement = WindowPlacement.Floating,
         position = WindowPosition.Aligned(Alignment.BottomEnd),
         size = DpSize(Window.WIDTH.dp, Window.HEIGHT.dp)
     )
 
-    val companion = BleScanner.currentCompanion
-    val isConnected = BleScanner.isConnected.collectAsState()
-    val peripherals = BleScanner.peripherals
+    val bleScanner: BleScanner = koinInject()
+    val companion = bleScanner.currentCompanion
+    val peripherals = bleScanner.peripherals
 
-    val coroutineScope = CoroutineScope(Dispatchers.IO)
-
-    Tray(
-        icon = TrayIcon,
-        state = trayState,
-        tooltip = "",
-        onAction = {},
-        menu = {
-            Item(
-                if (isConnected.value) "Disconnect" else "Connect",
-                onClick = {
-                    if (isConnected.value) coroutineScope.launch { BleScanner.writeCompanion() }
-                    else BleScanner.scan()
-                },
-                enabled = !BleScanner.isScanning.value
-            )
-
-            Item(
-                "Exit",
-                onClick = {
-                    coroutineScope.launch {
-                        if(isConnected.value) BleScanner.writeCompanion()
-                        exitApplication()
-                    }
-                }
-            )
-        }
-    )
+    TrayComponent()
 
     Window(
         onCloseRequest = ::exitApplication,
@@ -91,7 +71,7 @@ fun main() = application {
             Box(Modifier.fillMaxSize()) {
                 if (companion.value != null) {
                     MainScreen(companion.value!!)
-                } else if (BleScanner.isScanning.value) {
+                } else if (bleScanner.isScanning.value) {
                     Column(
                         Modifier
                             .align(Alignment.BottomCenter)
@@ -103,7 +83,7 @@ fun main() = application {
                                 Modifier.size(30.dp)
                             )
                         } else peripherals.value.map {
-                            TextButton(onClick = { BleScanner.connectPeripheral(it) }) {
+                            TextButton(onClick = { bleScanner.connectPeripheral(it) }) {
                                 Text(
                                     it.identifier.toString(),
                                     style = MaterialTheme.typography.bodySmall

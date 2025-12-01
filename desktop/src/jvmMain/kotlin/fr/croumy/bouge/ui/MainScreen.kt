@@ -27,10 +27,12 @@ import fr.croumy.bouge.helpers.grassAssetSize
 import fr.croumy.bouge.models.Direction
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
 
 @Composable
 fun MainScreen(
-    companion: Companion
+    companion: Companion,
+    viewModel: MainViewModel = koinInject()
 ) {
     val direction = mutableStateOf(Direction.RIGHT)
     val moveValue = remember { mutableStateOf(0f) }

@@ -1,0 +1,6 @@
+<resources>
+    <!-- MENU -->
+    <string name="menu_connect">Connect</string>
+    <string name="menu_disconnect">Disconnect</string>
+    <string name="menu_exit">Exit</string>
+</resources>

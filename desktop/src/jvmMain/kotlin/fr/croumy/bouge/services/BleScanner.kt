@@ -28,12 +28,12 @@ import kotlinx.coroutines.launch
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
-object BleScanner {
+class BleScanner {
     val scanCoroutineScope = CoroutineScope(Dispatchers.IO)
 
     val isScanning = mutableStateOf(false)
     val isConnected = MutableStateFlow(false)
-    val currentCompanion = mutableStateOf<Companion?>(null)
+    val currentCompanion = mutableStateOf<Companion?>(companionMock)
     val peripherals = mutableStateOf<List<PlatformAdvertisement>>(emptyList())
     val selectedPeripheral = MutableStateFlow<Peripheral?>(null)
     var peripheralState = selectedPeripheral
