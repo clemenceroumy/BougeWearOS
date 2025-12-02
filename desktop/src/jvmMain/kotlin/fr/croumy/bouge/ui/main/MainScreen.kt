@@ -45,6 +45,10 @@ fun MainScreen(
         }
     }
 
+    LaunchedEffect(viewModel.currentDrop.value) {
+        //TODO: animate newly dropped item
+    }
+
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.BottomCenter

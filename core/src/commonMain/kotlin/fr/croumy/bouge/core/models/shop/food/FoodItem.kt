@@ -23,7 +23,8 @@ abstract class FoodItem(
     override val description: String,
     override val price: Int,
     override val assetId: DrawableResource,
-    val statsBoost: Map<StatsType, Float>
+    val statsBoost: Map<StatsType, Float>,
+    val dropChance: Int // 1/dropChance
 ) : IShopItem {
 
     object Bread: FoodItem(
@@ -32,7 +33,8 @@ abstract class FoodItem(
         description = "",
         price = 5,
         assetId = Res.drawable.baguette,
-        statsBoost = mapOf(StatsType.HUNGRINESS to 0.25f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 0.25f),
+        dropChance = 10
     )
 
     object Egg: FoodItem(
@@ -41,7 +43,8 @@ abstract class FoodItem(
         description = "",
         price = 10,
         assetId = Res.drawable.egg,
-        statsBoost = mapOf(StatsType.HUNGRINESS to 0.75f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 0.75f),
+        dropChance = 30
     )
 
     object Onigiri: FoodItem(
@@ -50,7 +53,8 @@ abstract class FoodItem(
         description = "",
         price = 12,
         assetId = Res.drawable.onigiri,
-        statsBoost = mapOf(StatsType.HUNGRINESS to 1f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 1f),
+        dropChance = 50
     )
 
     object Drink: FoodItem(
@@ -59,7 +63,8 @@ abstract class FoodItem(
         description = "",
         price = 5,
         assetId = Res.drawable.drink,
-        statsBoost = mapOf(StatsType.HUNGRINESS to 0.25f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 0.25f),
+        dropChance = 10
     )
 
     object Dessert: FoodItem(
@@ -68,7 +73,8 @@ abstract class FoodItem(
         description = "",
         price = 12,
         assetId = Res.drawable.cake,
-        statsBoost = mapOf(StatsType.HUNGRINESS to 0.5f, StatsType.HAPPINESS to 0.25f)
+        statsBoost = mapOf(StatsType.HUNGRINESS to 0.5f, StatsType.HAPPINESS to 0.25f),
+        dropChance = 100
     )
 
     companion object {
