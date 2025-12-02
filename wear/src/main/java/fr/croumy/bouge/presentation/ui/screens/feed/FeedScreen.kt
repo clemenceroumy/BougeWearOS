@@ -27,9 +27,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
-import fr.croumy.bouge.presentation.models.shop.food.FoodItem
+import fr.croumy.bouge.core.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.screens.feed.components.FeedCompanionAnimation
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun FeedScreen(

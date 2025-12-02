@@ -1,9 +1,9 @@
 package fr.croumy.bouge.presentation.usecases.companion
 
 import fr.croumy.bouge.presentation.background.workers.WorkerHelper
-import fr.croumy.bouge.presentation.models.companion.StatsType
+import fr.croumy.bouge.core.models.companion.StatsType
 import fr.croumy.bouge.presentation.models.companion.StatsUpdate
-import fr.croumy.bouge.presentation.models.shop.food.FoodItem
+import fr.croumy.bouge.core.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.services.InventoryService
 import fr.croumy.bouge.presentation.usecases.IUseCase

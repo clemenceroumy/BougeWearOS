@@ -1,62 +1,73 @@
-package fr.croumy.bouge.presentation.models.shop.food
+package fr.croumy.bouge.core.models.shop.food
 
-import androidx.annotation.DrawableRes
-import fr.croumy.bouge.R
-import fr.croumy.bouge.presentation.models.companion.StatsType
-import fr.croumy.bouge.presentation.models.shop.IShopItem
+import bouge.core.generated.resources.Res
+import bouge.core.generated.resources.baguette
+import bouge.core.generated.resources.cake
+import bouge.core.generated.resources.drink
+import bouge.core.generated.resources.egg
+import bouge.core.generated.resources.onigiri
+import bouge.core.generated.resources.shop_food_bread
+import bouge.core.generated.resources.shop_food_dessert
+import bouge.core.generated.resources.shop_food_drink
+import bouge.core.generated.resources.shop_food_egg
+import bouge.core.generated.resources.shop_food_onigiri
+import fr.croumy.bouge.core.models.companion.StatsType
+import fr.croumy.bouge.core.models.shop.IShopItem
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 import java.util.UUID
 
 abstract class FoodItem(
     override val id: UUID,
-    override val name: Int,
+    override val name: StringResource,
     override val description: String,
     override val price: Int,
-    @DrawableRes override val assetId: Int,
+    override val assetId: DrawableResource,
     val statsBoost: Map<StatsType, Float>
 ) : IShopItem {
 
     object Bread: FoodItem(
         id = IShopItem.FOOD_BREAD_UUID,
-        name = R.string.shop_food_bread,
+        name = Res.string.shop_food_bread,
         description = "",
         price = 5,
-        assetId = R.drawable.baguette,
+        assetId = Res.drawable.baguette,
         statsBoost = mapOf(StatsType.HUNGRINESS to 0.25f)
     )
 
     object Egg: FoodItem(
         id = IShopItem.FOOD_EGG_UUID,
-        name = R.string.shop_food_egg,
+        name = Res.string.shop_food_egg,
         description = "",
         price = 10,
-        assetId = R.drawable.egg,
+        assetId = Res.drawable.egg,
         statsBoost = mapOf(StatsType.HUNGRINESS to 0.75f)
     )
 
     object Onigiri: FoodItem(
         id = IShopItem.FOOD_ONIGIRI_UUID,
-        name = R.string.shop_food_onigiri,
+        name = Res.string.shop_food_onigiri,
         description = "",
         price = 12,
-        assetId = R.drawable.onigiri,
+        assetId = Res.drawable.onigiri,
         statsBoost = mapOf(StatsType.HUNGRINESS to 1f)
     )
 
     object Drink: FoodItem(
         id = IShopItem.FOOD_DRINK_UUID,
-        name = R.string.shop_food_drink,
+        name = Res.string.shop_food_drink,
         description = "",
         price = 5,
-        assetId = R.drawable.drink,
+        assetId = Res.drawable.drink,
         statsBoost = mapOf(StatsType.HUNGRINESS to 0.25f)
     )
 
     object Dessert: FoodItem(
         id = IShopItem.FOOD_DESSERT_UUID,
-        name = R.string.shop_food_dessert,
+        name = Res.string.shop_food_dessert,
         description = "",
         price = 12,
-        assetId = R.drawable.cake,
+        assetId = Res.drawable.cake,
         statsBoost = mapOf(StatsType.HUNGRINESS to 0.5f, StatsType.HAPPINESS to 0.25f)
     )
 

@@ -1,0 +1,14 @@
+<resources>
+    <!-- SHOP -->
+    <string name="shop_food_bread">Bread</string>
+    <string name="shop_food_egg">Egg</string>
+    <string name="shop_food_onigiri">Onigiri</string>
+    <string name="shop_food_drink">Drink</string>
+    <string name="shop_food_dessert">Dessert</string>
+    <string name="shop_play_ball">Ball</string>
+    <string name="shop_background_forest">Forest</string>
+    <string name="shop_background_ocean">Ocean</string>
+    <string name="shop_background_mountain">Mountain</string>
+    <string name="shop_background_city">City</string>
+    <string name="shop_background_space">Space</string>
+</resources>

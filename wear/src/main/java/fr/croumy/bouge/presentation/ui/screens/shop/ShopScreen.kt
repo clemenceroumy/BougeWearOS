@@ -27,8 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.painterResource
@@ -37,10 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.R
-import fr.croumy.bouge.presentation.models.shop.IShopItem
-import fr.croumy.bouge.presentation.models.shop.background.BackgroundItem
-import fr.croumy.bouge.presentation.models.shop.food.FoodItem
+import fr.croumy.bouge.core.models.shop.IShopItem
+import fr.croumy.bouge.core.models.shop.background.BackgroundItem
+import fr.croumy.bouge.core.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.theme.Dimensions
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ShopScreen(

@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.presentation.theme.Dimensions
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BackgroundScreen(

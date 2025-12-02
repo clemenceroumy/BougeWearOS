@@ -2,7 +2,6 @@ package fr.croumy.bouge.presentation.data.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import fr.croumy.bouge.presentation.models.shop.IShopItem
 import java.time.ZonedDateTime
 import java.util.UUID
 

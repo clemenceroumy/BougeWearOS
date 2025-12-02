@@ -28,8 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.presentation.constants.Constants
-import fr.croumy.bouge.presentation.models.companion.StatsType
+import fr.croumy.bouge.core.models.companion.StatsType
 import fr.croumy.bouge.presentation.theme.Dimensions
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CompanionStatsScreen(
@@ -98,7 +100,7 @@ fun IconProgressBar(
 
 @Composable
 fun RowScope.IconProgress(
-    asset: Int,
+    asset: DrawableResource,
     description: String
 ) {
     Image(

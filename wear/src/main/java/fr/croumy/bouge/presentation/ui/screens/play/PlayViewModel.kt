@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.croumy.bouge.core.models.companion.Companion
-import fr.croumy.bouge.presentation.models.shop.toy.ToyItem
+import fr.croumy.bouge.core.models.shop.toy.ToyItem
 import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.usecases.companion.PlayParams
 import fr.croumy.bouge.presentation.usecases.companion.PlayUseCase

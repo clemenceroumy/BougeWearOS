@@ -1,13 +1,15 @@
-package fr.croumy.bouge.presentation.models.shop
+package fr.croumy.bouge.core.models.shop
 
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 import java.util.UUID
 
 interface IShopItem {
     val id: UUID
-    val name: Int
+    val name: StringResource
     val description: String
     val price: Int
-    val assetId: Int
+    val assetId: DrawableResource
 
     companion object {
         // ITEMS UUIDs
