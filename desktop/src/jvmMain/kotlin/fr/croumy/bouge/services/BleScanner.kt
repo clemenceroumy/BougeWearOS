@@ -33,7 +33,7 @@ class BleScanner {
 
     val isScanning = mutableStateOf(false)
     val isConnected = MutableStateFlow(false)
-    val currentCompanion = mutableStateOf<Companion?>(null)
+    val currentCompanion = mutableStateOf<Companion?>(companionMock)
     val peripherals = mutableStateOf<List<PlatformAdvertisement>>(emptyList())
     val selectedPeripheral = MutableStateFlow<Peripheral?>(null)
     var peripheralState = selectedPeripheral

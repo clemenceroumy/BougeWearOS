@@ -1,8 +1,15 @@
 package fr.croumy.bouge.ui.main
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -30,23 +37,16 @@ fun MainScreen(
     companion: Companion,
     viewModel: MainViewModel = koinInject()
 ) {
-    val direction = mutableStateOf(Direction.RIGHT)
-    val moveValue = remember { mutableStateOf(0f) }
+    val lastDrop = viewModel.currentDrop.value.lastOrNull()
 
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(800L) // ANIMATION SPEED
-            direction.value = Direction.random()
+    val isDropVisible = remember { mutableStateOf(false) }
 
-            moveValue.value = when (direction.value) {
-                Direction.LEFT -> moveValue.value - 10f
-                Direction.RIGHT -> moveValue.value + 10f
-            }
+    LaunchedEffect(lastDrop) {
+        if (lastDrop != null) {
+            isDropVisible.value = true
+            delay(800)
+            isDropVisible.value = false
         }
-    }
-
-    LaunchedEffect(viewModel.currentDrop.value) {
-        //TODO: animate newly dropped item
     }
 
     Box(
@@ -57,19 +57,34 @@ fun MainScreen(
             modifier = Modifier
                 .size(Window.HEIGHT.dp)
                 .graphicsLayer {
-                    rotationY = when (direction.value) {
+                    rotationY = when (viewModel.direction.value) {
                         Direction.LEFT -> 180f
                         Direction.RIGHT -> 0f
                     }
-                    translationX = moveValue.value
+                    translationX = viewModel.moveValue.value
                 },
             imageId = companion.type.assetIdleId,
             frameCount = companion.type.assetIdleFrame,
         )
 
+        AnimatedVisibility(
+            modifier = Modifier
+                .fillMaxHeight(1 / 2f)
+                .align(Alignment.TopCenter),
+            visible = isDropVisible.value,
+            enter = slideInVertically(tween(800)) { fullHeight -> fullHeight / 2 } + fadeIn(tween(200)),
+            exit = slideOutVertically(tween(500)) + fadeOut(),
+        ) {
+            Image(
+                painter = painterResource(lastDrop!!.assetId),
+                contentDescription = null,
+                modifier = Modifier.size(40.dp),
+                contentScale = ContentScale.FillWidth
+            )
+        }
+
         Row(
-            Modifier
-                .wrapContentWidth()
+            Modifier.wrapContentWidth()
         ) {
             grass.map {
                 Image(
