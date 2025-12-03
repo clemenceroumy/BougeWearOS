@@ -12,6 +12,6 @@ import kotlin.random.Random
 
 val grassAssets = listOf(Res.drawable.grass_0, Res.drawable.grass_1, Res.drawable.grass_2, Res.drawable.grass_3)
 
-val grass = List(size = (Window.WIDTH / Dimensions.mediumIcon) + 1) {
+val grass = List(size = (Window.WIDTH / Dimensions.mediumIcon.value.toInt()) + 1) {
     grassAssets[Random.nextInt(grassAssets.size)]
 }

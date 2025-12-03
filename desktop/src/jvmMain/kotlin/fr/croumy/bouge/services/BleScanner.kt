@@ -28,12 +28,13 @@ import kotlinx.coroutines.launch
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
-class BleScanner {
+class BleScanner(
+    val companionService: CompanionService
+) {
     val scanCoroutineScope = CoroutineScope(Dispatchers.IO)
 
     val isScanning = mutableStateOf(false)
     val isConnected = MutableStateFlow(false)
-    val currentCompanion = mutableStateOf<Companion?>(companionMock)
     val peripherals = mutableStateOf<List<PlatformAdvertisement>>(emptyList())
     val selectedPeripheral = MutableStateFlow<Peripheral?>(null)
     var peripheralState = selectedPeripheral
@@ -72,7 +73,7 @@ class BleScanner {
                         isConnected.value = false
                         peripherals.value = emptyList()
                         selectedPeripheral.value = null
-                        currentCompanion.value = null
+                        companionService.currentCompanion.value = null
                     }
 
                     else -> {}
@@ -127,7 +128,7 @@ class BleScanner {
     }
 
     suspend fun readCompanion() {
-        /*
+        /* TODO:
           * There's currently an issue with service detection on LINUX in Kable lib (cf.https://github.com/JuulLabs/kable/issues/989)
           * Due to this, reading charac fail on LINUX
           * On WINDOWS, everything works fine
@@ -137,7 +138,7 @@ class BleScanner {
             val resultString = result?.decodeToString()
 
             if (resultString != null) {
-                currentCompanion.value = Companion.decodeFromJson(resultString)
+                companionService.currentCompanion.value = Companion.decodeFromJson(resultString)
             }
         } catch (e: Exception) {
             println("Error reading characteristic: $e")

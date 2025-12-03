@@ -37,7 +37,7 @@ fun MainScreen(
     companion: Companion,
     viewModel: MainViewModel = koinInject()
 ) {
-    val lastDrop = viewModel.currentDrop.value.lastOrNull()
+    val lastDrop = viewModel.currentDrops.value.lastOrNull()
 
     val isDropVisible = remember { mutableStateOf(false) }
     val enterAnimationDuration = 800
