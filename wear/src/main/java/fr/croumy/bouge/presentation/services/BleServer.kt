@@ -97,12 +97,6 @@ class BleServer @Inject constructor(
         addCharacteristic(writeCharacteristic)
     }
 
-    init {
-        coroutineScope.launch {
-            currentCompanion = companionService.myCompanion.first()!!
-        }
-    }
-
     private val serverCallback = object : BluetoothGattServerCallback() {
         override fun onConnectionStateChange(device: BluetoothDevice?, status: Int, newState: Int) {
             super.onConnectionStateChange(device, status, newState)
@@ -132,10 +126,15 @@ class BleServer @Inject constructor(
             Log.d("BleServer", "Read request for ${characteristic.uuid}")
 
             if (characteristic.uuid == UUID.fromString(READ_CHARACTERISTIC_UUID)) {
-                val response = currentCompanion.encodeToJson().toByteArray(StandardCharsets.UTF_8)
-                companionService.sendToDesktop()
-                isSent.value = true
-                gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, response)
+                coroutineScope.launch {
+                    currentCompanion = companionService.myCompanion.first()!!
+
+                    val response = currentCompanion.encodeToJson().toByteArray(StandardCharsets.UTF_8)
+                    companionService.sendToDesktop()
+                    isSent.value = true
+
+                    gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, response)
+                }
             } else {
                 gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_FAILURE, offset, null)
             }
