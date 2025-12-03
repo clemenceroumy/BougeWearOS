@@ -12,7 +12,7 @@ import javax.inject.Singleton
 class InventoryService @Inject constructor(
     val inventoryRepository: InventoryRepository
 ) {
-    fun addItemToInventory(itemId: UUID, creditEntityId: UUID) {
+    fun addItemToInventory(itemId: UUID, creditEntityId: UUID? = null) {
         inventoryRepository.insertItem(
             InventoryEntity(
                 itemId = itemId,

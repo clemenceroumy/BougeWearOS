@@ -15,5 +15,5 @@ import java.util.UUID
 data class InventoryEntity(
     @PrimaryKey val uid: UUID = UUID.randomUUID(),
     val itemId: UUID,
-    val creditEntityId: UUID // TODO: link to specific entity as foreignKey: androidx.room.ForeignKey
+    val creditEntityId: UUID? // TODO: link to specific entity as foreignKey: androidx.room.ForeignKey
 )

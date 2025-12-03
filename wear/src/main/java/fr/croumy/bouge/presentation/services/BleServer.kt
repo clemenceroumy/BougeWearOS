@@ -19,14 +19,17 @@ import android.os.ParcelUuid
 import android.util.Log
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
+import fr.croumy.bouge.core.models.shop.food.FoodItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.uuid.Uuid
 
 class BleServer @Inject constructor(
     private val context: Context,
@@ -151,12 +154,14 @@ class BleServer @Inject constructor(
             super.onCharacteristicWriteRequest(device, requestId, characteristic, preparedWrite, responseNeeded, offset, value)
 
             if (characteristic.uuid == UUID.fromString(WRITE_CHARACTERISTIC_UUID)) {
-                val receivedString = value?.toString(StandardCharsets.UTF_8) ?: ""
-                Log.d("BleServer", "Write request received: $receivedString")
+                Log.d("BleServer", "Write request received: $value")
 
-                //TODO: Handle received data (bonuses)
                 coroutineScope.launch {
-                    companionService.retrieveFromDesktop(emptyList())
+                    val stringValue = value?.decodeToString()
+                    val dropsIds: List<String> = stringValue?.let { Json.decodeFromString<List<String>>(stringValue) } ?: emptyList()
+                    val drops = dropsIds.mapNotNull { FoodItem.fromId(UUID.fromString(it)) }
+
+                    companionService.retrieveFromDesktop(drops)
                 }
             }
         }

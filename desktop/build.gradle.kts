@@ -40,6 +40,9 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.core.coroutines)
+
+            //DATA
+            implementation(libs.kotlinx.serialization.json)
         }
     }
 }

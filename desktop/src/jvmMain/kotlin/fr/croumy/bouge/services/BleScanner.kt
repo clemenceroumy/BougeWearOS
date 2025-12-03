@@ -6,11 +6,9 @@ import com.juul.kable.Peripheral
 import com.juul.kable.PlatformAdvertisement
 import com.juul.kable.Scanner
 import com.juul.kable.State
-import com.juul.kable.WriteType
 import com.juul.kable.characteristicOf
 import com.juul.kable.logs.Logging
 import com.juul.kable.logs.SystemLogEngine
-import fr.croumy.bouge.core.mocks.companionMock
 import fr.croumy.bouge.core.models.companion.Companion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -73,7 +71,7 @@ class BleScanner(
                         isConnected.value = false
                         peripherals.value = emptyList()
                         selectedPeripheral.value = null
-                        companionService.currentCompanion.value = null
+                        companionService.resetState()
                     }
 
                     else -> {}
@@ -149,7 +147,7 @@ class BleScanner(
         try {
             selectedPeripheral.value?.write(
                 writeCharacteristic,
-                "".encodeToByteArray()
+                companionService.currentDropsToByteArray(),
             )
             delay(500L)
             selectedPeripheral.value?.disconnect()

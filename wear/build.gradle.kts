@@ -98,6 +98,9 @@ dependencies {
     //NETWORK
     implementation(libs.ktor.network)
 
+    //DATA
+    implementation(libs.kotlinx.serialization.json)
+
     //FIREBASE
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.crashlytics)
