@@ -39,7 +39,7 @@ class MainViewModel(): ViewModel() {
                     }
                 }
             }
-        }, 0, 800)
+        }, 0, 800) // 800 == AnimatedSprite animationDuration
     }
 
     private fun randomDropTimer() {

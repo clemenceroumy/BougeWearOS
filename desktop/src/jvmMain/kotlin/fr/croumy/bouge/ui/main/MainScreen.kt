@@ -26,8 +26,8 @@ import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.helpers.grass
-import fr.croumy.bouge.helpers.grassAssetSize
 import fr.croumy.bouge.models.Direction
+import fr.croumy.bouge.theme.Dimensions
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -40,11 +40,13 @@ fun MainScreen(
     val lastDrop = viewModel.currentDrop.value.lastOrNull()
 
     val isDropVisible = remember { mutableStateOf(false) }
+    val enterAnimationDuration = 800
+    val exitAnimationDuration = 500
 
     LaunchedEffect(lastDrop) {
         if (lastDrop != null) {
             isDropVisible.value = true
-            delay(800)
+            delay(enterAnimationDuration.toLong())
             isDropVisible.value = false
         }
     }
@@ -72,13 +74,13 @@ fun MainScreen(
                 .fillMaxHeight(1 / 2f)
                 .align(Alignment.TopCenter),
             visible = isDropVisible.value,
-            enter = slideInVertically(tween(800)) { fullHeight -> fullHeight / 2 } + fadeIn(tween(200)),
-            exit = slideOutVertically(tween(500)) + fadeOut(),
+            enter = slideInVertically(tween(enterAnimationDuration)) { fullHeight -> fullHeight / 2 } + fadeIn(tween(200)),
+            exit = slideOutVertically(tween(exitAnimationDuration)) + fadeOut(),
         ) {
             Image(
                 painter = painterResource(lastDrop!!.assetId),
                 contentDescription = null,
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier.size(Dimensions.mediumIcon),
                 contentScale = ContentScale.FillWidth
             )
         }
@@ -90,7 +92,7 @@ fun MainScreen(
                 Image(
                     painter = painterResource(it),
                     contentDescription = null,
-                    modifier = Modifier.size(grassAssetSize.dp),
+                    modifier = Modifier.size(Dimensions.mediumIcon),
                     contentScale = ContentScale.Crop
                 )
             }

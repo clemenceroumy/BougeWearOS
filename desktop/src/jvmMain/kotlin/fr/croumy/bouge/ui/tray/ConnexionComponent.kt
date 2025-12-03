@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -22,14 +20,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
-import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
-import androidx.compose.ui.window.rememberWindowState
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.services.BleScanner
+import fr.croumy.bouge.theme.Dimensions
 import org.koin.compose.koinInject
-import javax.swing.Box
 
 @Composable
 fun BoxScope.ConnexionComponent(
@@ -55,10 +51,10 @@ fun BoxScope.ConnexionComponent(
             Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxSize()
-                .background(Color.White, RoundedCornerShape(10.dp))
+                .background(Color.White, RoundedCornerShape(Dimensions.mediumRadius))
         ) {
             if (peripherals.value.isEmpty()) {
-                CircularProgressIndicator(Modifier.size(30.dp))
+                CircularProgressIndicator(Modifier.size(Dimensions.mediumIcon))
             } else peripherals.value.map {
                 TextButton(
                     onClick = { bleScanner.connectPeripheral(it) }
@@ -68,10 +64,10 @@ fun BoxScope.ConnexionComponent(
                             it.identifier.toString(),
                             style = MaterialTheme.typography.bodySmall
                         )
-                        Spacer(Modifier.size(5.dp))
+                        Spacer(Modifier.size(Dimensions.smallPadding))
                         if(selectedPeripheral.value?.identifier == it.identifier) {
                             CircularProgressIndicator(
-                                Modifier.size(15.dp),
+                                Modifier.size(Dimensions.smallIcon),
                                 strokeWidth = 2.dp
                             )
                         }
