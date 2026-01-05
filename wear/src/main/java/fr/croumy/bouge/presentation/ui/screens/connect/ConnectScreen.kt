@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
@@ -51,6 +52,7 @@ fun ConnectScreen(
             navController.navigate(NavRoutes.Start.route) {
                 launchSingleTop = true
             }
+            viewModel.resumeCompanionStatsWorker()
         }
     }
 

@@ -2,6 +2,7 @@ package fr.croumy.bouge.presentation.ui.screens.connect
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.croumy.bouge.presentation.background.workers.WorkerHelper
 import fr.croumy.bouge.presentation.services.BleServer
 import fr.croumy.bouge.presentation.services.CompanionService
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ConnectViewModel @Inject constructor(
     val companionService: CompanionService,
-    val bleServer: BleServer
+    val bleServer: BleServer,
+    val workerHelper: WorkerHelper
 ): ViewModel() {
     val isAdvertising = bleServer.isAdvertising
     val isConnected = bleServer.isConnected
@@ -26,6 +28,11 @@ class ConnectViewModel @Inject constructor(
     )
 
     fun connectToServer() {
+        workerHelper.pauseCompanionStatsWorker()
         bleServer.startAdvertising()
+    }
+
+    fun resumeCompanionStatsWorker() {
+        workerHelper.resumeCompanionStatsWorker()
     }
 }
