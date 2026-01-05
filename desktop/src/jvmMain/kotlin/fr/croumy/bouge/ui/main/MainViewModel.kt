@@ -48,7 +48,7 @@ class MainViewModel(
             override fun run() {
                 randomDrop()
             }
-        }, 0, 5000)
+        }, 5000, 5000)
     }
 
     private fun randomDrop() {
