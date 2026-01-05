@@ -1,6 +1,5 @@
 package fr.croumy.bouge.presentation.ui.screens.connect
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,7 +48,6 @@ fun ConnectScreen(
 
         if(!isConnected.value && hasBeenSent.value) {
             // GET NAVIGATION HISTORY BACK ON RETRIEVING COMPANION
-            Log.d("ConnectScreen", "Companion is now available")
             navController.navigate(NavRoutes.Start.route) {
                 launchSingleTop = true
             }
