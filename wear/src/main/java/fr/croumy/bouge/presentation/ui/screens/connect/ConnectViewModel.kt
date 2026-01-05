@@ -1,6 +1,5 @@
 package fr.croumy.bouge.presentation.ui.screens.connect
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.croumy.bouge.presentation.services.BleServer

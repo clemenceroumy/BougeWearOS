@@ -14,11 +14,9 @@ import android.bluetooth.le.AdvertiseCallback
 import android.bluetooth.le.AdvertiseData
 import android.bluetooth.le.AdvertiseSettings
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.ParcelUuid
 import android.util.Log
 import androidx.annotation.RequiresPermission
-import androidx.core.app.ActivityCompat
 import fr.croumy.bouge.core.models.shop.food.FoodItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +27,6 @@ import kotlinx.serialization.json.Json
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 import javax.inject.Inject
-import kotlin.uuid.Uuid
 
 class BleServer @Inject constructor(
     private val context: Context,

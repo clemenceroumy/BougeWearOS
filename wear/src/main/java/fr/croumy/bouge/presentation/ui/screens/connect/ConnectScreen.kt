@@ -1,5 +1,6 @@
 package fr.croumy.bouge.presentation.ui.screens.connect
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,24 +9,52 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
+import fr.croumy.bouge.presentation.injection.LocalNavController
+import fr.croumy.bouge.presentation.navigation.NavRoutes
+import fr.croumy.bouge.presentation.theme.Dimensions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
 fun ConnectScreen(
-    viewModel: ConnectViewModel = hiltViewModel()
+    viewModel: ConnectViewModel
 ) {
+    val navController = LocalNavController.current
+
     val companion = viewModel.companion.collectAsState()
     val isAdvertising = viewModel.isAdvertising.collectAsState()
     val isConnected = viewModel.isConnected.collectAsState()
     val isSent = viewModel.isSent.collectAsState()
+
+    val hasBeenSent = remember { mutableStateOf(false) }
+
+    LaunchedEffect(isConnected.value) {
+        if(isConnected.value) {
+            hasBeenSent.value = true
+
+            // ON CONNECTED, REMOVE BACKSTACK TO MAKE APP UNUSABLE
+            navController.navigate(NavRoutes.Connect.route) {
+                launchSingleTop = true
+                popUpTo(NavRoutes.Start.route) { inclusive = true }
+            }
+        }
+
+        if(!isConnected.value && hasBeenSent.value) {
+            // GET NAVIGATION HISTORY BACK ON RETRIEVING COMPANION
+            Log.d("ConnectScreen", "Companion is now available")
+            navController.navigate(NavRoutes.Start.route) {
+                launchSingleTop = true
+            }
+        }
+    }
 
     Column(
         Modifier.fillMaxSize(),
@@ -38,6 +67,7 @@ fun ConnectScreen(
                 imageId = companion.value!!.type.assetIdleId,
                 frameCount = companion.value!!.type.assetIdleFrame
             ) else Text("AWAY...")
+
             ElevatedButton(
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {

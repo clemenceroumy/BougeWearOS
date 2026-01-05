@@ -20,12 +20,13 @@ class StartViewModel @Inject constructor(
 ) : ViewModel() {
     val isLoading = mutableStateOf(true)
     val hasCompanion = mutableStateOf(false)
+    val isCompanionAvailable = mutableStateOf(false)
 
     init {
         this.viewModelScope.launch {
-            hasCompanion.value = companionService.myCompanion
-                .transform { emit(it != null) }
-                .first()
+            val companion = companionService.myCompanion.first()
+            hasCompanion.value = companion != null
+            isCompanionAvailable.value = companion?.available == true
             isLoading.value = false
         }
     }
