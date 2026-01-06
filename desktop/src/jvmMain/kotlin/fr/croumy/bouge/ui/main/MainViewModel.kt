@@ -48,7 +48,7 @@ class MainViewModel(
             override fun run() {
                 randomDrop()
             }
-        }, 5000, 5000)
+        }, 300000, 300000) // Every 5 minutes
     }
 
     private fun randomDrop() {
