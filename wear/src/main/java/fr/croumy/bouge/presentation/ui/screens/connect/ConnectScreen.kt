@@ -14,10 +14,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
+import fr.croumy.bouge.presentation.navigation.navigateAndPopUpTo
 import fr.croumy.bouge.presentation.theme.Dimensions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,11 +40,8 @@ fun ConnectScreen(
         if(isConnected.value) {
             hasBeenSent.value = true
 
-            // ON CONNECTED, REMOVE BACKSTACK TO MAKE APP UNUSABLE
-            navController.navigate(NavRoutes.Connect.route) {
-                launchSingleTop = true
-                popUpTo(NavRoutes.Start.route) { inclusive = true }
-            }
+            // ON CONNECTED, REMOVE BACKSTACK TO KEEP ONLY CONNECT SCREEN
+            navController.navigateAndPopUpTo(NavRoutes.Connect.route, NavRoutes.Start.route)
         }
 
         if(!isConnected.value && hasBeenSent.value) {
