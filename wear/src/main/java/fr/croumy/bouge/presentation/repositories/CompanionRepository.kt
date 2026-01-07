@@ -32,8 +32,4 @@ class CompanionRepository @Inject constructor(
     fun updateCompanionDeath(deathDate: ZonedDateTime) {
         companionDao.updateCompanionDeath(deathDate)
     }
-
-    fun updateAvailability(value: Boolean) {
-        companionDao.updateAvailability(value)
-    }
 }

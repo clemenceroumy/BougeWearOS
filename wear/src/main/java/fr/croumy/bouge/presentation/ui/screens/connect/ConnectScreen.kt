@@ -59,7 +59,7 @@ fun ConnectScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (companion.value != null) {
-            if (companion.value!!.available) AnimatedSprite(
+            if (!isConnected.value && !isSent.value) AnimatedSprite(
                 modifier = Modifier.size(Dimensions.largeIcon),
                 imageId = companion.value!!.type.assetIdleId,
                 frameCount = companion.value!!.type.assetIdleFrame
@@ -71,7 +71,7 @@ fun ConnectScreen(
                         viewModel.connectToServer()
                     }
                 },
-                enabled = companion.value!!.available && !isAdvertising.value && !isConnected.value && !isSent.value
+                enabled = !isAdvertising.value && !isConnected.value && !isSent.value
             ) {
                 Text(
                     when {

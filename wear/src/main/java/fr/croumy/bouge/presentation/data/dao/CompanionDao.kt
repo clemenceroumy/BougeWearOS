@@ -27,7 +27,4 @@ interface CompanionDao {
 
     @Query("UPDATE companions SET deathDate = :deathDate WHERE deathDate IS NULL")
     fun updateCompanionDeath(deathDate: ZonedDateTime)
-
-    @Query("UPDATE companions SET available = :value WHERE deathDate IS NULL")
-    fun updateAvailability(value: Boolean)
 }

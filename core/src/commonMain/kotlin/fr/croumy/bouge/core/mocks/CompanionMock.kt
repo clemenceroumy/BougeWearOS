@@ -9,6 +9,5 @@ val companionMock = Companion(
     type = fr.croumy.bouge.core.models.companion.CompanionType.Pig,
     birthDate = ZonedDateTime.parse("2025-11-28T10:00:00Z"),
     deathDate = null,
-    backgroundId = null,
-    available = true
+    backgroundId = null
 )

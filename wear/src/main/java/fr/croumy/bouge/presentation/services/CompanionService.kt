@@ -137,13 +137,7 @@ class CompanionService @Inject constructor(
         }
     }
 
-    fun sendToDesktop() {
-        companionRepository.updateAvailability(false)
-    }
-
     suspend fun retrieveFromDesktop(drops: List<IShopItem>? = null) {
-        companionRepository.updateAvailability(true)
-
         if(drops != null) {
             updateHappinessStat(StatsUpdate.UP(Constants.STAT_MAX))
             registerDrops(drops)

@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.croumy.bouge.presentation.services.BleServer
 import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.services.HealthService
 import kotlinx.coroutines.flow.first
@@ -16,7 +17,8 @@ import kotlin.uuid.ExperimentalUuidApi
 @HiltViewModel
 class StartViewModel @Inject constructor(
     private val healthService: HealthService,
-    private val companionService: CompanionService
+    private val companionService: CompanionService,
+    private val bleServer: BleServer
 ) : ViewModel() {
     val isLoading = mutableStateOf(true)
     val hasCompanion = mutableStateOf(false)
@@ -26,7 +28,7 @@ class StartViewModel @Inject constructor(
         this.viewModelScope.launch {
             val companion = companionService.myCompanion.first()
             hasCompanion.value = companion != null
-            isCompanionAvailable.value = companion?.available == true
+            isCompanionAvailable.value = !bleServer.isConnected.value
             isLoading.value = false
         }
     }

@@ -10,7 +10,6 @@ fun CompanionEntity.toCompanion(): Companion {
         type = CompanionType.fromString(this.type),
         birthDate = this.birthDate,
         deathDate = this.deathDate,
-        backgroundId = this.currentBackgroundUid,
-        available = this.available
+        backgroundId = this.currentBackgroundUid
     )
 }

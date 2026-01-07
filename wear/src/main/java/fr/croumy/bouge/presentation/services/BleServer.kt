@@ -27,7 +27,9 @@ import kotlinx.serialization.json.Json
 import java.nio.charset.StandardCharsets
 import java.util.UUID
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class BleServer @Inject constructor(
     private val context: Context,
     private val companionService: CompanionService,
@@ -127,7 +129,6 @@ class BleServer @Inject constructor(
                     currentCompanion = companionService.myCompanion.first()!!
 
                     val response = currentCompanion.encodeToJson().toByteArray(StandardCharsets.UTF_8)
-                    companionService.sendToDesktop()
                     isSent.value = true
 
                     gattServer?.sendResponse(device, requestId, BluetoothGatt.GATT_SUCCESS, offset, response)

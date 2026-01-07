@@ -81,22 +81,18 @@ fun HomeScreen(
                     style = MaterialTheme.typography.bodySmall
                 )
 
-                if(companion.value!!.available) {
-                    if (isWalking.value) {
-                        AnimatedSprite(
-                            Modifier.weight(1f),
-                            imageId = companion.value!!.type.assetWalkingId,
-                            frameCount = companion.value!!.type.assetWalkingFrame
-                        )
-                    } else {
-                        AnimatedSprite(
-                            Modifier.weight(1f),
-                            imageId = companion.value!!.type.assetIdleId,
-                            frameCount = companion.value!!.type.assetIdleFrame
-                        )
-                    }
+                if (isWalking.value) {
+                    AnimatedSprite(
+                        Modifier.weight(1f),
+                        imageId = companion.value!!.type.assetWalkingId,
+                        frameCount = companion.value!!.type.assetWalkingFrame
+                    )
                 } else {
-                    Text("AWAY...")
+                    AnimatedSprite(
+                        Modifier.weight(1f),
+                        imageId = companion.value!!.type.assetIdleId,
+                        frameCount = companion.value!!.type.assetIdleFrame
+                    )
                 }
             }
         }
