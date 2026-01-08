@@ -3,12 +3,13 @@ package fr.croumy.bouge.presentation.services
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import fr.croumy.bouge.core.models.companion.Companion
+import fr.croumy.bouge.core.models.companion.CompanionType
+import fr.croumy.bouge.core.models.shop.IShopItem
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.constants.KeyStore
 import fr.croumy.bouge.presentation.data.entities.CompanionEntity
 import fr.croumy.bouge.presentation.data.mappers.toCompanion
-import fr.croumy.bouge.presentation.models.companion.Companion
-import fr.croumy.bouge.presentation.models.companion.CompanionType
 import fr.croumy.bouge.presentation.models.companion.Stats
 import fr.croumy.bouge.presentation.models.companion.StatsUpdate
 import fr.croumy.bouge.presentation.repositories.CompanionRepository
@@ -28,6 +29,7 @@ import javax.inject.Singleton
 class CompanionService @Inject constructor(
     private val companionRepository: CompanionRepository,
     private val dataStore: DataStore<Preferences>,
+    private val inventoryService: InventoryService,
     private val notificationService: NotificationService
 ) {
     val myCompanion: Flow<Companion?> = companionRepository
@@ -133,5 +135,16 @@ class CompanionService @Inject constructor(
             val updatedCompanion = companion.copy(hungriness = updatedStat)
             updateStat(updatedCompanion)
         }
+    }
+
+    suspend fun retrieveFromDesktop(drops: List<IShopItem>? = null) {
+        if(drops != null) {
+            updateHappinessStat(StatsUpdate.UP(Constants.STAT_MAX))
+            registerDrops(drops)
+        }
+    }
+
+    private fun registerDrops(drops: List<IShopItem>) {
+        drops.forEach { item -> inventoryService.addItemToInventory(item.id) }
     }
 }

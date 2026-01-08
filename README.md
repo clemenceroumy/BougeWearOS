@@ -1,21 +1,36 @@
 # App (WIP)
 WearOS and mobile designed to make you move more with the help of your companion !
 
-Specs : https://any.coop/A8xiHtgiLuF3TxgiyYcZusuyjrodcJMNP7r3bKFw4AaNRZKR/specs
+## Features
+### Companion
+At first, you need to pick a companion to take care of. 
+Your companion has 3 statistics : Hungriness, Happiness and Health.
 
-# DEV INFO
-## MOCK WATCH
-Starting a walk : 
-```bash
-adb shell am broadcast -a "whs.synthetic.user.START_WALKING" com.google.android.wearable.healthservices
-```
+If one of the stat goes down to 0, your companion will unfortunately die :( Do everything you can to not let it happen !
 
-Stopping a walk : 
-```bash
-adb shell am broadcast -a "whs.synthetic.user.STOP_EXERCISE" com.google.android.wearable.healthservices
-```
+In case your companion dies, you can always restart a new adventure with another one. (You'll also be able to see your previous companion in a dedicated screen)
 
-## HEALTH SERVICES
-onNewDataPointsReceived() method delay emitting value :
-- With Service (allowing to retrieve value on Background) : at least 1 minute 
-- With Callback (only retrieve when app is in foreground) : almost immediate (for a walk, get step instantly)
+### Statistics
+- **Happiness** : to keep your companion happy, you need to :
+    - pet it, play with it, feed it treats
+    - send it to your computer, where it'll be free to wander and hopefully get back with items
+- **Hungriness** : feed it enough with items you can buy in the shop
+- **Health** : decided by how much you move through the day.
+
+### Exercises 
+Walks: The app auto detect walks you take. Credits are earned according to the number of steps done during walks and at the end of the day.
+
+### Shop
+The place where you can spend the credits you earned by doing exercises.
+You can buy food and new backgrounds.
+
+### Desktop
+
+The watch app come with a desktop companion app. If you've installed it, you can connect your computer with your watch to send your companion inside your PC and watch it stroll over your screen !
+Doing so will give your companion all its happiness hearts when it comes back.  
+Your companion might also find items from its outdoor outing, so it might be worth it to let it see outside from time to time.
+
+⚠️Your companion can be only in one place at a time. Which means that of you send it to your desktop, you won't be able to play with it on the watch.
+(When your companion's on your desktop, stats are frozen, so you won't lose happiness, hungriness or health)
+
+![Desktop Connexion Demo](./doc/desktop-connection-demo.gif)

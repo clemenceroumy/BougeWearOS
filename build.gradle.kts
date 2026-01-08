@@ -7,4 +7,19 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.composeHotReload) apply false
+    alias(libs.plugins.composeMultiplatform) apply false
+    alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.android.kotlinMultiplatform.library) apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlin
+}
+
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath(libs.kotlinx.serialization.json)
+    }
 }

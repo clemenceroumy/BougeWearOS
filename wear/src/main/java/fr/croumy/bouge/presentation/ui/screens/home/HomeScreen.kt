@@ -22,8 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.croumy.bouge.presentation.models.shop.background.BackgroundItem
-import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
+import fr.croumy.bouge.core.models.shop.background.BackgroundItem
+import fr.croumy.bouge.core.ui.components.AnimatedSprite
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun HomeScreen(

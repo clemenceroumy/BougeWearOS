@@ -42,4 +42,19 @@ class WorkerHelper @Inject constructor(
                 DailyCheckWorker.setupWork
             )
     }
+
+    fun pauseCompanionStatsWorker() {
+        WorkManager
+            .getInstance(context.applicationContext)
+            .cancelUniqueWork("decrease_hungriness")
+
+        WorkManager
+            .getInstance(context.applicationContext)
+            .cancelUniqueWork("decrease_happiness")
+    }
+
+    fun resumeCompanionStatsWorker() {
+        launchHungrinessWorker(ExistingWorkPolicy.KEEP)
+        launchHappinessWorker(ExistingWorkPolicy.KEEP)
+    }
 }

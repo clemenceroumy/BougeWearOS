@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.rememberPermissionState
 import fr.croumy.bouge.presentation.constants.KeyStore
 import fr.croumy.bouge.presentation.extensions.dataStore
@@ -32,14 +33,17 @@ fun StartScreen(
     val locationPermissionState = rememberPermissionState(PermissionService.LOCATION)
     val activityRecognitionPermissionState = rememberPermissionState(PermissionService.ACTIVITY_RECOGNITION)
     val notificationPermissionState = rememberPermissionState(PermissionService.NOTIFICATIONS)
+    val bluetoothPermissionsState = rememberMultiplePermissionsState(listOf(PermissionService.BLUETOOTH_ADVERTISE, PermissionService.BLUETOOTH_CONNECT, PermissionService.BLUETOOTH_SCAN))
 
     val locationIsGranted = locationPermissionState.status.isGranted
     val activityRecognitionIsGranted = activityRecognitionPermissionState.status.isGranted
     val notificationIsGranted = notificationPermissionState.status.isGranted || android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.TIRAMISU
+    val bluetoothIsGranted = bluetoothPermissionsState.allPermissionsGranted
 
     val isLoading = startViewModel.isLoading.value
     val hasCompanion = startViewModel.hasCompanion.value
-    val isDeadSeen = runBlocking { context.dataStore.data.map { preferences -> preferences[KeyStore.COMPANION_DEATH_SEEN] ?: false }.first() }
+    val isCompanionAvailable = startViewModel.isCompanionAvailable.value
+    val isDeadSeen = runBlocking { context.dataStore.data.map { preferences -> preferences[KeyStore.COMPANION_DEATH_SEEN] ?: true }.first() }
 
     LaunchedEffect(locationIsGranted, activityRecognitionIsGranted, notificationIsGranted, isLoading) {
         if(!activityRecognitionIsGranted) {
@@ -48,12 +52,15 @@ fun StartScreen(
             locationPermissionState.launchPermissionRequest()
         } else if(!notificationIsGranted) {
             notificationPermissionState.launchPermissionRequest()
+        } else if(!bluetoothIsGranted) {
+            bluetoothPermissionsState.launchMultiplePermissionRequest()
         } else if(!isLoading) {
             startViewModel.initHealthService()
 
             when {
-                hasCompanion -> navController.navigate(NavRoutes.Main.route)
                 !hasCompanion && !isDeadSeen -> navController.navigate(NavRoutes.DeadCompanion.route)
+                hasCompanion && !isCompanionAvailable -> navController.navigate(NavRoutes.Connect.route)
+                hasCompanion -> navController.navigate(NavRoutes.Main.route)
                 else -> navController.navigate(NavRoutes.PickCompanion.route)
             }
         }

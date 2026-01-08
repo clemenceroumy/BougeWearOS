@@ -77,5 +77,13 @@ fun MenuScreen() {
                 label = "shop"
             )
         }
+
+        item {
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { navController.navigate(NavRoutes.Connect.route) },
+                label = "connect"
+            )
+        }
     }
 }

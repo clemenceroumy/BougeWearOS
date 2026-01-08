@@ -14,4 +14,5 @@ open class NavRoutes(val route: String) {
     object Feed: NavRoutes("Feed")
     object Play: NavRoutes("Play")
     object Background: NavRoutes("Background")
+    object Connect: NavRoutes("Connect")
 }

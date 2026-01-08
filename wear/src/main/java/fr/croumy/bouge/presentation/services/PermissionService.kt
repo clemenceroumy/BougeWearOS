@@ -13,9 +13,12 @@ class PermissionService @Inject constructor(
     val context: Context
 ) {
     companion object {
-        const val LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION
-        const val ACTIVITY_RECOGNITION = android.Manifest.permission.ACTIVITY_RECOGNITION
-        const val NOTIFICATIONS = android.Manifest.permission.POST_NOTIFICATIONS
+        const val LOCATION = Manifest.permission.ACCESS_FINE_LOCATION
+        const val ACTIVITY_RECOGNITION = Manifest.permission.ACTIVITY_RECOGNITION
+        const val NOTIFICATIONS = Manifest.permission.POST_NOTIFICATIONS
+        const val BLUETOOTH_ADVERTISE = Manifest.permission.BLUETOOTH_ADVERTISE
+        const val BLUETOOTH_CONNECT = Manifest.permission.BLUETOOTH_CONNECT
+        const val BLUETOOTH_SCAN = Manifest.permission.BLUETOOTH_SCAN
     }
 
     fun isNotificationPermissionsGranted(): Boolean {
@@ -23,5 +26,10 @@ class PermissionService @Inject constructor(
             context,
             Manifest.permission.POST_NOTIFICATIONS
         ) != PackageManager.PERMISSION_GRANTED
+    }
+
+    fun isBluetoothPermissionsGranted(): Boolean {
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_ADVERTISE) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED
     }
 }

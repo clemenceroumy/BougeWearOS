@@ -1,8 +1,6 @@
 package fr.croumy.bouge.presentation.ui.screens.feed.components
 
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.Image
@@ -20,10 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
-import fr.croumy.bouge.presentation.models.companion.Companion
-import fr.croumy.bouge.presentation.models.shop.food.FoodItem
+import fr.croumy.bouge.core.models.companion.Companion
+import fr.croumy.bouge.core.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.theme.Dimensions
-import fr.croumy.bouge.presentation.ui.components.AnimatedSprite
+import fr.croumy.bouge.core.ui.components.AnimatedSprite
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun FeedCompanionAnimation(
@@ -69,7 +68,7 @@ fun FeedCompanionAnimation(
                     scaleY = scale.value
                     transformOrigin = TransformOrigin.Center
                 },
-            painter = painterResource(id = foodItem.assetId),
+            painter = painterResource(foodItem.assetId),
             contentDescription = null
         )
     }
