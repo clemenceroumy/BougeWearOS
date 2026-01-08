@@ -33,4 +33,4 @@ Your companion might also find items from its outdoor outing, so it might be wor
 ⚠️Your companion can be only in one place at a time. Which means that of you send it to your desktop, you won't be able to play with it on the watch.
 (When your companion's on your desktop, stats are frozen, so you won't lose happiness, hungriness or health)
 
-![Desktop Connexion Demo](./doc/desktop-connection-demo.mp4)
+![Desktop Connexion Demo](./doc/desktop-connection-demo.gif)
