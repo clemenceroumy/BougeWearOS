@@ -11,6 +11,9 @@ import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.services.CompanionService
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.util.Timer
 import java.util.TimerTask
 
@@ -23,14 +26,38 @@ class MainViewModel(
     val direction = mutableStateOf(Direction.RIGHT)
     val moveValue = mutableStateOf(0f)
 
+    val dropTimer = Timer()
+    val moveTimer = Timer()
 
-    init {
+    /*init {
+        moveTimer()
+        randomDropTimer()
+    }*/
+
+    // TEMP, move to init
+    fun onInit() {
+        println("MainViewModel initialized")
         moveTimer()
         randomDropTimer()
     }
 
+    // TEMP, move to onCleared
+    fun onDispose() {
+        println("MainViewModel disposed")
+        dropTimer.cancel()
+        moveTimer.cancel()
+    }
+
+    // TODO: Currently not called due to using JVM KMP ViewModel, (and apparently, main being the ViewModelStoreOwner, viewmodel does not clear before app exit)
+    /*override fun onCleared() {
+        super.onCleared()
+
+        dropTimer.cancel()
+        moveTimer.cancel()
+    }*/
+
     private fun moveTimer() {
-        Timer().scheduleAtFixedRate(object : TimerTask() {
+        moveTimer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 direction.value = Direction.random()
 
@@ -49,8 +76,7 @@ class MainViewModel(
     }
 
     private fun randomDropTimer() {
-        val timer = Timer()
-        timer.scheduleAtFixedRate(object : TimerTask() {
+        dropTimer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 randomDrop()
 

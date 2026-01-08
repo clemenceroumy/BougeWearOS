@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,16 +32,25 @@ import fr.croumy.bouge.models.Direction
 import fr.croumy.bouge.theme.Dimensions
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MainScreen(
     companion: Companion,
-    viewModel: MainViewModel = koinInject()
+    viewModelKoin: MainViewModel = koinViewModel<MainViewModel>()
 ) {
+    val viewModel = remember { viewModelKoin }
     val lastDrop = viewModel.currentDrops.value.lastOrNull()
 
     val isDropVisible = remember { mutableStateOf(false) }
+
+    DisposableEffect(Unit) {
+        viewModel.onInit()
+
+        onDispose {
+            viewModel.onDispose()
+        }
+    }
 
     LaunchedEffect(lastDrop) {
         if (lastDrop != null) {
@@ -76,12 +86,14 @@ fun MainScreen(
             enter = slideInVertically(tween(Constants.EnterAnimationDuration)) { fullHeight -> fullHeight / 2 } + fadeIn(tween(200)),
             exit = slideOutVertically(tween(Constants.ExitAnimationDuration)) + fadeOut(),
         ) {
-            Image(
-                painter = painterResource(lastDrop!!.assetId),
-                contentDescription = null,
-                modifier = Modifier.size(Dimensions.mediumIcon),
-                contentScale = ContentScale.FillWidth
-            )
+            lastDrop?.let {
+                Image(
+                    painter = painterResource(it.assetId),
+                    contentDescription = null,
+                    modifier = Modifier.size(Dimensions.mediumIcon),
+                    contentScale = ContentScale.FillWidth
+                )
+            }
         }
 
         Row(
