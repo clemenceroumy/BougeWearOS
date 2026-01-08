@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.ui.historyCompanion
+package fr.croumy.bouge.presentation.ui.screens.historyCompanion
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

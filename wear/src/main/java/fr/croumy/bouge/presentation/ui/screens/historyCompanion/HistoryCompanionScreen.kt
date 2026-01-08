@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.ui.historyCompanion
+package fr.croumy.bouge.presentation.ui.screens.historyCompanion
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
