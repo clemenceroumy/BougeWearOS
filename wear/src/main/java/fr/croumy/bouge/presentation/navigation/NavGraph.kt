@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
 import androidx.wear.compose.navigation.SwipeDismissableNavHostState
 import androidx.wear.compose.navigation.composable
-import fr.croumy.bouge.presentation.ui.historyCompanion.HistoryCompanionScreen
+import fr.croumy.bouge.presentation.ui.screens.historyCompanion.HistoryCompanionScreen
 import fr.croumy.bouge.presentation.ui.screens.MainScreen
 import fr.croumy.bouge.presentation.ui.screens.StartScreen
 import fr.croumy.bouge.presentation.ui.screens.background.BackgroundScreen

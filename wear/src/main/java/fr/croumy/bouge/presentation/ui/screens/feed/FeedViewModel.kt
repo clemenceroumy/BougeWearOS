@@ -30,7 +30,9 @@ class FeedViewModel @Inject constructor(
     }
 
     fun feedCompanion(foodItem: FoodItem) {
-        feedUseCase(FeedParams(foodItem = foodItem))
-        allFoodItems.value = inventoryService.getAllFoodItems()
+        viewModelScope.launch {
+            feedUseCase(FeedParams(foodItem = foodItem))
+            allFoodItems.value = inventoryService.getAllFoodItems()
+        }
     }
 }

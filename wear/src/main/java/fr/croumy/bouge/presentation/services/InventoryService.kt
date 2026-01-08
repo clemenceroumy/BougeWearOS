@@ -28,6 +28,7 @@ class InventoryService @Inject constructor(
     fun getAllFoodItems(): List<Pair<FoodItem, Int>> {
         return inventoryRepository.getAllItems()
             .mapNotNull { inventoryItem -> FoodItem.fromId(inventoryItem.itemId) } // Retrieve only food items
+            .sortedBy { it.id }
             .groupingBy { it }
             .eachCount()
             .toList()
