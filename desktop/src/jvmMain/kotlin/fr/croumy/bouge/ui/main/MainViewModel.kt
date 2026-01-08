@@ -2,15 +2,21 @@ package fr.croumy.bouge.ui.main
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import fr.croumy.bouge.constants.Constants
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.core.models.shop.food.FoodItem
 import fr.croumy.bouge.models.Direction
+import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.services.CompanionService
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.Timer
 import java.util.TimerTask
 
 class MainViewModel(
-    val companionService: CompanionService
+    val companionService: CompanionService,
+    val bleScanner: BleScanner
 ): ViewModel() {
     val currentDrops = companionService.currentDrops
 
@@ -47,6 +53,14 @@ class MainViewModel(
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 randomDrop()
+
+                if(companionService.currentDrops.value.isNotEmpty()) {
+                    viewModelScope.launch {
+                        // WAIT FOR ANIMATION TO END BEFORE WRITING TO THE COMPANION (AND RESETTING LIST)
+                        delay((Constants.EnterAnimationDuration + Constants.ExitAnimationDuration).toLong())
+                        bleScanner.writeCompanion()
+                    }
+                }
             }
         }, 300000, 300000) // Every 5 minutes
     }

@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import fr.croumy.bouge.constants.Constants
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
@@ -40,13 +41,11 @@ fun MainScreen(
     val lastDrop = viewModel.currentDrops.value.lastOrNull()
 
     val isDropVisible = remember { mutableStateOf(false) }
-    val enterAnimationDuration = 800
-    val exitAnimationDuration = 500
 
     LaunchedEffect(lastDrop) {
         if (lastDrop != null) {
             isDropVisible.value = true
-            delay(enterAnimationDuration.toLong())
+            delay(Constants.EnterAnimationDuration.toLong())
             isDropVisible.value = false
         }
     }
@@ -74,8 +73,8 @@ fun MainScreen(
                 .fillMaxHeight(1 / 2f)
                 .align(Alignment.TopCenter),
             visible = isDropVisible.value,
-            enter = slideInVertically(tween(enterAnimationDuration)) { fullHeight -> fullHeight / 2 } + fadeIn(tween(200)),
-            exit = slideOutVertically(tween(exitAnimationDuration)) + fadeOut(),
+            enter = slideInVertically(tween(Constants.EnterAnimationDuration)) { fullHeight -> fullHeight / 2 } + fadeIn(tween(200)),
+            exit = slideOutVertically(tween(Constants.ExitAnimationDuration)) + fadeOut(),
         ) {
             Image(
                 painter = painterResource(lastDrop!!.assetId),

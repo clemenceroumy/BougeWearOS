@@ -11,5 +11,5 @@ val appModule = module {
     singleOf(::CompanionService)
     singleOf(::BleScanner)
 
-    viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel(get(), get()) }
 }
