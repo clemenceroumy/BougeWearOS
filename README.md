@@ -7,6 +7,7 @@ I did not created the assets used in the app. So I want to thank all those arist
 - [CazBee](https://caz-bee.itch.io) for the companions assets
 - [Clockwork Raven](https://clockworkraven.itch.io) for the stat icons
 - [Alexkovacsart](https://alexkovacsart.itch.io) for the food icons
+- [Ansimuz](https://ansimuz.itch.io) for background assets
 
 ## Features
 ### Companion
