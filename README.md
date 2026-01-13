@@ -2,7 +2,7 @@
 WearOS and mobile designed to make you move more with the help of your companion !
 
 ## Designs
-WIP (currently in the making) : https://www.figma.com/design/rGU1YMy3ybbkAbWqRJYwc4/Bouge
+WIP (currently in the making) : https://www.figma.com/design/rGU1YMy3ybbkAbWqRJYwc4/Bouge?node-id=0-1&t=5emjpNU5IBg6DoIo-1
 
 ## Assets
 (NO AI ASSETS IN MY APP)
