@@ -1,13 +1,17 @@
 # Frogtasy Life
 WearOS and mobile designed to make you move more with the help of your companion !
 
+## Designs
+WIP (currently in the making) : https://www.figma.com/design/rGU1YMy3ybbkAbWqRJYwc4/Bouge
+
 ## Assets
 (NO AI ASSETS IN MY APP)
-I did not created the assets used in the app. So I want to thank all those arists for the help and works :
+I did not created myself the assets used in the app. So I want to thank all those arists for the help and works :
 - [CazBee](https://caz-bee.itch.io) for the companions assets
 - [Clockwork Raven](https://clockworkraven.itch.io) for the stat icons
 - [Alexkovacsart](https://alexkovacsart.itch.io) for the food icons
 - [Ansimuz](https://ansimuz.itch.io) for background assets
+- [Ohnoponogames](https://ohnoponogames.itch.io) for cloud assets
 
 ## Features
 ### Companion
