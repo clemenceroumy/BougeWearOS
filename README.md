@@ -12,6 +12,7 @@ I did not created myself the assets used in the app. So I want to thank all thos
 - [Alexkovacsart](https://alexkovacsart.itch.io) for the food icons
 - [Ansimuz](https://ansimuz.itch.io) for background assets
 - [Ohnoponogames](https://ohnoponogames.itch.io) for cloud assets
+- [Jamie Brownhill](https://jamiebrownhill.itch.io) for shop assets
 
 ## Features
 ### Companion
