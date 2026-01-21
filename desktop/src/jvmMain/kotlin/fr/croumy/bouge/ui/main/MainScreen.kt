@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import fr.croumy.bouge.constants.Constants
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
@@ -30,23 +32,30 @@ import fr.croumy.bouge.models.Direction
 import fr.croumy.bouge.theme.Dimensions
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MainScreen(
     companion: Companion,
-    viewModel: MainViewModel = koinInject()
+    viewModelKoin: MainViewModel = koinViewModel<MainViewModel>()
 ) {
+    val viewModel = remember { viewModelKoin }
     val lastDrop = viewModel.currentDrops.value.lastOrNull()
 
     val isDropVisible = remember { mutableStateOf(false) }
-    val enterAnimationDuration = 800
-    val exitAnimationDuration = 500
+
+    DisposableEffect(Unit) {
+        viewModel.onInit()
+
+        onDispose {
+            viewModel.onDispose()
+        }
+    }
 
     LaunchedEffect(lastDrop) {
         if (lastDrop != null) {
             isDropVisible.value = true
-            delay(enterAnimationDuration.toLong())
+            delay(Constants.EnterAnimationDuration.toLong())
             isDropVisible.value = false
         }
     }
@@ -74,15 +83,17 @@ fun MainScreen(
                 .fillMaxHeight(1 / 2f)
                 .align(Alignment.TopCenter),
             visible = isDropVisible.value,
-            enter = slideInVertically(tween(enterAnimationDuration)) { fullHeight -> fullHeight / 2 } + fadeIn(tween(200)),
-            exit = slideOutVertically(tween(exitAnimationDuration)) + fadeOut(),
+            enter = slideInVertically(tween(Constants.EnterAnimationDuration)) { fullHeight -> fullHeight / 2 } + fadeIn(tween(200)),
+            exit = slideOutVertically(tween(Constants.ExitAnimationDuration)) + fadeOut(),
         ) {
-            Image(
-                painter = painterResource(lastDrop!!.assetId),
-                contentDescription = null,
-                modifier = Modifier.size(Dimensions.mediumIcon),
-                contentScale = ContentScale.FillWidth
-            )
+            lastDrop?.let {
+                Image(
+                    painter = painterResource(it.assetId),
+                    contentDescription = null,
+                    modifier = Modifier.size(Dimensions.mediumIcon),
+                    contentScale = ContentScale.FillWidth
+                )
+            }
         }
 
         Row(

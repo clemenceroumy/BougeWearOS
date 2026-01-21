@@ -39,7 +39,7 @@ fun ApplicationScope.TrayComponent(
             Item(
                 stringResource(if (isConnected.value) Res.string.menu_disconnect else Res.string.menu_connect),
                 onClick = {
-                    if (isConnected.value) coroutineScope.launch { bleScanner.writeCompanion() }
+                    if (isConnected.value) coroutineScope.launch { bleScanner.disconnect() }
                     else bleScanner.scan()
                 },
                 enabled = !bleScanner.isScanning.value
@@ -49,7 +49,6 @@ fun ApplicationScope.TrayComponent(
                 stringResource(Res.string.menu_exit),
                 onClick = {
                     coroutineScope.launch {
-                        if(isConnected.value) bleScanner.writeCompanion()
                         exitApplication()
                     }
                 }

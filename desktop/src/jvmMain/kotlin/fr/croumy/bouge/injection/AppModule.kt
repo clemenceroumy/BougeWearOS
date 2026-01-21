@@ -10,6 +10,9 @@ import org.koin.dsl.module
 val appModule = module {
     singleOf(::CompanionService)
     singleOf(::BleScanner)
-
-    viewModel { MainViewModel(get()) }
 }
+
+val allModules = listOf(
+    appModule,
+    viewModelModule
+)

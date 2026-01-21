@@ -149,10 +149,13 @@ class BleScanner(
                 writeCharacteristic,
                 companionService.currentDropsToByteArray(),
             )
-            delay(500L)
-            selectedPeripheral.value?.disconnect()
+            companionService.currentDrops.value = emptyList()
         } catch (e: Exception) {
             println("Error writing characteristic: $e")
         }
+    }
+
+    suspend fun disconnect() {
+        selectedPeripheral.value?.disconnect()
     }
 }
