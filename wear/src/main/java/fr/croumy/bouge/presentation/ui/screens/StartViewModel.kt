@@ -23,6 +23,7 @@ class StartViewModel @Inject constructor(
     val isLoading = mutableStateOf(true)
     val hasCompanion = mutableStateOf(false)
     val isCompanionAvailable = mutableStateOf(false)
+    val hasDeadCompanion = companionService.getLastestDeadCompanion() != null
 
     init {
         this.viewModelScope.launch {
