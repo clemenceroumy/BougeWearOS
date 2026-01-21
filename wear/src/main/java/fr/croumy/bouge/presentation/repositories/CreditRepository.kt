@@ -10,7 +10,7 @@ class CreditRepository @Inject constructor(
 ) {
     private val creditDao = database.creditsDao()
 
-    fun insertCredit(creditEntity: CreditEntity) {
+    suspend fun insertCredit(creditEntity: CreditEntity) {
         return creditDao.insertCredit(creditEntity)
     }
 

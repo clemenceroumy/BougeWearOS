@@ -12,7 +12,7 @@ import javax.inject.Singleton
 class InventoryService @Inject constructor(
     val inventoryRepository: InventoryRepository
 ) {
-    fun addItemToInventory(itemId: UUID, creditEntityId: UUID? = null) {
+    suspend fun addItemToInventory(itemId: UUID, creditEntityId: UUID? = null) {
         inventoryRepository.insertItem(
             InventoryEntity(
                 itemId = itemId,
@@ -21,11 +21,11 @@ class InventoryService @Inject constructor(
         )
     }
 
-    fun useItem(itemId: UUID) {
+    suspend fun useItem(itemId: UUID) {
         inventoryRepository.removeItem(itemId)
     }
 
-    fun getAllFoodItems(): List<Pair<FoodItem, Int>> {
+    suspend fun getAllFoodItems(): List<Pair<FoodItem, Int>> {
         return inventoryRepository.getAllItems()
             .mapNotNull { inventoryItem -> FoodItem.fromId(inventoryItem.itemId) } // Retrieve only food items
             .sortedBy { it.id }
@@ -34,7 +34,7 @@ class InventoryService @Inject constructor(
             .toList()
     }
 
-    fun getAllBackgroundItems(): List<BackgroundItem> {
+    suspend fun getAllBackgroundItems(): List<BackgroundItem> {
         return inventoryRepository.getAllItems()
             .mapNotNull { inventoryItem -> BackgroundItem.fromId(inventoryItem.itemId) }
             .toList()

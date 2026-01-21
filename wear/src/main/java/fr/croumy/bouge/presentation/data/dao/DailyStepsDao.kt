@@ -10,11 +10,11 @@ import fr.croumy.bouge.presentation.data.entities.WalkEntity
 @Dao
 interface DailyStepsDao {
     @Query("SELECT * FROM dailySteps")
-    fun getAll(): List<DailyStepsEntity>
+    suspend fun getAll(): List<DailyStepsEntity>
 
     @Query("SELECT * FROM dailySteps WHERE date = :date")
-    fun getByDate(date: String): DailyStepsEntity?
+    suspend fun getByDate(date: String): DailyStepsEntity?
 
     @Insert(onConflict = REPLACE)
-    fun insert(steps: DailyStepsEntity)
+    suspend fun insert(steps: DailyStepsEntity)
 }

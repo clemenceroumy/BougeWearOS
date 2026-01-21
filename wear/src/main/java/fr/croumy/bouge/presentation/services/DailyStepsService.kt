@@ -11,7 +11,7 @@ import javax.inject.Singleton
 class DailyStepsService @Inject constructor(
     private val dailyStepsRepository: DailyStepsRepository
 ) {
-    fun insert(date: Instant, steps: Int) {
+    suspend fun insert(date: Instant, steps: Int) {
         dailyStepsRepository.insert(
             DailyStepsEntity(
                 date = date.toYYYYMMDD(),
@@ -20,7 +20,7 @@ class DailyStepsService @Inject constructor(
         )
     }
 
-    fun getTodaySteps(): Int {
+    suspend fun getTodaySteps(): Int {
         val today = Instant.now().toYYYYMMDD()
         return dailyStepsRepository.getByDate(today)?.totalSteps ?: 0
     }

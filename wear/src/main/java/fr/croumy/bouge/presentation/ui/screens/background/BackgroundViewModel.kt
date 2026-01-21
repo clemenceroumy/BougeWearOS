@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.croumy.bouge.core.models.companion.Companion
+import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.services.InventoryService
 import kotlinx.coroutines.flow.first
@@ -18,15 +19,18 @@ class BackgroundViewModel @Inject constructor(
     val companionService: CompanionService,
 ): ViewModel() {
     val companion = mutableStateOf<Companion?>(null)
-    val allBackgroundItems = mutableStateOf(inventoryService.getAllBackgroundItems())
+    val allBackgroundItems = mutableStateOf(emptyList<BackgroundItem>())
 
     init {
         viewModelScope.launch {
             companion.value = companionService.myCompanion.first()
+            allBackgroundItems.value = inventoryService.getAllBackgroundItems()
         }
     }
 
     fun selectBackground(itemId: UUID) {
-        companionService.selectBackground(itemId)
+        viewModelScope.launch {
+            companionService.selectBackground(itemId)
+        }
     }
 }

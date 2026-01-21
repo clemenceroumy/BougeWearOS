@@ -28,7 +28,7 @@ class AppModule {
             context,
             AppDatabase::class.java, "database"
         )
-        .allowMainThreadQueries()
+        //.createFromAsset("database/init-database.db")
         .build()
 
     @Provides

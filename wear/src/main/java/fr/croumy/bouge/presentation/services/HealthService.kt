@@ -19,6 +19,9 @@ import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCase
 import fr.croumy.bouge.presentation.usecases.exercises.ConvertStepsToWalkUseCaseParams
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseParams
 import fr.croumy.bouge.presentation.usecases.exercises.RegisterExerciseUseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
@@ -99,7 +102,7 @@ class HealthService @Inject constructor() : PassiveListenerService() {
             val totalStepsTime = dataPointStepDaily.getEndInstant(bootInstant)
 
             dataService.setTotalSteps(dataPointStepDaily.value.toInt())
-            dailyStepsService.insert(totalStepsTime, dataPointStepDaily.value.toInt())
+            CoroutineScope(Dispatchers.IO).launch { dailyStepsService.insert(totalStepsTime, dataPointStepDaily.value.toInt()) }
         }
 
         if (dataPoints.dataTypes.contains(DataType.STEPS)) {

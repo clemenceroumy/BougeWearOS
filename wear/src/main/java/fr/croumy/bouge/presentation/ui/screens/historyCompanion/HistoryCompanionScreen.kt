@@ -27,7 +27,7 @@ fun HistoryCompanionScreen(
     viewModel: HistoryCompanionViewModel = hiltViewModel()
 ) {
     ScalingLazyColumn {
-        items(viewModel.companions) { companion ->
+        items(viewModel.companions.value) { companion ->
             Row(
                 Modifier
                     .fillMaxWidth()

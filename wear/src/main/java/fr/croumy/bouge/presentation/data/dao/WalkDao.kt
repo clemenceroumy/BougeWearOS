@@ -10,11 +10,11 @@ import java.util.UUID
 @Dao
 interface WalkDao {
     @Query("SELECT * FROM walks")
-    fun getAll(): List<WalkEntity>
+    suspend fun getAll(): List<WalkEntity>
 
     @Insert
-    fun insert(walk: WalkEntity)
+    suspend fun insert(walk: WalkEntity)
 
     @Delete
-    fun delete(walk: WalkEntity)
+    suspend fun delete(walk: WalkEntity)
 }

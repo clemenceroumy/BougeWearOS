@@ -42,7 +42,7 @@ fun StartScreen(
 
     val isLoading = startViewModel.isLoading.value
     val hasCompanion = startViewModel.hasCompanion.value
-    val hasDeadCompanion = startViewModel.hasDeadCompanion
+    val hasDeadCompanion = startViewModel.hasDeadCompanion.value
     val isCompanionAvailable = startViewModel.isCompanionAvailable.value
     val isDeadSeen = runBlocking { context.dataStore.data.map { preferences -> preferences[KeyStore.COMPANION_DEATH_SEEN] ?: true }.first() }
 

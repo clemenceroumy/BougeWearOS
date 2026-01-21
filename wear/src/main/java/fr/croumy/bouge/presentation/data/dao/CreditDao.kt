@@ -13,5 +13,5 @@ interface CreditDao {
     fun getTotal(): Flow<Int?> // Can be null if there are entries in the table
 
     @Insert
-    fun insertCredit(credit: CreditEntity)
+    suspend fun insertCredit(credit: CreditEntity)
 }

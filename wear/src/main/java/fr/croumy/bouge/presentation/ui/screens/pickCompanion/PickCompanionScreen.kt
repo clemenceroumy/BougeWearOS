@@ -47,7 +47,6 @@ fun PickCompanionScreen(
     val navController = LocalNavController.current
     val coroutineScope = rememberCoroutineScope()
 
-
     val companions = remember { CompanionType.values }
     val selectedCompanion = remember { mutableStateOf(companions.first()) }
     val customName = remember { mutableStateOf(selectedCompanion.value.defaultName) }
@@ -121,8 +120,10 @@ fun PickCompanionScreen(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             icon = Icons.Default.Check,
             onClick = {
-                pickCompanionViewModel.selectCompanion(selectedCompanion.value, customName.value)
-                navController.navigate(NavRoutes.Main.route)
+                coroutineScope.launch {
+                    pickCompanionViewModel.selectCompanion(selectedCompanion.value, customName.value)
+                    navController.navigate(NavRoutes.Main.route)
+                }
             },
         )
     }

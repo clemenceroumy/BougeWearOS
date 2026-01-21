@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.presentation.constants.AppError
 import fr.croumy.bouge.presentation.services.CreditService
 import fr.croumy.bouge.presentation.services.InventoryService
@@ -32,8 +33,13 @@ class ShopViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = 0
     )
+    val getAlreadyPossessedBackgrounds = mutableStateOf(emptyList<BackgroundItem>())
 
-    val getAlreadyPossessedBackgrounds = mutableStateOf(inventoryService.getAllBackgroundItems())
+    init {
+        viewModelScope.launch {
+            getAlreadyPossessedBackgrounds.value = inventoryService.getAllBackgroundItems()
+        }
+    }
 
     fun buyItem(amount: Int, itemId: UUID) {
         viewModelScope.launch {
