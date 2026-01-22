@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
+import fr.croumy.bouge.presentation.theme.Dimensions
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -36,7 +37,10 @@ fun HomeScreen(
     val companion = viewModel.companion.collectAsState()
 
     if (companion.value != null) {
-        Box(Modifier.fillMaxSize()) {
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
             BackgroundItem.fromId(companion.value!!.backgroundId)?.assetId?.let {
                 Image(
                     painter = painterResource(it),
@@ -50,7 +54,6 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -80,20 +83,24 @@ fun HomeScreen(
                     companion.value!!.name,
                     style = MaterialTheme.typography.bodySmall
                 )
+            }
 
-                if (isWalking.value) {
-                    AnimatedSprite(
-                        Modifier.weight(1f),
-                        imageId = companion.value!!.type.assetWalkingId,
-                        frameCount = companion.value!!.type.assetWalkingFrame
-                    )
-                } else {
-                    AnimatedSprite(
-                        Modifier.weight(1f),
-                        imageId = companion.value!!.type.assetIdleId,
-                        frameCount = companion.value!!.type.assetIdleFrame
-                    )
-                }
+            val spriteModifier = Modifier
+                .size(Dimensions.largeIcon)
+                .padding(bottom = Dimensions.spriteBottomPadding)
+
+            if (isWalking.value) {
+                AnimatedSprite(
+                    spriteModifier,
+                    imageId = companion.value!!.type.assetWalkingId,
+                    frameCount = companion.value!!.type.assetWalkingFrame
+                )
+            } else {
+                AnimatedSprite(
+                    spriteModifier,
+                    imageId = companion.value!!.type.assetIdleId,
+                    frameCount = companion.value!!.type.assetIdleFrame
+                )
             }
         }
     }
