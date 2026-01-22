@@ -37,6 +37,9 @@ Walks: The app auto detect walks you take. Credits are earned according to the n
 The place where you can spend the credits you earned by doing exercises.
 You can buy food and new backgrounds.
 
+### Backgrounds
+With your credits, you'll be able to buy new background environment for your companion, be it sea, forest or space.
+
 ### Desktop
 
 The watch app come with a desktop companion app. If you've installed it, you can connect your computer with your watch to send your companion inside your PC and watch it stroll over your screen !
