@@ -11,7 +11,6 @@ class DailyStepsRepository @Inject constructor(
 ) {
     val dailyStepsDao = database.dailyStepsDao()
 
-    fun getAll() = dailyStepsDao.getAll()
-    fun getByDate(date: String) = dailyStepsDao.getByDate(date)
-    fun insert(steps: DailyStepsEntity) = dailyStepsDao.insert(steps)
+    suspend fun getByDate(date: String) = dailyStepsDao.getByDate(date)
+    suspend fun insert(steps: DailyStepsEntity) = dailyStepsDao.insert(steps)
 }

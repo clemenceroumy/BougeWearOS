@@ -15,21 +15,21 @@ class CompanionRepository @Inject constructor(
 
     fun getCurrentCompanion() = companionDao.getCurrentCompanion()
 
-    fun getDeadCompanions() = companionDao.getCompanionHistory()
+    suspend fun getDeadCompanions() = companionDao.getCompanionHistory()
 
-    fun insertCompanion(companionEntity: CompanionEntity) {
+    suspend fun insertCompanion(companionEntity: CompanionEntity) {
         companionDao.insertCompanion(companionEntity)
     }
 
-    fun updateCompanionBackground(backgroundUid: UUID) {
+    suspend fun updateCompanionBackground(backgroundUid: UUID) {
         companionDao.updateCompanionBackground(backgroundUid)
     }
 
-    fun updateCompanionStats(companionEntity: CompanionEntity) {
+    suspend fun updateCompanionStats(companionEntity: CompanionEntity) {
         companionDao.updateCompanionStats(companionEntity.happiness, companionEntity.hungriness, companionEntity.health)
     }
 
-    fun updateCompanionDeath(deathDate: ZonedDateTime) {
+    suspend fun updateCompanionDeath(deathDate: ZonedDateTime) {
         companionDao.updateCompanionDeath(deathDate)
     }
 }

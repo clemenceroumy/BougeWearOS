@@ -22,12 +22,14 @@ class StartViewModel @Inject constructor(
 ) : ViewModel() {
     val isLoading = mutableStateOf(true)
     val hasCompanion = mutableStateOf(false)
+    val hasDeadCompanion = mutableStateOf(false)
     val isCompanionAvailable = mutableStateOf(false)
 
     init {
         this.viewModelScope.launch {
             val companion = companionService.myCompanion.first()
             hasCompanion.value = companion != null
+            hasDeadCompanion.value = companionService.getLastestDeadCompanion() != null
             isCompanionAvailable.value = !bleServer.isConnected.value
             isLoading.value = false
         }

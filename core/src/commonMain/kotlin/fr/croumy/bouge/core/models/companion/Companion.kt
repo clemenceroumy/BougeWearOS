@@ -14,7 +14,7 @@ data class Companion(
     val type: CompanionType,
     @Serializable(KZonedDateTimeSerializer::class) val birthDate: ZonedDateTime,
     @Serializable(KZonedDateTimeSerializer::class) val deathDate: ZonedDateTime?,
-    @Serializable(KUUIDSerializer::class) val backgroundId: UUID?,
+    @Serializable(KUUIDSerializer::class) val backgroundId: UUID,
 ) {
     @Suppress("NewApi")
     val age: Int = Duration.between(birthDate, deathDate ?: ZonedDateTime.now()).toDays().toInt()

@@ -18,11 +18,11 @@ class CreditService @Inject constructor(
 ) {
     fun getTotalCredits() = creditRepository.getTotalCredits().transform { emit(it ?: 0) }
 
-    fun insertCredit(amount: Int, type: ExerciseType? = null, exerciseId: UUID? = null) {
+    suspend fun insertCredit(amount: Int, type: ExerciseType? = null, exerciseId: UUID? = null) {
         creditRepository.insertCredit(CreditEntity(value = amount, type = type, exerciseUid = exerciseId))
     }
 
-    fun spendCredit(amount: Int, shopId: UUID?): UUID {
+    suspend fun spendCredit(amount: Int, shopId: UUID?): UUID {
         val entity = CreditEntity(value = -amount, shopUid = shopId)
         creditRepository.insertCredit(entity)
 

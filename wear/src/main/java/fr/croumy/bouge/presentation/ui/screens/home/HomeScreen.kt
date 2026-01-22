@@ -37,9 +37,9 @@ fun HomeScreen(
 
     if (companion.value != null) {
         Box(Modifier.fillMaxSize()) {
-            companion.value!!.backgroundId?.let { background ->
+            BackgroundItem.fromId(companion.value!!.backgroundId)?.assetId?.let {
                 Image(
-                    painter = painterResource(BackgroundItem.fromId(background)!!.assetId),
+                    painter = painterResource(it),
                     contentDescription = "Background",
                     modifier = Modifier.fillMaxSize(),
                 )

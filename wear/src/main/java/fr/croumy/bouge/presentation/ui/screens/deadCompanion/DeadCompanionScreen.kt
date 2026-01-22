@@ -42,7 +42,7 @@ fun DeadCompanionScreen(
         }
     }
 
-    viewModel.deadCompanion?.let{ deadCompanion ->
+    viewModel.deadCompanion.value?.let{ deadCompanion ->
         Column(
             Modifier.fillMaxRectangle(),
             horizontalAlignment = Alignment.CenterHorizontally,

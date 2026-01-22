@@ -4,6 +4,7 @@ import fr.croumy.bouge.presentation.models.credit.CreditRewardType
 import fr.croumy.bouge.presentation.models.exercise.ExerciseType
 import fr.croumy.bouge.presentation.services.CreditService
 import fr.croumy.bouge.presentation.usecases.IUseCase
+import fr.croumy.bouge.presentation.usecases.IUseCaseSuspend
 import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
@@ -17,8 +18,8 @@ data class RegisterWonCreditsParams(
 
 class RegisterWonCreditsUseCase @Inject constructor(
     private val creditService: CreditService
-): IUseCase<RegisterWonCreditsParams, Unit> {
-    override fun invoke(params: RegisterWonCreditsParams?): Unit {
+): IUseCaseSuspend<RegisterWonCreditsParams, Unit> {
+    override suspend fun invoke(params: RegisterWonCreditsParams?) {
         if (params == null) {
             Timber.tag("CalculateReward").e("Params cannot be null")
             return

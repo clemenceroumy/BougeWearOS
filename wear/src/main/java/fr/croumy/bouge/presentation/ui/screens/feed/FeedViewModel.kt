@@ -21,11 +21,12 @@ class FeedViewModel @Inject constructor(
     val feedUseCase: FeedUseCase
 ): ViewModel() {
     val companion = mutableStateOf<Companion?>(null)
-    val allFoodItems = mutableStateOf(inventoryService.getAllFoodItems())
+    val allFoodItems = mutableStateOf(emptyList<Pair<FoodItem, Int>>())
 
     init {
         viewModelScope.launch {
             companion.value = companionService.myCompanion.first()
+            allFoodItems.value = inventoryService.getAllFoodItems()
         }
     }
 

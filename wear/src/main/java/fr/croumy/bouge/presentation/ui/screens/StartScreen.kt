@@ -42,6 +42,7 @@ fun StartScreen(
 
     val isLoading = startViewModel.isLoading.value
     val hasCompanion = startViewModel.hasCompanion.value
+    val hasDeadCompanion = startViewModel.hasDeadCompanion.value
     val isCompanionAvailable = startViewModel.isCompanionAvailable.value
     val isDeadSeen = runBlocking { context.dataStore.data.map { preferences -> preferences[KeyStore.COMPANION_DEATH_SEEN] ?: true }.first() }
 
@@ -58,7 +59,7 @@ fun StartScreen(
             startViewModel.initHealthService()
 
             when {
-                !hasCompanion && !isDeadSeen -> navController.navigate(NavRoutes.DeadCompanion.route)
+                !hasCompanion && hasDeadCompanion && !isDeadSeen -> navController.navigate(NavRoutes.DeadCompanion.route)
                 hasCompanion && !isCompanionAvailable -> navController.navigate(NavRoutes.Connect.route)
                 hasCompanion -> navController.navigate(NavRoutes.Main.route)
                 else -> navController.navigate(NavRoutes.PickCompanion.route)

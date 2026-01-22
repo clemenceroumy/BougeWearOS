@@ -12,15 +12,15 @@ class InventoryRepository @Inject constructor(
 ) {
     private val inventoryDao = database.inventoryDao()
 
-    fun insertItem(item: InventoryEntity) {
+    suspend fun insertItem(item: InventoryEntity) {
         inventoryDao.insertItem(item)
     }
 
-    fun removeItem(itemId: UUID) {
+    suspend fun removeItem(itemId: UUID) {
         inventoryDao.deleteItem(itemId)
     }
 
-    fun getAllItems(): List<InventoryEntity> {
+    suspend fun getAllItems(): List<InventoryEntity> {
         return inventoryDao.getAll()
     }
 }

@@ -38,15 +38,15 @@ class CompanionService @Inject constructor(
             it?.toCompanion()
         }
 
-    fun getLastestDeadCompanion(): Companion? {
+    suspend fun getLastestDeadCompanion(): Companion? {
         return companionRepository.getDeadCompanions().firstOrNull()?.toCompanion()
     }
 
-    fun getDeadCompanions(): List<Companion> {
+    suspend fun getDeadCompanions(): List<Companion> {
         return companionRepository.getDeadCompanions().map { it.toCompanion() }
     }
 
-    fun selectCompanion(companionType: CompanionType, customName: String) {
+    suspend fun selectCompanion(companionType: CompanionType, customName: String) {
         val companionEntity = CompanionEntity(
             name = customName,
             type = companionType::class.java.simpleName,
@@ -55,7 +55,7 @@ class CompanionService @Inject constructor(
         companionRepository.insertCompanion(companionEntity)
     }
 
-    fun selectBackground(itemId: UUID) {
+    suspend fun selectBackground(itemId: UUID) {
         companionRepository.updateCompanionBackground(itemId)
     }
 
@@ -91,7 +91,7 @@ class CompanionService @Inject constructor(
         }
     }
 
-    private fun updateStat(updatedCompanion: CompanionEntity) {
+    private suspend fun updateStat(updatedCompanion: CompanionEntity) {
         companionRepository.updateCompanionStats(updatedCompanion)
 
         checkIsDead(updatedCompanion)
@@ -144,7 +144,7 @@ class CompanionService @Inject constructor(
         }
     }
 
-    private fun registerDrops(drops: List<IShopItem>) {
+    private suspend fun registerDrops(drops: List<IShopItem>) {
         drops.forEach { item -> inventoryService.addItemToInventory(item.id) }
     }
 }
