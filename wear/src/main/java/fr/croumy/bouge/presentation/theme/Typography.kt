@@ -1,6 +1,7 @@
 package fr.croumy.bouge.presentation.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -11,12 +12,16 @@ val jerseyFont = FontFamily(
     Font(resId = R.font.jersey15)
 )
 fun AppTypography() = Typography(
+    displayMedium = TextStyle(
+        fontSize = 26.sp,
+        fontFamily = jerseyFont
+    ),
     bodyLarge = TextStyle(
-        fontSize = 18.sp,
+        fontSize = 20.sp,
         fontFamily = jerseyFont
     ),
     bodyMedium = TextStyle(
-        fontSize = 16.sp,
+        fontSize = 18.sp,
         fontFamily = jerseyFont
     ),
     bodySmall = TextStyle(

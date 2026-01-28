@@ -20,11 +20,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.theme.Dimensions
+import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -52,30 +55,38 @@ fun HomeScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(Dimensions.largePadding),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        Icons.AutoMirrored.Outlined.DirectionsWalk,
-                        contentDescription = "Walking Icon",
-                        Modifier.size(20.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                    Image(
+                        painterResource(R.drawable.icon_steps),
+                        contentDescription = stringResource(R.string.description_icon_walk),
                     )
-                    Text(
+                    Spacer(Modifier.size(Dimensions.xsmallPadding))
+                    OutlinedText(
                         text = totalSteps.value.toString(),
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.displayMedium
                     )
                 }
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                Text(
-                    text = "Walk: ${walks.value}",
-                    style = MaterialTheme.typography.bodySmall
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painterResource(R.drawable.icon_walk),
+                        contentDescription = stringResource(R.string.description_icon_walk)
+                    )
+                    Spacer(Modifier.size(Dimensions.xsmallPadding))
+                    OutlinedText(
+                        text = "${walks.value}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
 
                 Spacer(modifier = Modifier.width(8.dp))
 

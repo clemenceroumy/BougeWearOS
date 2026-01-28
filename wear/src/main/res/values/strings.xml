@@ -20,4 +20,8 @@
     <!-- NOTIFICATIONS -->
     <string name="notification_reboot_title">Rebooting</string>
     <string name="notification_reboot_description">The app needs to reinitialize health data tracking</string>
+
+    <!-- DESCRIPTIONS -->
+    <string name="description_icon_steps">Steps taken</string>
+    <string name="description_icon_walk">Current walk ongoing</string>
 </resources>

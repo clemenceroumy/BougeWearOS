@@ -21,7 +21,7 @@ val lightTheme = darkColorScheme(
 fun BougeTheme(
     content: @Composable () -> Unit
 ) {
-    CompositionLocalProvider(LocalContentColor provides onBackground) { // DEFAULT COLOR FOR TEXT
+    CompositionLocalProvider(LocalContentColor provides primary) { // DEFAULT COLOR FOR TEXT
         MaterialTheme(
             colorScheme = lightTheme,
             typography = AppTypography(),
