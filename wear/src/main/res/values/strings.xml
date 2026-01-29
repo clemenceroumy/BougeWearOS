@@ -10,6 +10,13 @@
     <string name="companion_good_bye">GoodBye…</string>
     <string name="companion_age">%1$d days old</string>
 
+    <!-- MENU -->
+    <string name="menu_backgrounds">Wall</string>
+    <string name="menu_deads">Deads</string>
+    <string name="menu_walks">Walks</string>
+    <string name="menu_shop">Shop</string>
+    <string name="menu_connect">Connect</string>
+
     <!-- SHOP -->
     <string name="shop_error_not_enough_credit">Not enough credit</string>
 
@@ -24,4 +31,6 @@
     <!-- DESCRIPTIONS -->
     <string name="description_icon_steps">Steps taken</string>
     <string name="description_icon_walk">Current walk ongoing</string>
+    <string name="description_cloudy_background">Cloudy background</string>
+    <string name="description_cloudy_button">Cloudy button</string>
 </resources>

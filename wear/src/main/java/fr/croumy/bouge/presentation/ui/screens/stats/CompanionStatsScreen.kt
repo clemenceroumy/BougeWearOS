@@ -2,6 +2,7 @@ package fr.croumy.bouge.presentation.ui.screens.stats
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -24,9 +25,11 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
+import fr.croumy.bouge.R
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.core.models.companion.StatsType
 import fr.croumy.bouge.presentation.theme.Dimensions
@@ -40,31 +43,40 @@ fun CompanionStatsScreen(
     val companion = viewModel.companion.collectAsState()
     val stats = viewModel.stats.collectAsState()
 
-    Column(
-        Modifier.fillMaxRectangle(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    Box(
+        Modifier.fillMaxSize()
     ) {
-        if (stats.value == null || companion.value == null) CircularProgressIndicator()
-        else Column(
-            Modifier.fillMaxSize(),
+        Image(
+            painterResource(R.drawable.background_sky_day),
+            contentDescription = stringResource(R.string.description_cloudy_background),
+        )
+
+        Column(
+            Modifier.fillMaxRectangle(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.Center
         ) {
-            Text("age: ${companion.value!!.age} days")
-            IconProgressBar(
-                progress = stats.value!!.happiness,
-                stat = StatsType.HAPPINESS
-            )
-            IconProgressBar(
-                progress = stats.value!!.hungriness,
-                stat = StatsType.HUNGRINESS
-            )
-            IconProgressBar(
-                progress = stats.value!!.health,
-                stat = StatsType.HEALTH
-            )
-            Spacer(Modifier.height(0.dp))
+            if (stats.value == null || companion.value == null) CircularProgressIndicator()
+            else Column(
+                Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("age: ${companion.value!!.age} days")
+                IconProgressBar(
+                    progress = stats.value!!.happiness,
+                    stat = StatsType.HAPPINESS
+                )
+                IconProgressBar(
+                    progress = stats.value!!.hungriness,
+                    stat = StatsType.HUNGRINESS
+                )
+                IconProgressBar(
+                    progress = stats.value!!.health,
+                    stat = StatsType.HEALTH
+                )
+                Spacer(Modifier.height(0.dp))
+            }
         }
     }
 }
