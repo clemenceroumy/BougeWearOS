@@ -8,7 +8,7 @@ object Dimensions {
     val smallPadding = 8.dp
     val mediumPadding = 16.dp
     val largePadding = 24.dp
-    val spriteBottomPadding = 60.dp
+    val spriteBottomPadding = 30.dp
 
     //RADIUS
     val mediumRadius = 16.dp
