@@ -43,11 +43,9 @@ fun Button(
     Box(
         sizeModifier
     ) {
-        Image(
-            painterResource(R.drawable.cloud_btn),
-            contentDescription = stringResource(R.string.description_cloudy_button),
+        NinePatchImage(
+            R.drawable.cloud_btn,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
         )
 
         Row(
