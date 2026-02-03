@@ -62,7 +62,7 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = Dimensions.mediumPadding)
+                        .padding(top = Dimensions.largePadding)
                         .padding(horizontal = Dimensions.smallPadding),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -72,11 +72,12 @@ fun HomeScreen(
                         Image(
                             painterResource(R.drawable.icon_steps),
                             contentDescription = stringResource(R.string.description_icon_walk),
+                            modifier = Modifier.size(Dimensions.smallIcon)
                         )
                         Spacer(Modifier.size(Dimensions.xsmallPadding))
                         OutlinedText(
                             text = totalSteps.value.toString(),
-                            style = MaterialTheme.typography.displayMedium
+                            style = MaterialTheme.typography.displayLarge
                         )
                     }
 
@@ -85,12 +86,13 @@ fun HomeScreen(
                     ) {
                         Image(
                             painterResource(R.drawable.icon_walk),
-                            contentDescription = stringResource(R.string.description_icon_walk)
+                            contentDescription = stringResource(R.string.description_icon_walk),
+                            modifier = Modifier.size(Dimensions.smallIcon)
                         )
                         Spacer(Modifier.size(Dimensions.xsmallPadding))
                         OutlinedText(
                             text = "${walks.value}",
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.displayMedium
                         )
                     }
                 }
@@ -100,12 +102,6 @@ fun HomeScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom
                 ) {
-                    OutlinedText(
-                        text = companion.value!!.name,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Spacer(modifier = Modifier.width(Dimensions.smallPadding))
-
                     val spriteModifier = Modifier.size(Dimensions.largeIcon)
 
                     if (isWalking.value) {

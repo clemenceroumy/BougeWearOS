@@ -1,6 +1,7 @@
 package fr.croumy.bouge.presentation.ui.components
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,7 +16,7 @@ import fr.croumy.bouge.presentation.theme.onPrimary
 fun OutlinedText(
     modifier: Modifier = Modifier,
     text: String,
-    style: TextStyle,
+    style: TextStyle = MaterialTheme.typography.bodySmall,
     outlineColor: Color = onPrimary,
 ) {
     Box(modifier) {

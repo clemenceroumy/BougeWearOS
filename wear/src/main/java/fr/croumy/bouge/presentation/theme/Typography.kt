@@ -12,6 +12,10 @@ val jerseyFont = FontFamily(
     Font(resId = R.font.jersey15)
 )
 fun AppTypography() = Typography(
+    displayLarge = TextStyle(
+        fontSize = 30.sp,
+        fontFamily = jerseyFont
+    ),
     displayMedium = TextStyle(
         fontSize = 26.sp,
         fontFamily = jerseyFont

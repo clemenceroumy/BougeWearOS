@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
@@ -33,6 +34,7 @@ import fr.croumy.bouge.R
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.core.models.companion.StatsType
 import fr.croumy.bouge.presentation.theme.Dimensions
+import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -59,23 +61,33 @@ fun CompanionStatsScreen(
             if (stats.value == null || companion.value == null) CircularProgressIndicator()
             else Column(
                 Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("age: ${companion.value!!.age} days")
-                IconProgressBar(
-                    progress = stats.value!!.happiness,
-                    stat = StatsType.HAPPINESS
+                OutlinedText(
+                    text = companion.value!!.name,
+                    style = MaterialTheme.typography.bodyLarge
                 )
-                IconProgressBar(
-                    progress = stats.value!!.hungriness,
-                    stat = StatsType.HUNGRINESS
+                OutlinedText(
+                    text = stringResource(R.string.companion_age, companion.value!!.age)
                 )
-                IconProgressBar(
-                    progress = stats.value!!.health,
-                    stat = StatsType.HEALTH
-                )
-                Spacer(Modifier.height(0.dp))
+                Spacer(modifier = Modifier.height(Dimensions.smallPadding))
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(Dimensions.mediumPadding)
+                ) {
+                    IconProgressBar(
+                        progress = stats.value!!.happiness,
+                        stat = StatsType.HAPPINESS
+                    )
+                    IconProgressBar(
+                        progress = stats.value!!.hungriness,
+                        stat = StatsType.HUNGRINESS
+                    )
+                    IconProgressBar(
+                        progress = stats.value!!.health,
+                        stat = StatsType.HEALTH
+                    )
+                }
             }
         }
     }
