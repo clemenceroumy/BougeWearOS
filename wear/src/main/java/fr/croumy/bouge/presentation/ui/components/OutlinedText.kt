@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.theme.onPrimary
 
@@ -18,6 +19,7 @@ fun OutlinedText(
     text: String,
     style: TextStyle = MaterialTheme.typography.bodySmall,
     outlineColor: Color = onPrimary,
+    textAlign: TextAlign = TextAlign.Start
 ) {
     Box(modifier) {
         Text(
@@ -27,12 +29,14 @@ fun OutlinedText(
                     width = Dimensions.outlineTextBorder,
                 ),
                 color = outlineColor
-            )
+            ),
+            textAlign = textAlign
         )
 
         Text(
             text = text,
             style = style,
+            textAlign = textAlign
         )
     }
 }

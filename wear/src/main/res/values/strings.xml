@@ -26,6 +26,7 @@
 
     <!-- WALKS HISTORY -->
     <string name="walks_steps">steps</string>
+    <string name="walks_steps_empty">No walks registered yet</string>
 
     <!-- NOTIFICATIONS -->
     <string name="notification_reboot_title">Rebooting</string>
