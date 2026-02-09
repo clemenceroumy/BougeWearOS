@@ -24,6 +24,9 @@
     <string name="shop_type_food">Food</string>
     <string name="shop_type_background">Background</string>
 
+    <!-- WALKS HISTORY -->
+    <string name="walks_steps">steps</string>
+
     <!-- NOTIFICATIONS -->
     <string name="notification_reboot_title">Rebooting</string>
     <string name="notification_reboot_description">The app needs to reinitialize health data tracking</string>
