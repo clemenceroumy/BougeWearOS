@@ -20,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.croumy.bouge.R
-import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
@@ -39,7 +38,7 @@ fun HomeScreen(
         Box(
             Modifier.fillMaxSize()
         ) {
-            BackgroundItem.fromId(companion.value!!.backgroundId)?.assetId?.let {
+            companion.value!!.background.assetId.let {
                 Image(
                     painter = painterResource(it),
                     contentDescription = "Background",
