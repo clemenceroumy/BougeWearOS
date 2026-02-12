@@ -80,6 +80,7 @@ fun ConnectScreen(
         ) {
             if (companion.value != null) {
                 Button(
+                    size = Dimensions.mediumBtnHeight,
                     label = when {
                         !isAdvertising.value && !isConnected.value && !isSent.value -> "Connect"
                         isAdvertising.value && !isConnected.value && !isSent.value -> "Connecting..."

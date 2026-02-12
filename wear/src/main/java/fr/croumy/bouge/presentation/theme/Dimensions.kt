@@ -16,6 +16,7 @@ object Dimensions {
     // SIZES
     val btnHeight = 48.dp
     val iconBtnHeight = 40.dp
+    val mediumBtnHeight = 34.dp
     val smallBtnHeight = 28.dp
     val largeIcon = 70.dp
     val mediumIcon = 50.dp
