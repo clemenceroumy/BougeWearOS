@@ -91,7 +91,7 @@ abstract class BackgroundItem(
     )
 
     companion object {
-        val allBackgrounds = listOf(Forest, MountainTree, MountainBush, Ocean, CityRoad, CityRoadside, CityShop, Desert)
+        val allBackgrounds by lazy { listOf(Forest, MountainTree, MountainBush, Ocean, CityRoad, CityRoadside, CityShop, Desert) }
         fun fromId(id: UUID): BackgroundItem? = allBackgrounds.firstOrNull { it.id == id }
     }
 }

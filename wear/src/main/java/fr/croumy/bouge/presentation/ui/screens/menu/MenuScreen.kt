@@ -39,7 +39,11 @@ fun MenuScreen() {
                 .padding(Dimensions.mediumPadding)
         ) {
             item {
-                Row(Modifier.fillMaxWidth()) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = Dimensions.mediumPadding)
+                ) {
                     CloudButton(
                         modifier = Modifier.weight(1f),
                         onClick = { navController.navigate(NavRoutes.Feed.route) },
