@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.wear.protolayout.modifiers.padding
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
@@ -28,6 +27,7 @@ import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.navigation.navigateAndPopUpTo
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.Button
+import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,28 +79,41 @@ fun ConnectScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (companion.value != null) {
-                Button(
-                    size = Dimensions.mediumBtnHeight,
-                    label = when {
-                        !isAdvertising.value && !isConnected.value && !isSent.value -> "Connect"
-                        isAdvertising.value && !isConnected.value && !isSent.value -> "Connecting..."
-                        !isAdvertising.value && isConnected.value && !isSent.value -> "Sending..."
-                        !isAdvertising.value && isConnected.value && isSent.value -> "Done!"
-                        else -> ""
-                    },
-                    onClick = {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            viewModel.connectToServer()
-                        }
-                    },
-                    enabled = !isAdvertising.value && !isConnected.value && !isSent.value
-                )
+                when {
+                    !isAdvertising.value && !isConnected.value && !isSent.value -> Button(
+                        size = Dimensions.mediumBtnHeight,
+                        label = stringResource(R.string.connect_connect),
+                        onClick = {
+                            CoroutineScope(Dispatchers.IO).launch {
+                                viewModel.connectToServer()
+                            }
+                        },
+                    )
+                    isAdvertising.value && !isConnected.value && !isSent.value -> OutlinedText(text = stringResource(R.string.connect_connecting))
+                    !isAdvertising.value && isConnected.value && !isSent.value -> OutlinedText(text = stringResource(R.string.connect_sending, companion.value!!.name))
+                }
 
-                if (!isConnected.value && !isSent.value) AnimatedSprite(
-                    modifier = Modifier.size(Dimensions.largeIcon),
-                    imageId = companion.value!!.type.assetIdleId,
-                    frameCount = companion.value!!.type.assetIdleFrame
-                ) else Text("AWAY...")
+                if (!isSent.value) {
+                    AnimatedSprite(
+                        modifier = Modifier.size(Dimensions.largeIcon),
+                        imageId = companion.value!!.type.assetIdleId,
+                        frameCount = companion.value!!.type.assetIdleFrame
+                    )
+                } else if(!isAdvertising.value && isConnected.value && isSent.value) {
+                    Box(
+                        contentAlignment = Alignment.TopCenter
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.wood_sign),
+                            contentDescription = stringResource(R.string.description_away_wood_sign),
+                        )
+                        Text(
+                            stringResource(R.string.connect_away),
+                            modifier = Modifier.padding(top = Dimensions.xsmallPadding),
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
+                }
             } else {
                 CircularProgressIndicator()
             }

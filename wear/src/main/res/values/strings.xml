@@ -24,6 +24,12 @@
     <string name="shop_type_food">Food</string>
     <string name="shop_type_background">Background</string>
 
+    <!-- CONNECT -->
+    <string name="connect_away">Away</string>
+    <string name="connect_connect">Connect</string>
+    <string name="connect_connecting">Connecting devices…</string>
+    <string name="connect_sending">Sending %1$s …</string>
+
     <!-- WALKS HISTORY -->
     <string name="walks_steps">steps</string>
     <string name="walks_steps_empty">No walks registered yet</string>
@@ -37,4 +43,5 @@
     <string name="description_icon_walk">Current walk ongoing</string>
     <string name="description_cloudy_background">Cloudy background</string>
     <string name="description_cloudy_button">Cloudy button</string>
+    <string name="description_away_wood_sign">A wood sign saying "away"</string>
 </resources>
