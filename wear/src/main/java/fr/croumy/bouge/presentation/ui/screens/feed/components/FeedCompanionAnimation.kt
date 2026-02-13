@@ -48,9 +48,7 @@ fun FeedCompanionAnimation(
     )
 
     Box(
-        Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+        Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         AnimatedSprite(

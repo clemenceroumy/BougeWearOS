@@ -17,6 +17,9 @@
     <string name="menu_shop">Shop</string>
     <string name="menu_connect">Connect</string>
 
+    <!-- INVENTORY -->
+    <string name="inventory_empty">Your inventory is empty</string>
+
     <!-- SHOP -->
     <string name="shop_error_not_enough_credit">Not enough credit</string>
 
