@@ -24,7 +24,7 @@ import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
-import fr.croumy.bouge.presentation.ui.components.Button
+import fr.croumy.bouge.presentation.ui.components.CloudButton
 
 @Composable
 fun DeadCompanionScreen(
@@ -65,7 +65,7 @@ fun DeadCompanionScreen(
                 style = MaterialTheme.typography.labelMedium
             )
             Spacer(Modifier.height(Dimensions.xsmallPadding))
-            Button(
+            CloudButton(
                 onClick = { opacity.floatValue = 0f },
                 label = stringResource(R.string.companion_good_bye),
                 size = Dimensions.iconBtnHeight

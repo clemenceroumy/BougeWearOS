@@ -95,7 +95,7 @@ fun PickCompanionScreen(
                             Icon(
                                 Icons.Default.Edit,
                                 contentDescription = "",
-                                modifier = Modifier.size(Dimensions.xsmallIcon)
+                                modifier = Modifier.size(Dimensions.xxsmallIcon)
                             )
                             Text(
                                 customName.value,

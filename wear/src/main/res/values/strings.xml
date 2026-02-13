@@ -10,6 +10,13 @@
     <string name="companion_good_bye">GoodBye…</string>
     <string name="companion_age">%1$d days old</string>
 
+    <!-- MENU -->
+    <string name="menu_backgrounds">Wall</string>
+    <string name="menu_deads">Deads</string>
+    <string name="menu_walks">Walks</string>
+    <string name="menu_shop">Shop</string>
+    <string name="menu_connect">Connect</string>
+
     <!-- SHOP -->
     <string name="shop_error_not_enough_credit">Not enough credit</string>
 
@@ -17,7 +24,17 @@
     <string name="shop_type_food">Food</string>
     <string name="shop_type_background">Background</string>
 
+    <!-- WALKS HISTORY -->
+    <string name="walks_steps">steps</string>
+    <string name="walks_steps_empty">No walks registered yet</string>
+
     <!-- NOTIFICATIONS -->
     <string name="notification_reboot_title">Rebooting</string>
     <string name="notification_reboot_description">The app needs to reinitialize health data tracking</string>
+
+    <!-- DESCRIPTIONS -->
+    <string name="description_icon_steps">Steps taken</string>
+    <string name="description_icon_walk">Current walk ongoing</string>
+    <string name="description_cloudy_background">Cloudy background</string>
+    <string name="description_cloudy_button">Cloudy button</string>
 </resources>

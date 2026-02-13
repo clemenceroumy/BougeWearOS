@@ -1,96 +1,76 @@
 package fr.croumy.bouge.presentation.ui.components
 
-import androidx.compose.foundation.background
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import fr.croumy.bouge.R
 import fr.croumy.bouge.presentation.theme.Dimensions
 
 @Composable
 fun Button(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    label: String,
-    icon: Int? = null,
-    size: Dp = Dimensions.btnHeight
+    label: String? = null,
+    @DrawableRes icon: Int? = null,
+    size: Dp = Dimensions.btnHeight,
+    enabled: Boolean = true
 ) {
-    BtnItem(
-        modifier,
-        onClick,
-        label,
-        icon = {
+    Box(
+        modifier = modifier
+            .clickable(enabled) { onClick() }
+            .height(size)
+            .wrapContentWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        NinePatchImage(
+            R.drawable.btn,
+            modifier = Modifier.matchParentSize(),
+        )
+
+        Row(
+            modifier = Modifier
+                .padding(horizontal = Dimensions.mediumPadding),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             icon?.let {
-                Icon(
+                Image(
                     painter = painterResource(id = icon),
                     contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(vertical = 12.dp)
+                        .aspectRatio(1f)
                 )
             }
-        },
-        size = size
-    )
-}
 
-@Composable
-fun Button(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    label: String,
-    icon: ImageVector?,
-    size: Dp = Dimensions.btnHeight
-) {
-    BtnItem(
-        modifier,
-        onClick,
-        label,
-        icon = {
-            icon?.let {
-                Icon(
-                    imageVector = it,
-                    contentDescription = null,
-                )
+            if(icon != null && label != null) {
+                Spacer(Modifier.width(Dimensions.xsmallPadding))
             }
-        },
-        size = size
-    )
-}
 
-@Composable
-fun BtnItem(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    label: String,
-    icon: @Composable () -> Unit = {},
-    size: Dp
-) {
-    Row(
-        modifier = modifier
-            .height(size)
-            .fillMaxWidth()
-            .background(
-                brush = Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)),
-                shape = RoundedCornerShape(Dimensions.mediumRadius)
-            )
-            .clickable { onClick() },
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        icon()
-        Text(
-            text = label
-        )
+            label?.let { Text(
+                text = label,
+                color = MaterialTheme.colorScheme.onBackground
+            ) }
+        }
     }
 }
 

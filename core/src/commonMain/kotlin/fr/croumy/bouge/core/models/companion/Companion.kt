@@ -1,5 +1,6 @@
 package fr.croumy.bouge.core.models.companion
 
+import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.core.utils.serializer.KUUIDSerializer
 import fr.croumy.bouge.core.utils.serializer.KZonedDateTimeSerializer
 import kotlinx.serialization.Serializable
@@ -18,6 +19,7 @@ data class Companion(
 ) {
     @Suppress("NewApi")
     val age: Int = Duration.between(birthDate, deathDate ?: ZonedDateTime.now()).toDays().toInt()
+    val background: BackgroundItem get() = BackgroundItem.fromId(backgroundId) ?: BackgroundItem.MountainTree
 
     fun encodeToJson(): String {
         return Json.encodeToString(this)
