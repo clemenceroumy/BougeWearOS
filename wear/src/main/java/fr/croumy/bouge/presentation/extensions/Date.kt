@@ -31,3 +31,7 @@ fun Instant.toYYYYMMDD(): String {
 fun ZonedDateTime.asString(): String {
     return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(this)
 }
+
+fun ZonedDateTime.toYYYYMMDD(): String {
+    return DateTimeFormatter.ofPattern("yy/MM/dd").format(this)
+}

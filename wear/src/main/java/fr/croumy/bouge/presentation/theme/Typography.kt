@@ -20,6 +20,10 @@ fun AppTypography() = Typography(
         fontSize = 26.sp,
         fontFamily = jerseyFont
     ),
+    displaySmall = TextStyle(
+        fontSize = 22.sp,
+        fontFamily = jerseyFont
+    ),
     bodyLarge = TextStyle(
         fontSize = 20.sp,
         fontFamily = jerseyFont

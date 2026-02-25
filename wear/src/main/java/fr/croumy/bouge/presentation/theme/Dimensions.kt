@@ -24,6 +24,7 @@ object Dimensions {
     val smallIcon = 30.dp
     val xsmallIcon = 20.dp
     val xxsmallIcon = 15.dp
+    val xxxsmallIcon = 10.dp
 
     // BORDERS
     val outlineTextBorder = 5.0f
