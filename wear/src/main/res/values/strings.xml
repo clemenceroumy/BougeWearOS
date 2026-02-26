@@ -39,6 +39,10 @@
     <string name="walks_steps">steps</string>
     <string name="walks_steps_empty">No walks registered yet</string>
 
+    <!-- COMPANIONS HISTORY -->
+    <string name="companions_dead_empty">No companions dead yet :D</string>
+    <string name="companions_dead_total">%1$s dead</string>
+
     <!-- NOTIFICATIONS -->
     <string name="notification_reboot_title">Rebooting</string>
     <string name="notification_reboot_description">The app needs to reinitialize health data tracking</string>
