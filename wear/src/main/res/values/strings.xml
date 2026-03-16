@@ -57,4 +57,5 @@
     <string name="description_away_wood_sign">A wood sign saying "away"</string>
     <string name="description_chair">chair</string>
     <string name="description_table">table</string>
+    <string name="description_selected_wallpaper">Selected wallpaper</string>
 </resources>
