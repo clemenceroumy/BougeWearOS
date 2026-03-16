@@ -14,6 +14,8 @@ import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -39,21 +41,22 @@ fun PlayScreen(
     playItem: ToyItem = ToyItem.Ball
 ) {
     val navController = LocalNavController.current
-    val screenHeight = LocalConfiguration.current.smallestScreenWidthDp
+    val screenHeight = LocalConfiguration.current.smallestScreenWidthDp / 2
 
     val companion = viewModel.companion.value
     val ballY = remember { mutableFloatStateOf(0f) }
     val ballThrown = remember { mutableStateOf(false) }
+    val animationDuration = 800
 
     LaunchedEffect(ballY.floatValue) {
-        if(ballY.floatValue < -30f && !ballThrown.value) {
+        if (ballY.floatValue < -30f && !ballThrown.value) {
             ballThrown.value = true
         }
     }
 
     LaunchedEffect(ballThrown.value) {
-        if(ballThrown.value) {
-            delay(1100) // Animation duration
+        if (ballThrown.value) {
+            delay(animationDuration + 100L) // Animation duration
             viewModel.play(playItem)
             navController.popBackStack()
         }
@@ -61,32 +64,38 @@ fun PlayScreen(
 
     companion?.let {
         Box(
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+            Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+            Image(
+                painterResource(companion.background.assetId),
+                contentDescription = "",
+            )
+
             AnimatedSprite(
-                modifier = Modifier.fillMaxSize(),
-                imageId = companion.type.assetIdleId,
-                frameCount = companion.type.assetIdleFrame,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .size(Dimensions.largeIcon)
+                    .offset(y = -Dimensions.spriteBottomPadding),
+                imageId = if(ballThrown.value) companion.type.assetWalkingId else companion.type.assetIdleId,
+                frameCount = if(ballThrown.value) companion.type.assetWalkingFrame else companion.type.assetIdleFrame,
             )
 
             AnimatedVisibility(
                 visible = !ballThrown.value,
                 enter = EnterTransition.None,
                 exit = slideOutVertically(
-                    animationSpec = tween(1000, easing = LinearEasing),
+                    animationSpec = tween(animationDuration, easing = LinearEasing),
                     targetOffsetY = { fullHeight -> -screenHeight }
                 ) + scaleOut(
-                    animationSpec = tween(1000, 100),
-                    targetScale = 0.2f
+                    animationSpec = tween(animationDuration, 100),
+                    targetScale = 0.5f
                 ),
                 modifier = Modifier.align(Alignment.BottomCenter)
             ) {
                 Image(
                     modifier = Modifier
-                        .size(Dimensions.largeIcon)
+                        .size(Dimensions.mediumIcon)
                         .aspectRatio(1f)
                         .draggable(
                             orientation = Orientation.Vertical,
