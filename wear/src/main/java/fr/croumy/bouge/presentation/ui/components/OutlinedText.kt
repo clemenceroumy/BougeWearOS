@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.theme.onPrimary
 
@@ -19,24 +20,29 @@ fun OutlinedText(
     text: String,
     style: TextStyle = MaterialTheme.typography.bodySmall,
     outlineColor: Color = onPrimary,
-    textAlign: TextAlign = TextAlign.Start
+    textAlign: TextAlign = TextAlign.Start,
+    maxLine: Int = Int.MAX_VALUE
 ) {
     Box(modifier) {
         Text(
             text = text,
             style = style.copy(
                 drawStyle = Stroke(
-                    width = Dimensions.outlineTextBorder,
+                    width = (style.fontSize.value *  Dimensions.outlineTextBorder) / MaterialTheme.typography.bodySmall.fontSize.value,
                 ),
                 color = outlineColor
             ),
-            textAlign = textAlign
+            textAlign = textAlign,
+            maxLines = maxLine,
+            overflow = TextOverflow.Ellipsis
         )
 
         Text(
             text = text,
             style = style,
-            textAlign = textAlign
+            textAlign = textAlign,
+            maxLines = maxLine,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

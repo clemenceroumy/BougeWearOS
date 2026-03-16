@@ -6,10 +6,12 @@
     <string name="common_refresh">Refresh</string>
 
     <!-- COMPANION -->
-    <string name="companion_dead_desc">Oh no, your companion is dead :\'(</string>
+    <string name="companion_dead_desc">Oh no, your companion %1$s is dead :\'(</string>
     <string name="companion_good_bye">GoodBye…</string>
     <string name="companion_age">%1$d days old</string>
     <string name="companion_days_old">days old</string>
+    <string name="companion_pick">Pick</string>
+    <string name="companion_ten_car_max">10 max.</string>
 
     <!-- MENU -->
     <string name="menu_backgrounds">Wall</string>
