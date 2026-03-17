@@ -26,7 +26,7 @@ abstract class ToyItem(
     )
 
     companion object {
-        val allPlayItems = listOf(Ball)
+        val allPlayItems by lazy { listOf(Ball) }
         fun fromId(id: UUID): ToyItem? = allPlayItems.firstOrNull { it.id == id }
     }
 }

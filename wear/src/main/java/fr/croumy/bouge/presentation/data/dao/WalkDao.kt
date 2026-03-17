@@ -9,7 +9,7 @@ import java.util.UUID
 
 @Dao
 interface WalkDao {
-    @Query("SELECT * FROM walks")
+    @Query("SELECT * FROM walks ORDER BY start_timestamp DESC")
     suspend fun getAll(): List<WalkEntity>
 
     @Insert

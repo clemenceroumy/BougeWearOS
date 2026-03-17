@@ -10,7 +10,7 @@ import java.util.UUID
 @Dao
 interface InventoryDao {
     companion object {
-        val INSERT_DEFAULT_BACKGROUND = "INSERT INTO inventory (uid, itemId) VALUES ('${BackgroundItem.Mountain.id}','${BackgroundItem.Mountain.id}')"
+        val INSERT_DEFAULT_BACKGROUND = "INSERT INTO inventory (uid, itemId) VALUES ('${BackgroundItem.MountainTree.id}','${BackgroundItem.MountainTree.id}')"
     }
 
     @Query("SELECT * FROM inventory")

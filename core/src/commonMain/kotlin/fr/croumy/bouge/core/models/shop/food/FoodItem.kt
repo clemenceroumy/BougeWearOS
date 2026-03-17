@@ -78,7 +78,7 @@ abstract class FoodItem(
     )
 
     companion object {
-        val allFood = listOf(Bread, Egg, Onigiri, Drink, Dessert)
+        val allFood by lazy { listOf(Bread, Egg, Onigiri, Drink, Dessert) }
         fun fromId(id: UUID): FoodItem? = allFood.firstOrNull { it.id == id }
     }
 }

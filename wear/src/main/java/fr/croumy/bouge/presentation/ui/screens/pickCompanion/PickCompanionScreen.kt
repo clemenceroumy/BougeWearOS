@@ -1,22 +1,22 @@
 package fr.croumy.bouge.presentation.ui.screens.pickCompanion
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowLeft
-import androidx.compose.material.icons.automirrored.filled.ArrowRight
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,18 +26,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.companion.CompanionType
+import fr.croumy.bouge.core.models.shop.background.BackgroundItem
+import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.extensions.fillMaxRectangleWidth
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.theme.Dimensions
-import fr.croumy.bouge.core.ui.components.AnimatedSprite
+import fr.croumy.bouge.presentation.ui.components.Button
 import fr.croumy.bouge.presentation.ui.components.IconButton
+import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.screens.pickCompanion.components.RenameCompanion
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,85 +68,103 @@ fun PickCompanionScreen(
         customName.value = selectedCompanion.value.defaultName
     }
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(vertical = Dimensions.smallPadding)
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Row(
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(BackgroundItem.MountainTree.assetId),
+            contentDescription = "",
+        )
+
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = Dimensions.xsmallPadding)
-                .weight(1f),
-            verticalAlignment = Alignment.CenterVertically,
+                .fillMaxSize()
+                .padding(top = Dimensions.mediumPadding),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            ArrowBtn(Icons.AutoMirrored.Filled.ArrowLeft) {
-                val prevPage = if (pagerState.currentPage == 0) pagerState.pageCount else pagerState.currentPage - 1
-                coroutineScope.launch { pagerState.animateScrollToPage(prevPage) }
-            }
-            HorizontalPager(
-                modifier = Modifier.weight(1f),
-                state = pagerState
+            Button(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                label = stringResource(R.string.companion_pick),
+                size = Dimensions.mediumBtnHeight,
+                onClick = {
+                    coroutineScope.launch {
+                        pickCompanionViewModel.selectCompanion(selectedCompanion.value, customName.value)
+                        navController.navigate(NavRoutes.Main.route)
+                    }
+                },
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(horizontal = Dimensions.xsmallPadding)
+                    .padding(bottom = Dimensions.spriteBottomPadding),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceBetween,
+                ArrowBtn(R.drawable.arrow_left) {
+                    val prevPage = if (pagerState.currentPage == 0) pagerState.pageCount else pagerState.currentPage - 1
+                    coroutineScope.launch { pagerState.animateScrollToPage(prevPage) }
+                }
+                HorizontalPager(
+                    modifier = Modifier.weight(1f),
+                    state = pagerState
                 ) {
-                    RenameCompanion(customName) {
-                        Row(
-                            modifier = Modifier.fillMaxRectangleWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Bottom,
+                    ) {
+                        Column(
+                            horizontalAlignment = Alignment.End
                         ) {
-                            Icon(
-                                Icons.Default.Edit,
-                                contentDescription = "",
-                                modifier = Modifier.size(Dimensions.xsmallIcon)
-                            )
-                            Text(
-                                customName.value,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                            RenameCompanion(customName) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Image(
+                                        painterResource(id = R.drawable.icon_rename),
+                                        contentDescription = "",
+                                        modifier = Modifier.size(Dimensions.xsmallIcon)
+                                    )
+                                    OutlinedText(
+                                        text = customName.value,
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        maxLine = 1,
+                                    )
+                                }
+                            }
+                            OutlinedText(
+                                text = stringResource(R.string.companion_ten_car_max),
+                                style = MaterialTheme.typography.labelMedium,
                             )
                         }
+                        AnimatedSprite(
+                            Modifier.size(Dimensions.largeIcon),
+                            selectedCompanion.value.assetIdleId,
+                            selectedCompanion.value.assetIdleFrame,
+                        )
                     }
-                    AnimatedSprite(
-                        Modifier.weight(1f),
-                        selectedCompanion.value.assetIdleId,
-                        selectedCompanion.value.assetIdleFrame,
-                    )
                 }
-            }
-            ArrowBtn(Icons.AutoMirrored.Filled.ArrowRight) {
-                val nextPage = if (pagerState.currentPage == pagerState.pageCount) 0 else pagerState.currentPage + 1
-                coroutineScope.launch { pagerState.animateScrollToPage(nextPage) }
+                ArrowBtn(R.drawable.arrow_right) {
+                    val nextPage = if (pagerState.currentPage == pagerState.pageCount) 0 else pagerState.currentPage + 1
+                    coroutineScope.launch { pagerState.animateScrollToPage(nextPage) }
+                }
             }
         }
-        IconButton(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            icon = Icons.Default.Check,
-            onClick = {
-                coroutineScope.launch {
-                    pickCompanionViewModel.selectCompanion(selectedCompanion.value, customName.value)
-                    navController.navigate(NavRoutes.Main.route)
-                }
-            },
-        )
     }
 }
 
 @Composable
 fun ArrowBtn(
-    icon: ImageVector,
+    @DrawableRes icon: Int,
     onClick: () -> Unit,
 ) {
     IconButton(
-        modifier = Modifier.offset(y = Dimensions.btnHeight / 2),
         icon = icon,
-        size = Dimensions.smallBtnHeight,
-        containerColor = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface,
+        size = Dimensions.mediumBtnHeight,
         onClick = onClick,
     )
 }

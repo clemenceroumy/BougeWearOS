@@ -34,7 +34,7 @@ fun RenameCompanion(
     ) {
         it.data?.let { data ->
             val value: String? = RemoteInput.getResultsFromIntent(data)?.getString(inputTextKey)
-            name.value = if (value != null && value.isNotEmpty()) value else name.value
+            name.value = if (value != null && value.isNotEmpty()) value.take(10) else name.value
         }
     }
     val intent: Intent = RemoteInputIntentHelper.createActionRemoteInputIntent()

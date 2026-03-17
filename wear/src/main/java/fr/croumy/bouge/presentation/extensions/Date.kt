@@ -21,7 +21,7 @@ fun Duration.asString(): String {
 }
 
 fun LocalTime.asString(): String {
-    return "${this.hour}:${this.minute}"
+    return "${this.hour}:${this.minute.toString().padStart(2, '0')}"
 }
 
 fun Instant.toYYYYMMDD(): String {
@@ -30,4 +30,8 @@ fun Instant.toYYYYMMDD(): String {
 
 fun ZonedDateTime.asString(): String {
     return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").format(this)
+}
+
+fun ZonedDateTime.toYYYYMMDD(): String {
+    return DateTimeFormatter.ofPattern("yy/MM/dd").format(this)
 }

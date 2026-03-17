@@ -24,7 +24,7 @@ sealed class CompanionType(
 ) {
     @Serializable object Frog : CompanionType(Res.drawable.idle_frog, 4, Res.drawable.walking_frog, 7, "Froggy")
     @Serializable object Pig : CompanionType(Res.drawable.idle_pig, 5, Res.drawable.walking_pig, 4, "Piggy")
-    @Serializable object Fox : CompanionType(Res.drawable.idle_fox, 2, Res.drawable.walking_fox, 4, "Foxy")
+    @Serializable object Fox : CompanionType(Res.drawable.idle_fox, 8, Res.drawable.walking_fox, 4, "Foxy")
     @Serializable object Duck : CompanionType(Res.drawable.idle_duck, 2, Res.drawable.walking_duck, 6, "Ducky")
 
     companion object {
