@@ -21,7 +21,7 @@ fun Duration.asString(): String {
 }
 
 fun LocalTime.asString(): String {
-    return "${this.hour}:${this.minute}"
+    return "${this.hour}:${this.minute.toString().padStart(2, '0')}"
 }
 
 fun Instant.toYYYYMMDD(): String {
