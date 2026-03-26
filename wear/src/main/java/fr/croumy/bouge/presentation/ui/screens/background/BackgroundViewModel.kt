@@ -8,6 +8,7 @@ import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.services.InventoryService
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -23,8 +24,13 @@ class BackgroundViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            companion.value = companionService.myCompanion.first()
             allBackgroundItems.value = inventoryService.getAllBackgroundItems()
+        }
+
+        viewModelScope.launch {
+            companionService.myCompanion.collect {
+                companion.value = it
+            }
         }
     }
 
