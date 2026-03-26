@@ -24,7 +24,7 @@ import javax.inject.Inject
 class ShopViewModel @Inject constructor(
     creditService: CreditService,
     val buyItemUseCase: BuyItemUseCase,
-    inventoryService: InventoryService,
+    val inventoryService: InventoryService,
     val context: Context
 ): ViewModel() {
     val snackHostState = SnackbarHostState()
@@ -50,6 +50,7 @@ class ShopViewModel @Inject constructor(
                         price = amount
                     )
                 )
+                getAlreadyPossessedBackgrounds.value = inventoryService.getAllBackgroundItems()
             } catch (e: Exception) {
                 if(e is AppError) {
                     snackHostState.showSnackbar(
