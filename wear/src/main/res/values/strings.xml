@@ -7,6 +7,7 @@
 
     <!-- COMPANION -->
     <string name="companion_dead_desc">Oh no, your companion %1$s is dead :\'(</string>
+    <string name="companion_dead_notif">Oh no, your companion is dead</string>
     <string name="companion_good_bye">GoodBye…</string>
     <string name="companion_age">%1$d days old</string>
     <string name="companion_days_old">days old</string>
@@ -58,4 +59,5 @@
     <string name="description_chair">chair</string>
     <string name="description_table">table</string>
     <string name="description_selected_wallpaper">Selected wallpaper</string>
+    <string name="description_halo">Companion dead halo</string>
 </resources>

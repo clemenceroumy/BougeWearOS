@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.ScalingLazyListAnchorType
@@ -121,12 +122,23 @@ fun HistoryCompanionScreen(
                                         painter = painterResource(id = R.drawable.grave),
                                         contentDescription = ""
                                     )
-                                    AnimatedSprite(
-                                        modifier = Modifier
-                                            .size(Dimensions.smallIcon),
-                                        imageId = companion.type.assetIdleId,
-                                        frameCount = companion.type.assetIdleFrame,
-                                    )
+                                    Box() {
+                                        AnimatedSprite(
+                                            modifier = Modifier
+                                                .size(Dimensions.smallIcon)
+                                                .align(Alignment.BottomCenter),
+                                            imageId = companion.type.assetIdleId,
+                                            frameCount = companion.type.assetIdleFrame,
+                                        )
+                                        Image(
+                                            painterResource(R.drawable.halo),
+                                            contentDescription = stringResource(R.string.description_halo),
+                                            modifier = Modifier
+                                                .size(Dimensions.xxsmallIcon)
+                                                .offset(y = -Dimensions.xxsmallPadding)
+                                                .align(Alignment.TopCenter)
+                                        )
+                                    }
                                 }
                                 Column {
                                     Text(companion.name, style = MaterialTheme.typography.bodyLarge)

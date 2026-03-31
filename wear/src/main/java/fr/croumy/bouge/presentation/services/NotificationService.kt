@@ -69,7 +69,7 @@ class NotificationService @Inject constructor(
     fun sendDeadNotification() {
         val notification = NotificationCompat.Builder(context, CHANNEL_ID_COMPANION)
             .setSmallIcon(R.drawable.splash_icon)
-            .setContentText(context.getString(R.string.companion_dead_desc))
+            .setContentText(context.getString(R.string.companion_dead_notif))
             .setAutoCancel(true)
             .build()
 
