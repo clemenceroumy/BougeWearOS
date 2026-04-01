@@ -14,16 +14,22 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.core.models.shop.food.FoodItem
@@ -33,11 +39,14 @@ import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.components.ShopItemComponent
 
+@OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun ShopScreen(
     shopViewModel: ShopViewModel = hiltViewModel()
 ) {
     val totalCredit = shopViewModel.totalCredit.collectAsState()
+
+    val lazyGridState = rememberLazyGridState()
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = shopViewModel.snackHostState) },
@@ -68,9 +77,11 @@ fun ShopScreen(
                     )
                 }
                 LazyVerticalGrid(
+                    state = lazyGridState,
                     modifier = Modifier
                         .fillMaxRectangleWidth()
-                        .padding(top = Dimensions.smallPadding),
+                        .padding(top = Dimensions.smallPadding)
+                        .rotaryWithScroll(scrollableState = lazyGridState),
                     columns = GridCells.Fixed(2),
                     verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
                     horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),

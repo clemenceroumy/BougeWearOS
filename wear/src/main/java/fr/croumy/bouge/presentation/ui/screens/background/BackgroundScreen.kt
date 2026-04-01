@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,7 +29,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.fillMaxRectangle
+import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 import fr.croumy.bouge.R
 import fr.croumy.bouge.presentation.models.app.ShopItemType
 import fr.croumy.bouge.presentation.theme.Dimensions
@@ -36,10 +39,13 @@ import fr.croumy.bouge.presentation.ui.components.ShopItemComponent
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun BackgroundScreen(
     viewModel: BackgroundViewModel = hiltViewModel()
 ) {
+    val lazyGridState = rememberLazyGridState()
+
     Box {
         Image(
             painterResource(R.drawable.background_sky_day),
@@ -47,7 +53,10 @@ fun BackgroundScreen(
         )
 
         LazyVerticalGrid(
-            modifier = Modifier.fillMaxRectangle(),
+            state = lazyGridState,
+            modifier = Modifier
+                .fillMaxRectangle()
+                .rotaryWithScroll(scrollableState = lazyGridState),
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
             horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding)

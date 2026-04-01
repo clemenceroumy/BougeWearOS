@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,7 +31,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.fillMaxRectangle
+import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.food.FoodItem
 import fr.croumy.bouge.presentation.extensions.fillMaxRectangleWidth
@@ -42,11 +45,13 @@ import fr.croumy.bouge.presentation.ui.screens.feed.components.FeedCompanionAnim
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
+@OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun FeedScreen(
     feedViewModel: FeedViewModel = hiltViewModel()
 ) {
     val selectedFoodItem = remember { mutableStateOf<FoodItem?>(null) }
+    val lazyGridState = rememberLazyGridState()
 
     Box(
         Modifier.fillMaxSize()
@@ -76,8 +81,10 @@ fun FeedScreen(
                 )
             }
         else LazyVerticalGrid(
+            state = lazyGridState,
             modifier = Modifier
-                .fillMaxRectangle(),
+                .fillMaxRectangle()
+                .rotaryWithScroll(scrollableState = lazyGridState),
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
             horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
