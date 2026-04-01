@@ -17,11 +17,18 @@ I did not created myself the assets used in the app. So I want to thank all thos
 ## Features
 ### Companion
 At first, you need to pick a companion to take care of. 
+
+![Pick companion](./doc/pick.gif)
+
 Your companion has 3 statistics : Hungriness, Happiness and Health.
+
+![Companion home](./doc/home.gif)
 
 If one of the stat goes down to 0, your companion will unfortunately die :( Do everything you can to not let it happen !
 
 In case your companion dies, you can always restart a new adventure with another one. (You'll also be able to see your previous companion in a dedicated screen)
+
+![Dead companions](./doc/deads.gif)
 
 ### Statistics
 - **Happiness** : to keep your companion happy, you need to :
@@ -30,15 +37,24 @@ In case your companion dies, you can always restart a new adventure with another
 - **Hungriness** : feed it enough with items you can buy in the shop
 - **Health** : decided by how much you move through the day.
 
+![Feed](./doc/feed.gif)
+![Play](./doc/play.gif)
+
 ### Exercises 
 Walks: The app auto detect walks you take. Credits are earned according to the number of steps done during walks and at the end of the day.
+
+![Walks history](./doc/walks.gif)
 
 ### Shop
 The place where you can spend the credits you earned by doing exercises.
 You can buy food and new backgrounds.
 
+![Shop](./doc/shop.gif)
+
 ### Backgrounds
 With your credits, you'll be able to buy new background environment for your companion, be it sea, forest or space.
+
+![Backgrounds](./doc/wallpaper.gif)
 
 ### Desktop
 
@@ -49,4 +65,4 @@ Your companion might also find items from its outdoor outing, so it might be wor
 ⚠️Your companion can be only in one place at a time. Which means that of you send it to your desktop, you won't be able to play with it on the watch.
 (When your companion's on your desktop, stats are frozen, so you won't lose happiness, hungriness or health)
 
-![Desktop Connexion Demo](./doc/desktop-connection-demo.gif)
+![Desktop Connexion Demo](./doc/connect.gif)
