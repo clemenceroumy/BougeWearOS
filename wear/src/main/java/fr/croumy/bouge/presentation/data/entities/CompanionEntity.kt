@@ -16,6 +16,6 @@ data class CompanionEntity(
     val currentBackgroundUid: UUID = BackgroundItem.MountainTree.id,
     val totalSteps: Long = 0,
     val happiness: Float = 5f, // 0 TO 5, can be .25
-    val hungriness: Float = 1f, // 0 TO 5, can be .25 //TODO: set to 5
+    val hungriness: Float = 5f, // 0 TO 5, can be .25
     val health: Float = 5f, // 0 TO 5, can be .5,
 )
