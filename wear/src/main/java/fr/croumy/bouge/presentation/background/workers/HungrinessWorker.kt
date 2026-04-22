@@ -20,7 +20,7 @@ class HungrinessWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-        companionService.updateHungrinessStat(StatsUpdate.DOWN(0.5f))
+        companionService.updateHungrinessStat(StatsUpdate.DOWN(1f))
 
         workerHelper.launchHungrinessWorker()
 

@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.R
+import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.core.models.companion.StatsType
 import fr.croumy.bouge.presentation.theme.Dimensions
@@ -31,9 +32,9 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CompanionStatsScreen(
-    viewModel: CompanionStatsViewModel = hiltViewModel()
+    viewModel: CompanionStatsViewModel = hiltViewModel(),
+    companion: Companion
 ) {
-    val companion = viewModel.companion.collectAsState()
     val stats = viewModel.stats.collectAsState()
 
     Box(
@@ -49,17 +50,17 @@ fun CompanionStatsScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            if (stats.value == null || companion.value == null) CircularProgressIndicator()
+            if (stats.value == null) CircularProgressIndicator()
             else Column(
                 Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 OutlinedText(
-                    text = companion.value!!.name,
+                    text = companion.name,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 OutlinedText(
-                    text = stringResource(R.string.companion_age, companion.value!!.age)
+                    text = stringResource(R.string.companion_age, companion.age)
                 )
                 Spacer(modifier = Modifier.height(Dimensions.smallPadding))
 
