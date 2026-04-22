@@ -4,6 +4,7 @@
 
     <!-- COMMON -->
     <string name="common_refresh">Refresh</string>
+    <string name="common_open">Open</string>
 
     <!-- COMPANION -->
     <string name="companion_dead_desc">Oh no, your companion %1$s is dead :\'(</string>

@@ -10,6 +10,7 @@ import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import fr.croumy.bouge.R
+import fr.croumy.bouge.presentation.MainActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,10 +30,19 @@ class NotificationService @Inject constructor(
     }
 
     fun initNotificationChannels() {
-        val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager: NotificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channels = listOf(
-            NotificationChannel(CHANNEL_ID_FOREGROUND, CHANNEL_NAME_FOREGROUND, NotificationManager.IMPORTANCE_DEFAULT),
-            NotificationChannel(CHANNEL_ID_COMPANION, CHANNEL_NAME_COMPANION, NotificationManager.IMPORTANCE_DEFAULT)
+            NotificationChannel(
+                CHANNEL_ID_FOREGROUND,
+                CHANNEL_NAME_FOREGROUND,
+                NotificationManager.IMPORTANCE_DEFAULT
+            ),
+            NotificationChannel(
+                CHANNEL_ID_COMPANION,
+                CHANNEL_NAME_COMPANION,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
         )
 
         channels.forEach {
@@ -53,12 +63,17 @@ class NotificationService @Inject constructor(
                 NotificationCompat.Action(
                     R.drawable.round_refresh,
                     context.getString(R.string.common_refresh),
-                    PendingIntent.getForegroundService(context, 0, serviceIntent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+                    PendingIntent.getForegroundService(
+                        context,
+                        0,
+                        serviceIntent,
+                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                    )
                 )
             )
             .build()
 
-         NotificationManagerCompat.from(context).notify(REBOOT_NOTIFICATION_ID, rebootNotification)
+        NotificationManagerCompat.from(context).notify(REBOOT_NOTIFICATION_ID, rebootNotification)
     }
 
     fun hideRebootNotification() {
@@ -67,10 +82,26 @@ class NotificationService @Inject constructor(
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun sendDeadNotification() {
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notification = NotificationCompat.Builder(context, CHANNEL_ID_COMPANION)
             .setSmallIcon(R.drawable.splash_icon)
             .setContentText(context.getString(R.string.companion_dead_notif))
             .setAutoCancel(true)
+            .addAction(
+                0,
+                context.getString(R.string.common_open),
+                pendingIntent
+            )
             .build()
 
         NotificationManagerCompat.from(context).notify(NOTIFICATION_DEAD_COMPANION_ID, notification)

@@ -13,6 +13,7 @@ I did not created myself the assets used in the app. So I want to thank all thos
 - [Ansimuz](https://ansimuz.itch.io) for background assets
 - [Ohnoponogames](https://ohnoponogames.itch.io) for cloud assets
 - [Jamie Brownhill](https://jamiebrownhill.itch.io) for shop assets
+- [BDragon1727](https://bdragon1727.itch.io) for loader asset
 
 ## Features
 ### Companion

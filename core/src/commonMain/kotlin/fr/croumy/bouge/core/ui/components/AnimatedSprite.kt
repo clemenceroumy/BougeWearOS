@@ -10,11 +10,13 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toIntSize
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.imageResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun AnimatedSprite(
@@ -23,20 +25,50 @@ fun AnimatedSprite(
     frameCount: Int,
     animationDuration: Int = 800
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "sprite")
-
     val image = imageResource(imageId)
 
-    val spriteWidth = image.width / frameCount
-    val spriteHeight = image.height
+    AnimationImage(
+        modifier = modifier,
+        bitmap = image,
+        frameCount = frameCount,
+        animationDuration = animationDuration
+    )
+}
+
+@Composable
+fun AnimatedSprite(
+    modifier: Modifier = Modifier,
+    image: ImageBitmap,
+    frameCount: Int,
+    animationDuration: Int = 800
+) {
+    AnimationImage(
+        modifier = modifier,
+        bitmap = image,
+        frameCount = frameCount,
+        animationDuration = animationDuration
+    )
+}
+
+@Composable
+private fun AnimationImage(
+    modifier: Modifier,
+    bitmap: ImageBitmap,
+    frameCount: Int,
+    animationDuration: Int
+) {
+    val infiniteTransition = rememberInfiniteTransition(label = "sprite")
+
+    val spriteWidth = bitmap.width / frameCount
+    val spriteHeight = bitmap.height
 
     val animatedFrame = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = frameCount.toFloat(),
         animationSpec = infiniteRepeatable(
-           animation = tween(animationDuration, easing = LinearEasing),
-           repeatMode = RepeatMode.Restart
-       ),
+            animation = tween(animationDuration, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
     )
 
     Canvas(modifier = modifier.aspectRatio(1f)) {
@@ -48,7 +80,7 @@ fun AnimatedSprite(
         val dstSize = this.size.toIntSize()
 
         drawImage(
-            image = image,
+            image = bitmap,
             srcOffset = srcOffset,
             srcSize = srcSize,
             dstOffset = IntOffset.Zero,
