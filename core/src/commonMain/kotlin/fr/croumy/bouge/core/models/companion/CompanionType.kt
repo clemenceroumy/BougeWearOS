@@ -5,6 +5,7 @@ import bouge.core.generated.resources.idle_duck
 import bouge.core.generated.resources.idle_fox
 import bouge.core.generated.resources.idle_frog
 import bouge.core.generated.resources.idle_pig
+import bouge.core.generated.resources.placeholder
 import bouge.core.generated.resources.walking_duck
 import bouge.core.generated.resources.walking_fox
 import bouge.core.generated.resources.walking_frog
@@ -26,6 +27,7 @@ sealed class CompanionType(
     @Serializable object Pig : CompanionType(Res.drawable.idle_pig, 5, Res.drawable.walking_pig, 4, "Piggy")
     @Serializable object Fox : CompanionType(Res.drawable.idle_fox, 8, Res.drawable.walking_fox, 4, "Foxy")
     @Serializable object Duck : CompanionType(Res.drawable.idle_duck, 2, Res.drawable.walking_duck, 6, "Ducky")
+    @Serializable object Placeholder : CompanionType(Res.drawable.placeholder, 4, Res.drawable.placeholder, 4, "Mocked")
 
     companion object {
         val values = listOf(Frog, Pig, Fox, Duck)

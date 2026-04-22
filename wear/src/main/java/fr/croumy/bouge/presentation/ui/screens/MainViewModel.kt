@@ -2,7 +2,7 @@ package fr.croumy.bouge.presentation.ui.screens
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import fr.croumy.bouge.core.mocks.companionMock
+import fr.croumy.bouge.core.mocks.companionPlaceholder
 import fr.croumy.bouge.presentation.services.CompanionService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +17,6 @@ class MainViewModel @Inject constructor(
     val companion = companionService.myCompanion.stateIn(
         CoroutineScope(Dispatchers.IO),
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = companionMock
+        initialValue = companionPlaceholder
     )
 }
