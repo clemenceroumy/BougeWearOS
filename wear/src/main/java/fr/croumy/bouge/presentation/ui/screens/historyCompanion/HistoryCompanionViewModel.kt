@@ -14,10 +14,12 @@ class HistoryCompanionViewModel @Inject constructor(
     companionService: CompanionService
 ): ViewModel() {
     val companions = mutableStateOf(emptyList<Companion>())
+    val isLoading = mutableStateOf(true)
 
     init {
         viewModelScope.launch {
             companions.value = companionService.getDeadCompanions()
+            isLoading.value = false
         }
     }
 }

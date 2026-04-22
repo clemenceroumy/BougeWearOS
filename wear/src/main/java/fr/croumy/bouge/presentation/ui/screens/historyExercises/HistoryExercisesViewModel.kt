@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.croumy.bouge.presentation.models.exercise.Walk
 import fr.croumy.bouge.presentation.repositories.WalkRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,6 +15,8 @@ class HistoryExercisesViewModel @Inject constructor(
     walkRepository: WalkRepository
 ): ViewModel() {
     val walks = mutableStateOf(emptyList<Walk>())
+    val isLoading = mutableStateOf(true)
+
     val walksByDay get() = walks.value.groupBy {
         it.startDateTime.toLocalDate()
     }
@@ -21,6 +24,7 @@ class HistoryExercisesViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             walks.value = walkRepository.getAllWalks()
+            isLoading.value = false
         }
     }
 }
