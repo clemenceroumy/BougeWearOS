@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import fr.croumy.bouge.presentation.data.entities.WalkEntity
-import java.util.UUID
 
 @Dao
 interface WalkDao {

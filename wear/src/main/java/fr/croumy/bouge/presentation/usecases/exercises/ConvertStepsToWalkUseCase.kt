@@ -5,6 +5,7 @@ import androidx.health.services.client.data.IntervalDataPoint
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.services.DataService
 import fr.croumy.bouge.presentation.usecases.IUseCase
+import timber.log.Timber
 import java.time.Duration
 import java.time.Instant
 import java.time.ZoneId
@@ -35,23 +36,26 @@ class ConvertStepsToWalkUseCase @Inject constructor(
             val stepTime: Instant = pair.first
             val dataPoint = pair.second
 
-            dataService.lastStepTime.value = ZonedDateTime.ofInstant(
-                stepTime,
-                ZoneId.systemDefault()
-            )
-
             val previousStepInstant: Instant? = dataPointStepsWithTime.getOrNull(index - 1)?.first
             val durationBetweenPreviousStep = Duration.between(
                 previousStepInstant ?: dataService.lastStepTime.value.toInstant(),
                 stepTime
             ).toKotlinDuration()
 
+            dataService.lastStepTime.value = ZonedDateTime.ofInstant(
+                stepTime,
+                ZoneId.systemDefault()
+            )
+
+            Timber.i("Duration between previous and current step: $durationBetweenPreviousStep")
+
             if (durationBetweenPreviousStep < Constants.TIME_GAP_BETWEEN_WALKS) {
                 if (dataService.currentWalk.value == 0) dataService.firstStepTime.value = dataService.lastStepTime.value
 
                 dataService.setCurrentWalk(dataService.currentWalk.value + dataPoint.value.toInt())
             } else {
-                // IN CASE STEPS ARE RECEIVED IN THE SAME BATCH BUT WITH A GAP
+                // IN CASE STEPS ARE RECEIVED IN THE SAME BATCH BUT WITH A GAP BIGGER THAN Constants.TIME_GAP_BETWEEN_WALKS)
+                // INSERT PREVIOUS WALK AND START NEW WALK WITH THIS BATCH
                 if (dataService.currentWalk.value > Constants.MINIMUM_STEPS_WALK) {
                     registerExerciseUseCase(
                         RegisterExerciseParams(

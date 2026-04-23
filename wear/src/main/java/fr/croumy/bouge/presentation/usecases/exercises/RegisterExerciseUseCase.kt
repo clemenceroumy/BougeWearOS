@@ -56,6 +56,5 @@ class RegisterExerciseUseCase @Inject constructor(
 
             companionService.updateHealthStat(StatsUpdate.UP(by = 1f))
         }
-
     }
 }
