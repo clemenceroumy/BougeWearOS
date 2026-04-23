@@ -23,8 +23,12 @@ import androidx.compose.ui.window.DialogWindow
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
 import fr.croumy.bouge.constants.Window
+import fr.croumy.bouge.helpers.OperatingSystem
+import fr.croumy.bouge.helpers.currentOS
 import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.theme.Dimensions
+import io.ktor.util.PlatformUtils
+import io.ktor.util.platform
 import org.koin.compose.koinInject
 
 @Composable
@@ -33,7 +37,7 @@ fun BoxScope.ConnexionComponent(
     isDialogOpen: Boolean,
 ) {
     val state = rememberDialogState(
-        position = WindowPosition.Aligned(Alignment.BottomEnd),
+        position = WindowPosition.Aligned(if(currentOS == OperatingSystem.MacOS) Alignment.TopEnd else Alignment.BottomEnd),
         size = DpSize(Window.WIDTH.dp, Window.HEIGHT.dp)
     )
 
