@@ -1,5 +1,8 @@
-# Frogtasy Life
-WearOS and mobile designed to make you move more with the help of your companion !
+<div align="center"><img align="center" src="./doc/logo.webp" alt="application logo"/></div>
+<h1 align="center">Frogtasy Life</h1>
+<p align="center">WearOS app designed to make you move more with the help of your companion !</p>
+
+<br/>
 
 ## Designs
 WIP (currently in the making) : https://www.figma.com/design/rGU1YMy3ybbkAbWqRJYwc4/Bouge?node-id=0-1&t=5emjpNU5IBg6DoIo-1
