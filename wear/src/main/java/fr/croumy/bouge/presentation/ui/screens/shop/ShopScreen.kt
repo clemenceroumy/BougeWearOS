@@ -112,7 +112,7 @@ fun ShopScreen(
                         ShopItemComponent(
                             ShopItemType.SHOP,
                             item,
-                            itemSize = Dimensions.mediumIcon,
+                            itemSize = Dimensions.largeIcon,
                             disabled = shopViewModel.getAlreadyPossessedBackgrounds.value.any { it.id == item.id },
                             onClick = { shopViewModel.buyItem(item.price, item.id) }
                         )

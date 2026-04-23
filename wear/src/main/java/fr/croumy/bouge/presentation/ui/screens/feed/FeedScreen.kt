@@ -27,6 +27,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +38,7 @@ import com.google.android.horologist.compose.layout.fillMaxRectangle
 import com.google.android.horologist.compose.rotaryinput.rotaryWithScroll
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.food.FoodItem
+import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.extensions.fillMaxRectangleWidth
 import fr.croumy.bouge.presentation.models.app.ShopItemType
 import fr.croumy.bouge.presentation.theme.Dimensions
@@ -61,42 +64,56 @@ fun FeedScreen(
             contentDescription = stringResource(R.string.description_cloudy_background),
         )
 
-        if (feedViewModel.allFoodItems.value.isEmpty())
+        if(feedViewModel.isLoading.value) {
             Column(
-                modifier = Modifier
-                    .fillMaxRectangle(),
+                modifier = Modifier.fillMaxRectangle(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painterResource(R.drawable.icon_inventory),
-                    contentDescription = null,
-                    modifier = Modifier.size(Dimensions.smallIcon)
-                )
-                Spacer(Modifier.height(Dimensions.smallPadding))
-                OutlinedText(
-                    text = stringResource(R.string.inventory_empty),
-                    style = MaterialTheme.typography.bodyMedium,
-                    textAlign = TextAlign.Center
+                AnimatedSprite(
+                    modifier = Modifier.size(Dimensions.smallIcon),
+                    image = ImageBitmap.imageResource(R.drawable.loader),
+                    frameCount = 16
                 )
             }
-        else LazyVerticalGrid(
-            state = lazyGridState,
-            modifier = Modifier
-                .fillMaxRectangle()
-                .rotaryWithScroll(scrollableState = lazyGridState),
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
-            horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
-            contentPadding = PaddingValues(bottom = Dimensions.largePadding)
-        ) {
-            items(feedViewModel.allFoodItems.value) { item ->
-                ShopItemComponent(
-                    ShopItemType.INVENTORY,
-                    item.first,
-                    text = "x${item.second}",
-                    onClick = { selectedFoodItem.value = item.first }
-                )
+        } else {
+            if (feedViewModel.allFoodItems.value.isEmpty())
+                Column(
+                    modifier = Modifier
+                        .fillMaxRectangle(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painterResource(R.drawable.icon_inventory),
+                        contentDescription = null,
+                        modifier = Modifier.size(Dimensions.smallIcon)
+                    )
+                    Spacer(Modifier.height(Dimensions.smallPadding))
+                    OutlinedText(
+                        text = stringResource(R.string.inventory_empty),
+                        style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            else LazyVerticalGrid(
+                state = lazyGridState,
+                modifier = Modifier
+                    .fillMaxRectangle()
+                    .rotaryWithScroll(scrollableState = lazyGridState),
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
+                horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
+                contentPadding = PaddingValues(bottom = Dimensions.largePadding)
+            ) {
+                items(feedViewModel.allFoodItems.value) { item ->
+                    ShopItemComponent(
+                        ShopItemType.INVENTORY,
+                        item.first,
+                        text = "x${item.second}",
+                        onClick = { selectedFoodItem.value = item.first }
+                    )
+                }
             }
         }
 

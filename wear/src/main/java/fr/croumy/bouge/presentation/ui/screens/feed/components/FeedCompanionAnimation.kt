@@ -4,6 +4,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.keyframes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
@@ -98,18 +100,18 @@ fun FeedCompanionAnimation(
                 }
 
                 Column {
-                    Image(
-                        modifier = Modifier
-                            .size(Dimensions.mediumIcon)
-                            .aspectRatio(1f)
-                            .graphicsLayer {
-                                scaleX = scale.value
-                                scaleY = scale.value
-                                transformOrigin = TransformOrigin.Center
-                            },
-                        painter = painterResource(foodItem.assetId),
-                        contentDescription = null
-                    )
+                    Box(
+                        modifier = Modifier.size(Dimensions.smallIcon),
+                        contentAlignment = Alignment.BottomCenter
+                    ) {
+                        Image(
+                            modifier = Modifier
+                                .size(Dimensions.smallIcon * scale.value)
+                                .aspectRatio(1f),
+                            painter = painterResource(foodItem.assetId),
+                            contentDescription = null
+                        )
+                    }
                     Image(
                         painterResource(R.drawable.table),
                         contentDescription = stringResource(R.string.description_table),

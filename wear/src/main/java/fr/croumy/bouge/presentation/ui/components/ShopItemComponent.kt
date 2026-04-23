@@ -54,7 +54,8 @@ fun ShopItemComponent(
                 .size(itemSize)
                 .aspectRatio(1f)
                 .align(Alignment.Center)
-                .padding(bottom = Dimensions.mediumPadding + Dimensions.xsmallPadding),
+                .padding(bottom = Dimensions.mediumPadding + Dimensions.xsmallPadding)
+                .padding(Dimensions.xsmallPadding),
             colorFilter = if (disabled) ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }) else null
         )
         Row(
