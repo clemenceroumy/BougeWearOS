@@ -9,8 +9,8 @@ import java.util.UUID
 
 @Entity(tableName = "walks")
 data class WalkEntity(
-    @PrimaryKey val uid: UUID = UUID.randomUUID(),
-    @ColumnInfo(name = "start_timestamp") val start: ZonedDateTime,
+    val uid: UUID = UUID.randomUUID(),
+    @PrimaryKey @ColumnInfo(name = "start_timestamp") val start: ZonedDateTime,
     @ColumnInfo(name = "end_timestamp") val end: ZonedDateTime,
     @ColumnInfo(name = "steps") val steps: Int,
 )

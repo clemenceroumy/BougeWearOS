@@ -26,6 +26,7 @@ import timber.log.Timber
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.minutes
 
 @AndroidEntryPoint
 @Singleton
@@ -52,6 +53,7 @@ class HealthService @Inject constructor() : PassiveListenerService() {
         override fun onTick(millisUntilFinished: Long) {}
 
         override fun onFinish() {
+            // after receiving no event from listener register walk (if not already done) and reset walk
             if (dataService.currentWalk.value > Constants.MINIMUM_STEPS_WALK) {
                 registerExerciseUseCase(
                     RegisterExerciseParams(
@@ -66,7 +68,7 @@ class HealthService @Inject constructor() : PassiveListenerService() {
     }
 
     private val passiveListenerConfig = PassiveListenerConfig(
-        dataTypes = setOf(DataType.Companion.STEPS_DAILY, DataType.Companion.STEPS),
+        dataTypes = setOf(DataType.STEPS_DAILY, DataType.STEPS),
         shouldUserActivityInfoBeRequested = false,
         dailyGoals = setOf(),
         healthEventTypes = setOf()
@@ -95,7 +97,7 @@ class HealthService @Inject constructor() : PassiveListenerService() {
     }
 
     fun onDataReceived(dataPoints: DataPointContainer) {
-        if (dataPoints.dataTypes.contains(DataType.Companion.STEPS_DAILY)) {
+        if (dataPoints.dataTypes.contains(DataType.STEPS_DAILY)) {
             val dataPointStepDaily = dataPoints.getData(DataType.STEPS_DAILY).last()
 
             val bootInstant = Instant.ofEpochMilli(System.currentTimeMillis() - SystemClock.elapsedRealtime())
