@@ -1,43 +1,45 @@
 [versions]
 accompanistPermissions = "0.37.3"
-agp = "8.11.0"
-datastorePreferences = "1.1.7"
-firebaseBom = "34.0.0"
-kableCore = "0.41.0"
-koinBom = "4.2.0-alpha3"
-kotlin = "2.1.20"
-coreKtx = "1.15.0"
-kotlinxSerializationJson = "1.9.0"
-ksp = "2.1.20-1.0.32"
+agp = "9.2.0"
+composenativetray = "1.3.0"
+datastorePreferences = "1.2.1"
+firebaseBom = "34.12.0"
+kableCore = "0.42.0"
+koinBom = "4.2.1"
+kotlin = "2.3.21"
+coreKtx = "1.18.0"
+kotlinxSerializationJson = "1.11.0"
+ksp = "2.3.6"
 junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-appcompat = "1.7.0"
-ktorNetwork = "3.3.1"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
+appcompat = "1.7.1"
+ktorNetwork = "3.4.3"
 playServicesWearable = "19.0.0"
-material = "1.12.0"
-activity = "1.10.1"
+material = "1.13.0"
+activity = "1.13.0"
 constraintlayout = "2.2.1"
-composeBom = "2024.09.00"
-composeMaterial = "1.2.1"
-room = "2.7.2"
+composeBom = "2026.04.01"
+composeMaterial = "1.6.1"
+composeMaterialIcon = "1.7.8"
+room = "2.8.4"
 timber = "5.0.1"
-wearInput = "1.2.0-beta01"
+wearInput = "1.2.0"
 wearToolingPreview = "1.0.0"
-activityCompose = "1.10.1"
-coreSplashscreen = "1.0.1"
-tiles = "1.5.0"
-horologist = "0.6.23"
-watchfaceComplicationsDataSourceKtx = "1.2.1"
-lifecycleRuntimeKtx = "2.9.2"
-hilt = "2.56.2"
-hiltCompiler = "1.2.0"
-healthServicesClient = "1.1.0-alpha05"
-work_version = "2.10.3"
-composeHotReload = "1.0.0-beta04"
-composeMultiplatform = "1.9.3"
+activityCompose = "1.13.0"
+coreSplashscreen = "1.2.0"
+tiles = "1.6.0"
+horologist = "0.7.15"
+watchfaceComplicationsDataSourceKtx = "1.3.0"
+lifecycleRuntimeKtx = "2.10.0"
+hilt = "2.59.2"
+hiltCompiler = "1.3.0"
+healthServicesClient = "1.1.0-rc01"
+work_version = "2.11.2"
+composeHotReload = "1.0.0"
+composeMultiplatform = "1.10.3"
 kotlinx-coroutines = "1.10.2"
-androidx-lifecycle = "2.9.1"
+androidx-lifecycle = "2.10.0"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -47,6 +49,7 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-wear-input = { module = "androidx.wear:wear-input", version.ref = "wearInput" }
+composenativetray = { module = "io.github.kdroidfilter:composenativetray", version.ref = "composenativetray" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -73,8 +76,8 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "composeMaterial" }
-androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeMaterial" }
-androidx-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "composeMaterial" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "composeMaterialIcon" }
+androidx-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "composeMaterialIcon" }
 androidx-compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeMaterial" }
 androidx-wear-tooling-preview = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
 androidx-wear-compose-navigation = { group = "androidx.wear.compose", name = "compose-navigation", version = "1.4.1" }
