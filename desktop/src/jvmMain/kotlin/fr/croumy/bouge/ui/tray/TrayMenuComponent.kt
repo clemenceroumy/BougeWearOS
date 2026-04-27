@@ -116,7 +116,9 @@ fun TrayMenuComponent(
                 }
             }
 
-            GrassGenerator()
+            GrassGenerator(
+                Modifier.clip(RoundedCornerShape(bottomStart = Dimensions.mediumRadius, bottomEnd = Dimensions.mediumRadius))
+            )
         }
     }
 }
