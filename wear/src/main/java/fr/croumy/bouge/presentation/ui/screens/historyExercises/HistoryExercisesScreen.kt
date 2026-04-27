@@ -22,6 +22,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
+import bouge.core.generated.resources.Res
+import bouge.core.generated.resources.background_sky_day
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.R
@@ -29,6 +31,7 @@ import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.screens.historyExercises.components.HistoryItem
+import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
@@ -39,7 +42,7 @@ fun ExercisesHistoryScreen(
 
     Box {
         Image(
-            painterResource(R.drawable.background_sky_day),
+            painterResource(Res.drawable.background_sky_day),
             contentDescription = stringResource(R.string.description_cloudy_background),
         )
 

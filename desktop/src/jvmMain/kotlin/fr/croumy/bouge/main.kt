@@ -1,7 +1,10 @@
 package fr.croumy.bouge
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -11,14 +14,19 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.injection.allModules
-import fr.croumy.bouge.ui.StartScreen
+import fr.croumy.bouge.services.CompanionService
+import fr.croumy.bouge.ui.main.MainScreen
 import fr.croumy.bouge.ui.tray.TrayComponent
+import fr.croumy.bouge.ui.tray.TrayMenuComponent
+import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
 
 fun main() = application {
     startKoin {
         modules(allModules)
     }
+
+    val companionService: CompanionService = koinInject()
 
     val windowState = rememberWindowState(
         placement = WindowPlacement.Floating,
@@ -38,7 +46,13 @@ fun main() = application {
         resizable = false
     ) {
         WindowDraggableArea {
-            StartScreen()
+            val companion = companionService.currentCompanion
+
+            Box(Modifier.fillMaxSize()) {
+                if (companion.value != null) {
+                    MainScreen(companion.value!!)
+                }
+            }
         }
     }
 }

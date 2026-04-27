@@ -34,6 +34,8 @@ import androidx.compose.ui.input.rotary.onRotaryScrollEvent
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import bouge.core.generated.resources.Res
+import bouge.core.generated.resources.background_sky_day
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
@@ -44,6 +46,7 @@ import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.components.ShopItemComponent
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
@@ -66,7 +69,7 @@ fun ShopScreen(
     ) { innerPadding ->
         Box {
             Image(
-                painterResource(R.drawable.background_sky_day),
+                painterResource(Res.drawable.background_sky_day),
                 contentDescription = stringResource(R.string.description_cloudy_background),
             )
 

@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import bouge.core.generated.resources.Res
+import bouge.core.generated.resources.background_sky_day
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.companion.Companion
@@ -41,7 +43,7 @@ fun CompanionStatsScreen(
         Modifier.fillMaxSize()
     ) {
         Image(
-            painterResource(R.drawable.background_sky_day),
+            painterResource(Res.drawable.background_sky_day),
             contentDescription = stringResource(R.string.description_cloudy_background),
         )
 

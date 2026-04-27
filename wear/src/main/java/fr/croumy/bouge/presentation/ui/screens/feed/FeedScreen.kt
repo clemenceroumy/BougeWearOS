@@ -33,6 +33,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import bouge.core.generated.resources.Res
+import bouge.core.generated.resources.background_sky_day
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.R
@@ -44,6 +46,7 @@ import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.components.ShopItemComponent
 import fr.croumy.bouge.presentation.ui.screens.feed.components.FeedCompanionAnimation
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
@@ -63,7 +66,7 @@ fun FeedScreen(
         Modifier.fillMaxSize()
     ) {
         Image(
-            painterResource(R.drawable.background_sky_day),
+            painterResource(Res.drawable.background_sky_day),
             contentDescription = stringResource(R.string.description_cloudy_background),
         )
 
