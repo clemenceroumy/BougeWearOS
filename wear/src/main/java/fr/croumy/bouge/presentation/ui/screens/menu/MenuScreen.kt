@@ -17,9 +17,9 @@ import bouge.core.generated.resources.Res
 import bouge.core.generated.resources.background_sky_day
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import fr.croumy.bouge.R
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.CloudButton
 import org.jetbrains.compose.resources.painterResource
 

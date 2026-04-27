@@ -21,11 +21,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
+import fr.croumy.bouge.core.ui.components.WoodPanelComponent
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.navigation.navigateAndPopUpTo
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.Button
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import kotlinx.coroutines.CoroutineScope
@@ -100,19 +101,13 @@ fun ConnectScreen(
                         frameCount = companion.value!!.type.assetIdleFrame
                     )
                 } else if(!isAdvertising.value && isConnected.value && isSent.value) {
-                    Box(
-                        contentAlignment = Alignment.TopCenter
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.wood_sign),
-                            contentDescription = stringResource(R.string.description_away_wood_sign),
+                    WoodPanelComponent(
+                        size = Dimensions.largeIcon,
+                        text = stringResource(R.string.connect_away),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
-                        Text(
-                            stringResource(R.string.connect_away),
-                            modifier = Modifier.padding(top = Dimensions.xsmallPadding),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
+                    )
                 }
             } else {
                 CircularProgressIndicator()

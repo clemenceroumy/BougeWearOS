@@ -39,9 +39,9 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.food.FoodItem
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.models.app.ShopItemType
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.components.ShopItemComponent
 import fr.croumy.bouge.presentation.ui.screens.feed.components.FeedCompanionAnimation

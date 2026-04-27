@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import fr.croumy.bouge.R
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.presentation.extensions.asString
 import fr.croumy.bouge.presentation.models.exercise.Walk
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.NinePatchImage
 
 @Composable

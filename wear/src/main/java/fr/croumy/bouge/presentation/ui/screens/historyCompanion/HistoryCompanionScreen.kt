@@ -32,7 +32,7 @@ import androidx.wear.compose.foundation.lazy.ScalingLazyListAnchorType
 import androidx.wear.compose.foundation.lazy.items
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.R
-import fr.croumy.bouge.presentation.theme.Dimensions
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.extensions.fillMaxRectangleWidth
 import fr.croumy.bouge.presentation.extensions.toYYYYMMDD

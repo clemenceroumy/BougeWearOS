@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.theme
+package fr.croumy.bouge.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
@@ -16,33 +16,13 @@ fun AppTypography(): Typography {
     )
 
     return Typography(
-        displayLarge = TextStyle(
-            fontSize = 30.sp,
-            fontFamily = jerseyFont
-        ),
-        displayMedium = TextStyle(
-            fontSize = 26.sp,
-            fontFamily = jerseyFont
-        ),
-        displaySmall = TextStyle(
-            fontSize = 22.sp,
-            fontFamily = jerseyFont
-        ),
-        bodyLarge = TextStyle(
-            fontSize = 20.sp,
-            fontFamily = jerseyFont
-        ),
         bodyMedium = TextStyle(
             fontSize = 18.sp,
             fontFamily = jerseyFont
         ),
         bodySmall = TextStyle(
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             fontFamily = jerseyFont
         ),
-        labelMedium = TextStyle(
-            fontSize = 10.sp,
-            fontFamily = jerseyFont
-        )
     )
 }

@@ -27,7 +27,7 @@ import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.core.models.companion.StatsType
-import fr.croumy.bouge.presentation.theme.Dimensions
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource

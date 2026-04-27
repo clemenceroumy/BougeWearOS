@@ -21,8 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.companion.Companion
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import org.jetbrains.compose.resources.painterResource
 

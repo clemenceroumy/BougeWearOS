@@ -32,7 +32,7 @@ import bouge.core.generated.resources.background_sky_day
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.R
-import fr.croumy.bouge.presentation.theme.Dimensions
+import fr.croumy.bouge.core.theme.Dimensions
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 

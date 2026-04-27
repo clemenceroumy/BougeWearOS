@@ -1,17 +1,14 @@
 package fr.croumy.bouge.ui.tray
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -26,11 +23,17 @@ import androidx.compose.ui.window.DialogWindow
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
 import bouge.core.generated.resources.background_sky_day
+import bouge.desktop.generated.resources.Res
+import bouge.desktop.generated.resources.menu_search
 import fr.croumy.bouge.constants.Window
+import fr.croumy.bouge.core.theme.Dimensions
+import fr.croumy.bouge.core.ui.components.WoodPanelComponent
+import fr.croumy.bouge.helpers.GrassGenerator
 import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.services.CompanionService
-import fr.croumy.bouge.theme.Dimensions
+import fr.croumy.bouge.ui.components.Button
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import bouge.core.generated.resources.Res as CoreRes
 
@@ -55,7 +58,7 @@ fun TrayMenuComponent(
 
     LaunchedEffect(isConnected.value, isOpen.value) {
         // auto scan on open menu
-        if(!isConnected.value && isOpen.value) {
+        if (!isConnected.value && isOpen.value) {
             bleScanner.scan()
         }
     }
@@ -68,7 +71,10 @@ fun TrayMenuComponent(
         visible = isOpen.value,
         alwaysOnTop = true,
     ) {
-        Box(Modifier.fillMaxSize()) {
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
             Image(
                 painterResource(CoreRes.drawable.background_sky_day),
                 contentDescription = "",
@@ -78,33 +84,39 @@ fun TrayMenuComponent(
                     .fillMaxSize()
                     .clip(RoundedCornerShape(Dimensions.mediumRadius))
             )
-            Column(
-                Modifier.fillMaxSize()
-            ) {
-                if (isSearching) {
-                    if (peripherals.value.isEmpty()) {
-                        CircularProgressIndicator(Modifier.size(Dimensions.mediumIcon))
-                    } else peripherals.value.forEach {
-                        TextButton(
-                            onClick = { bleScanner.connectPeripheral(it) }
-                        ) {
-                            Row {
-                                Text(
-                                    it.identifier.toString(),
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                                Spacer(Modifier.size(Dimensions.smallPadding))
-                                if (selectedPeripheral.value?.identifier == it.identifier) {
-                                    CircularProgressIndicator(
-                                        Modifier.size(Dimensions.smallIcon),
-                                        strokeWidth = 2.dp
-                                    )
+
+            if (isSearching) {
+                if (peripherals.value.isEmpty()) {
+                    WoodPanelComponent(
+                        text = stringResource(Res.string.menu_search),
+                        paddingTop = Dimensions.mediumPadding,
+                        size = Dimensions.xlargeIcon
+                    )
+                } else Column(
+                    Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    peripherals.value.forEach {
+                        Row {
+                            Button(
+                                text = it.identifier.toString(),
+                                onClick = { bleScanner.connectPeripheral(it) },
+                                icon = {
+                                    if (selectedPeripheral.value?.identifier == it.identifier) {
+                                        CircularProgressIndicator(
+                                            Modifier.size(Dimensions.xxsmallIcon),
+                                            strokeWidth = 2.dp
+                                        )
+                                    }
                                 }
-                            }
+                            )
                         }
                     }
                 }
             }
+
+            GrassGenerator()
         }
     }
 }

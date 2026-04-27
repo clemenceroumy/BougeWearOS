@@ -27,10 +27,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.companion.CompanionType
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.Button
 import fr.croumy.bouge.presentation.ui.components.IconButton
 import fr.croumy.bouge.presentation.ui.components.OutlinedText

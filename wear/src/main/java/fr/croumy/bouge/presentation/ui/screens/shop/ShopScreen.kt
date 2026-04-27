@@ -40,9 +40,9 @@ import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
 import fr.croumy.bouge.core.models.shop.food.FoodItem
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.presentation.extensions.fillMaxRectangleWidth
 import fr.croumy.bouge.presentation.models.app.ShopItemType
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.components.ShopItemComponent
 import kotlinx.coroutines.launch

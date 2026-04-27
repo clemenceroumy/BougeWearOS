@@ -1,4 +1,4 @@
-package fr.croumy.bouge.presentation.theme
+package fr.croumy.bouge.core.theme
 
 import androidx.compose.ui.unit.dp
 
@@ -19,6 +19,7 @@ object Dimensions {
     val iconBtnHeight = 40.dp
     val mediumBtnHeight = 34.dp
     val smallBtnHeight = 28.dp
+    val xlargeIcon = 100.dp
     val largeIcon = 70.dp
     val mediumIcon = 50.dp
     val smallIcon = 30.dp
