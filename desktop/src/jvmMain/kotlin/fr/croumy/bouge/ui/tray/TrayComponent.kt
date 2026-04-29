@@ -5,14 +5,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.WindowPosition
 import bouge.desktop.generated.resources.Res
+import bouge.desktop.generated.resources.menu_connect
 import bouge.desktop.generated.resources.menu_disconnect
 import bouge.desktop.generated.resources.menu_exit
 import bouge.desktop.generated.resources.tray_icon
@@ -40,24 +36,30 @@ fun ApplicationScope.TrayComponent(
     val isConnected = bleScanner.isConnected.collectAsState()
 
     val exitLabel = stringResource(Res.string.menu_exit)
+    val connectLabel = stringResource(Res.string.menu_connect)
     val disconnectLabel = stringResource(Res.string.menu_disconnect)
 
     LaunchedEffect(isConnected.value) {
-        if(isConnected.value) { isOpen.value = false }
+        if (isConnected.value) {
+            isOpen.value = false
+        }
     }
 
     Tray(
         icon = painterResource(Res.drawable.tray_icon),
         tooltip = "",
-        primaryAction = {
-            windowPosition.value = getTrayWindowPosition(Window.MENU_WIDTH, Window.MENU_HEIGHT)
-            isOpen.value = true
-        },
         menuContent = {
             Item(
-                label = disconnectLabel,
-                onClick = { coroutineScope.launch { bleScanner.disconnect() } },
-                isEnabled = isConnected.value
+                label = if (isConnected.value) disconnectLabel else connectLabel,
+                onClick = {
+                    if (isConnected.value) coroutineScope.launch { bleScanner.disconnect() }
+                    else {
+                        println("Starting scan from tray menu")
+                        bleScanner.scan()
+                        windowPosition.value = getTrayWindowPosition(Window.MENU_WIDTH, Window.MENU_HEIGHT)
+                        isOpen.value = true
+                    }
+                },
             )
             Item(
                 label = exitLabel,

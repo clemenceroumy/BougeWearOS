@@ -12,6 +12,7 @@ import com.juul.kable.logs.SystemLogEngine
 import fr.croumy.bouge.core.models.companion.Companion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,6 +31,7 @@ class BleScanner(
     val companionService: CompanionService
 ) {
     val scanCoroutineScope = CoroutineScope(Dispatchers.IO)
+    var scanJob: Job? = null
 
     val isScanning = mutableStateOf(false)
     val isConnected = MutableStateFlow(false)
@@ -65,11 +67,13 @@ class BleScanner(
                         readCompanion()
                     }
 
-                    state is State.Connecting -> isScanning.value = false
+                    state is State.Connecting -> {
+                        isScanning.value = false
+                        peripherals.value = emptyList()
+                    }
                     state is State.Disconnected && isConnected.value -> {
                         println("Disconnected from peripheral")
                         isConnected.value = false
-                        peripherals.value = emptyList()
                         selectedPeripheral.value = null
                         companionService.resetState()
                     }
@@ -92,23 +96,31 @@ class BleScanner(
             }
         }
 
-        scanCoroutineScope.launch {
+        scanJob = scanCoroutineScope.launch {
             scanner.advertisements
-                .onStart { isScanning.value = true }
+                .onStart {
+                    println("onStart: Starting scan")
+                    isScanning.value = true
+                }
                 .onCompletion {
                     println("Scan completed ${it ?: ""}")
                     isScanning.value = false
+                    peripherals.value = emptyList()
                 }
                 .filter { advertisement ->
                     val someContains = peripherals.value.find { it.peripheralName == advertisement.peripheralName }
                     someContains == null
                 }
-                .takeWhile { selectedPeripheral.value == null }
+                .takeWhile { selectedPeripheral.value == null}
                 .collect {
                     println(it)
                     peripherals.value = peripherals.value.plus(it)
                 }
         }
+    }
+
+    fun stopScan() {
+        scanJob?.cancel()
     }
 
     fun connectPeripheral(peripheral: PlatformAdvertisement) {

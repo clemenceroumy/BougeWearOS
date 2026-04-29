@@ -1,14 +1,19 @@
 package fr.croumy.bouge.ui.tray
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -17,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -25,6 +31,8 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberWindowState
 import bouge.core.generated.resources.background_sky_day
 import bouge.desktop.generated.resources.Res
+import bouge.desktop.generated.resources.close
+import bouge.desktop.generated.resources.description_close
 import bouge.desktop.generated.resources.menu_search
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.core.theme.Dimensions
@@ -56,37 +64,25 @@ fun TrayMenuComponent(
     val companion = companionService.currentCompanion
     val peripherals = bleScanner.peripherals
     val selectedPeripheral = bleScanner.selectedPeripheral.collectAsState()
-    val isConnected = bleScanner.isConnected.collectAsState()
     val isSearching = bleScanner.isScanning.value || (companion.value == null && selectedPeripheral.value != null)
 
     LaunchedEffect(position) {
         state.position = position
     }
 
-    LaunchedEffect(isConnected.value, isOpen.value) {
-        // auto scan on open menu
-        if (!isConnected.value && isOpen.value) {
-            bleScanner.scan()
-        }
+    fun onClose() {
+        isOpen.value = false
+        //bleScanner.stopScan()
     }
 
     Window(
-        onCloseRequest = { isOpen.value = false },
+        onCloseRequest = { onClose() },
         state = state,
         undecorated = true,
         transparent = true,
         visible = isOpen.value && state.position != UnspecifiedWindowPosition,
         alwaysOnTop = true,
     ) {
-        LaunchedEffect(Unit) {
-            val listener = object : WindowFocusListener {
-                override fun windowGainedFocus(e: WindowEvent?) {}
-
-                override fun windowLostFocus(e: WindowEvent?) { isOpen.value = false }
-            }
-            window.addWindowFocusListener(listener)
-        }
-
         Box(
             Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
@@ -100,6 +96,29 @@ fun TrayMenuComponent(
                     .fillMaxSize()
                     .clip(RoundedCornerShape(Dimensions.mediumRadius))
             )
+
+            Row(
+                Modifier
+                    .fillMaxSize()
+                    .padding(top = Dimensions.smallPadding, end = Dimensions.smallPadding),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Box(
+                    Modifier
+                        .clip(CircleShape)
+                        .clickable { onClose() }
+                        .size(Dimensions.smallIcon)
+                        .background(Color.Black.copy(alpha = 0.2f), shape = CircleShape)
+                        .padding(Dimensions.xsmallPadding),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painterResource(Res.drawable.close),
+                        contentDescription = stringResource(Res.string.description_close),
+                        modifier = Modifier.size(Dimensions.smallIcon)
+                    )
+                }
+            }
 
             if (isSearching) {
                 if (peripherals.value.isEmpty()) {
