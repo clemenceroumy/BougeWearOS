@@ -117,6 +117,7 @@ class BleScanner(
     }
 
     fun stopScan() {
+        peripherals.value = emptyList()
         scanJob?.cancel()
     }
 
