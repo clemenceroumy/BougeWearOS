@@ -9,17 +9,22 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.ApplicationScope
+import androidx.compose.ui.window.WindowPosition
 import bouge.desktop.generated.resources.Res
 import bouge.desktop.generated.resources.menu_disconnect
 import bouge.desktop.generated.resources.menu_exit
+import bouge.desktop.generated.resources.tray_icon
 import com.kdroid.composetray.tray.api.ExperimentalTrayAppApi
 import com.kdroid.composetray.tray.api.Tray
 import com.kdroid.composetray.utils.getTrayWindowPosition
 import fr.croumy.bouge.constants.Window
+import fr.croumy.bouge.helpers.UnspecifiedWindowPosition
 import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.theme.BougeTheme
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
@@ -29,7 +34,7 @@ fun ApplicationScope.TrayComponent(
     bleScanner: BleScanner = koinInject()
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val windowPosition = mutableStateOf(getTrayWindowPosition(Window.WIDTH, Window.HEIGHT))
+    val windowPosition = mutableStateOf<WindowPosition>(UnspecifiedWindowPosition)
     val isOpen = mutableStateOf(false)
 
     val isConnected = bleScanner.isConnected.collectAsState()
@@ -42,10 +47,10 @@ fun ApplicationScope.TrayComponent(
     }
 
     Tray(
-        icon = TrayIcon,
+        icon = painterResource(Res.drawable.tray_icon),
         tooltip = "",
         primaryAction = {
-            windowPosition.value = getTrayWindowPosition(Window.WIDTH, Window.HEIGHT)
+            windowPosition.value = getTrayWindowPosition(Window.MENU_WIDTH, Window.MENU_HEIGHT)
             isOpen.value = true
         },
         menuContent = {
@@ -63,16 +68,8 @@ fun ApplicationScope.TrayComponent(
 
     BougeTheme {
         TrayMenuComponent(
-            position = windowPosition,
+            position = windowPosition.value,
             isOpen = isOpen,
         )
-    }
-}
-
-object TrayIcon : Painter() {
-    override val intrinsicSize = Size(256f, 256f)
-
-    override fun DrawScope.onDraw() {
-        drawOval(Color(0xFFFFA500))
     }
 }
