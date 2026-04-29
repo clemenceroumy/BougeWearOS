@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.horologist.compose.layout.fillMaxRectangle
 import fr.croumy.bouge.R
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import fr.croumy.bouge.presentation.ui.components.Button
 import fr.croumy.bouge.presentation.ui.components.OutlinedText

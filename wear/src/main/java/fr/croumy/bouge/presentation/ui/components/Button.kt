@@ -22,7 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.croumy.bouge.R
-import fr.croumy.bouge.presentation.theme.Dimensions
+import fr.croumy.bouge.core.theme.Dimensions
 
 @Composable
 fun Button(

@@ -1,5 +1,6 @@
 package fr.croumy.bouge.presentation.ui.screens.connect
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -21,11 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.background.BackgroundItem
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
+import fr.croumy.bouge.core.ui.components.WoodPanelComponent
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.navigation.navigateAndPopUpTo
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.Button
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import kotlinx.coroutines.CoroutineScope
@@ -60,6 +63,13 @@ fun ConnectScreen(
                 launchSingleTop = true
             }
             viewModel.resumeCompanionStatsWorker()
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            // Stop advertising when leaving the screen
+            viewModel.stopConnection()
         }
     }
 
@@ -100,19 +110,13 @@ fun ConnectScreen(
                         frameCount = companion.value!!.type.assetIdleFrame
                     )
                 } else if(!isAdvertising.value && isConnected.value && isSent.value) {
-                    Box(
-                        contentAlignment = Alignment.TopCenter
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.wood_sign),
-                            contentDescription = stringResource(R.string.description_away_wood_sign),
+                    WoodPanelComponent(
+                        size = Dimensions.largeIcon,
+                        text = stringResource(R.string.connect_away),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
-                        Text(
-                            stringResource(R.string.connect_away),
-                            modifier = Modifier.padding(top = Dimensions.xsmallPadding),
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
+                    )
                 }
             } else {
                 CircularProgressIndicator()

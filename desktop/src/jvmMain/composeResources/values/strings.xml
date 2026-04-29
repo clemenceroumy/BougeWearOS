@@ -3,4 +3,8 @@
     <string name="menu_connect">Connect</string>
     <string name="menu_disconnect">Disconnect</string>
     <string name="menu_exit">Exit</string>
+    <string name="menu_search">Searching...</string>
+
+    <!-- DESCRIPTIONS -->
+    <string name="description_close">Close window</string>
 </resources>

@@ -14,6 +14,7 @@ import android.bluetooth.le.AdvertiseCallback
 import android.bluetooth.le.AdvertiseData
 import android.bluetooth.le.AdvertiseSettings
 import android.content.Context
+import android.os.Build
 import android.os.ParcelUuid
 import android.util.Log
 import androidx.annotation.RequiresPermission
@@ -59,6 +60,7 @@ class BleServer @Inject constructor(
 
     private val advertiseData = AdvertiseData.Builder()
         .addServiceUuid(ParcelUuid.fromString(SERVICE_UUID))
+        .setIncludeDeviceName(true)
         .build()
 
     private val advertiseCallback = object : AdvertiseCallback() {
@@ -173,6 +175,7 @@ class BleServer @Inject constructor(
                 gattServer?.addService(bleService)
             }
 
+            bluetoothManager.adapter.name = Build.MODEL
             advertiser.startAdvertising(advertiseSettings, advertiseData, advertiseCallback)
             isAdvertising.value = true
         }
@@ -184,12 +187,5 @@ class BleServer @Inject constructor(
             advertiser?.stopAdvertising(advertiseCallback)
             isAdvertising.value = false
         }
-    }
-
-    @SuppressLint("MissingPermission")
-    fun closeServer() {
-        gattServer?.clearServices()
-        gattServer?.close()
-        gattServer = null
     }
 }

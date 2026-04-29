@@ -23,8 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.IShopItem
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.presentation.models.app.ShopItemType
-import fr.croumy.bouge.presentation.theme.Dimensions
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

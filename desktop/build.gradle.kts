@@ -28,6 +28,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
 
+            // CUSTOM TRAY
+            implementation(libs.composenativetray)
+
             // NETWORK
             implementation(libs.ktor.network)
             api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")

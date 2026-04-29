@@ -32,6 +32,10 @@ class ConnectViewModel @Inject constructor(
         bleServer.startAdvertising()
     }
 
+    fun stopConnection() {
+        bleServer.stopAdvertising()
+    }
+
     fun resumeCompanionStatsWorker() {
         workerHelper.resumeCompanionStatsWorker()
     }

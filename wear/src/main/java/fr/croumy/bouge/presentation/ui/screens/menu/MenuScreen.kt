@@ -13,12 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+import bouge.core.generated.resources.Res
+import bouge.core.generated.resources.background_sky_day
 import com.google.android.horologist.annotations.ExperimentalHorologistApi
 import fr.croumy.bouge.R
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
-import fr.croumy.bouge.presentation.theme.Dimensions
 import fr.croumy.bouge.presentation.ui.components.CloudButton
+import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalHorologistApi::class)
 @Composable
@@ -29,7 +32,7 @@ fun MenuScreen() {
         Modifier.fillMaxSize()
     ) {
         Image(
-            painterResource(R.drawable.background_sky_day),
+            painterResource(Res.drawable.background_sky_day),
             contentDescription = stringResource(R.string.description_cloudy_background),
         )
 

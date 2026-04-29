@@ -26,7 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.core.models.shop.toy.ToyItem
-import fr.croumy.bouge.presentation.theme.Dimensions
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource

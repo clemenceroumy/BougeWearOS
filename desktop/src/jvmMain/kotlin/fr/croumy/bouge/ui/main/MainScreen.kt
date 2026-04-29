@@ -26,10 +26,11 @@ import androidx.compose.ui.unit.dp
 import fr.croumy.bouge.constants.Constants
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.core.models.companion.Companion
+import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.AnimatedSprite
+import fr.croumy.bouge.helpers.GrassGenerator
 import fr.croumy.bouge.helpers.grass
 import fr.croumy.bouge.models.Direction
-import fr.croumy.bouge.theme.Dimensions
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -96,17 +97,6 @@ fun MainScreen(
             }
         }
 
-        Row(
-            Modifier.wrapContentWidth()
-        ) {
-            grass.map {
-                Image(
-                    painter = painterResource(it),
-                    contentDescription = null,
-                    modifier = Modifier.size(Dimensions.mediumIcon),
-                    contentScale = ContentScale.Crop
-                )
-            }
-        }
+        GrassGenerator()
     }
 }
