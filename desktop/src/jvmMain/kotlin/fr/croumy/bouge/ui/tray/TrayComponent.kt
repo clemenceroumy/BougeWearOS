@@ -11,10 +11,12 @@ import bouge.desktop.generated.resources.Res
 import bouge.desktop.generated.resources.menu_connect
 import bouge.desktop.generated.resources.menu_disconnect
 import bouge.desktop.generated.resources.menu_exit
-import bouge.desktop.generated.resources.tray_icon
+import bouge.desktop.generated.resources.tray_icon_dark
+import bouge.desktop.generated.resources.tray_icon_light
 import com.kdroid.composetray.tray.api.ExperimentalTrayAppApi
 import com.kdroid.composetray.tray.api.Tray
 import com.kdroid.composetray.utils.getTrayWindowPosition
+import com.kdroid.composetray.utils.isMenuBarInDarkMode
 import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.helpers.UnspecifiedWindowPosition
 import fr.croumy.bouge.services.BleScanner
@@ -30,6 +32,7 @@ fun ApplicationScope.TrayComponent(
     bleScanner: BleScanner = koinInject()
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val isMenuBarDark = isMenuBarInDarkMode()
     val windowPosition = mutableStateOf<WindowPosition>(UnspecifiedWindowPosition)
     val isOpen = mutableStateOf(false)
 
@@ -46,7 +49,7 @@ fun ApplicationScope.TrayComponent(
     }
 
     Tray(
-        icon = painterResource(Res.drawable.tray_icon),
+        icon = painterResource(if(isMenuBarDark) Res.drawable.tray_icon_dark else Res.drawable.tray_icon_light),
         tooltip = "",
         menuContent = {
             Item(
