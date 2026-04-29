@@ -41,7 +41,9 @@ import fr.croumy.bouge.constants.Window
 import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.core.ui.components.WoodPanelComponent
 import fr.croumy.bouge.helpers.GrassGenerator
+import fr.croumy.bouge.helpers.OperatingSystem
 import fr.croumy.bouge.helpers.UnspecifiedWindowPosition
+import fr.croumy.bouge.helpers.currentOS
 import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.services.CompanionService
 import fr.croumy.bouge.ui.components.Button
@@ -82,9 +84,10 @@ fun TrayMenuComponent(
         onCloseRequest = { onClose() },
         state = state,
         undecorated = true,
-        transparent = true,
+        transparent = currentOS != OperatingSystem.Linux,
         visible = isOpen.value && state.position != UnspecifiedWindowPosition,
         alwaysOnTop = true,
+        resizable = false,
     ) {
         Box(
             Modifier.fillMaxSize(),

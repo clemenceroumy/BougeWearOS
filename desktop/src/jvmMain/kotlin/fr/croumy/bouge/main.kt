@@ -15,6 +15,8 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import fr.croumy.bouge.constants.Window
+import fr.croumy.bouge.helpers.OperatingSystem
+import fr.croumy.bouge.helpers.currentOS
 import fr.croumy.bouge.injection.allModules
 import fr.croumy.bouge.services.BleScanner
 import fr.croumy.bouge.services.CompanionService
@@ -48,7 +50,7 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "BougeWearOS",
         state = windowState,
-        transparent = true,
+        transparent = currentOS != OperatingSystem.Linux,
         undecorated = true,
         alwaysOnTop = true,
         resizable = false,
