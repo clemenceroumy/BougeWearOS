@@ -1,5 +1,6 @@
 package fr.croumy.bouge.presentation.ui.screens.connect
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -61,6 +63,13 @@ fun ConnectScreen(
                 launchSingleTop = true
             }
             viewModel.resumeCompanionStatsWorker()
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            // Stop advertising when leaving the screen
+            viewModel.stopConnection()
         }
     }
 

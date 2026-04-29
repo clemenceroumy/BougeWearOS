@@ -72,7 +72,7 @@ fun TrayMenuComponent(
 
     fun onClose() {
         isOpen.value = false
-        //bleScanner.stopScan()
+        bleScanner.stopScan()
     }
 
     Window(

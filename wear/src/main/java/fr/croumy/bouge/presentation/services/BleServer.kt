@@ -185,11 +185,4 @@ class BleServer @Inject constructor(
             isAdvertising.value = false
         }
     }
-
-    @SuppressLint("MissingPermission")
-    fun closeServer() {
-        gattServer?.clearServices()
-        gattServer?.close()
-        gattServer = null
-    }
 }
