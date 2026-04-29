@@ -63,14 +63,12 @@ class BleScanner(
                     state is State.Connected -> {
                         println("Connected to peripheral")
                         isConnected.value = true
+                        peripherals.value = emptyList()
 
                         readCompanion()
                     }
 
-                    state is State.Connecting -> {
-                        isScanning.value = false
-                        peripherals.value = emptyList()
-                    }
+                    state is State.Connecting -> { isScanning.value = false }
                     state is State.Disconnected && isConnected.value -> {
                         println("Disconnected from peripheral")
                         isConnected.value = false
@@ -105,15 +103,14 @@ class BleScanner(
                 .onCompletion {
                     println("Scan completed ${it ?: ""}")
                     isScanning.value = false
-                    peripherals.value = emptyList()
                 }
                 .filter { advertisement ->
-                    val someContains = peripherals.value.find { it.peripheralName == advertisement.peripheralName }
+                    val someContains = peripherals.value.find { it.identifier == advertisement.identifier }
                     someContains == null
                 }
                 .takeWhile { selectedPeripheral.value == null}
                 .collect {
-                    println(it)
+                    println("Received advertisement: $it")
                     peripherals.value = peripherals.value.plus(it)
                 }
         }

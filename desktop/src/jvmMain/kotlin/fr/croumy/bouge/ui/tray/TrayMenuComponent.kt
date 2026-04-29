@@ -3,6 +3,8 @@ package fr.croumy.bouge.ui.tray
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -97,6 +100,42 @@ fun TrayMenuComponent(
                     .clip(RoundedCornerShape(Dimensions.mediumRadius))
             )
 
+            if (isSearching) {
+                if (peripherals.value.isEmpty()) {
+                    WoodPanelComponent(
+                        text = stringResource(Res.string.menu_search),
+                        paddingTop = Dimensions.mediumPadding,
+                        size = Dimensions.xlargeIcon
+                    )
+                } else Column(
+                    Modifier
+                        .fillMaxSize()
+                        .scrollable(
+                            rememberScrollState(),
+                            orientation = Orientation.Vertical,
+                        ),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    peripherals.value.forEach {
+                        Row {
+                            Button(
+                                text = it.name ?: it.identifier.toString(),
+                                onClick = { bleScanner.connectPeripheral(it) },
+                                icon = {
+                                    if (selectedPeripheral.value?.identifier == it.identifier) {
+                                        CircularProgressIndicator(
+                                            Modifier.size(Dimensions.xxsmallIcon),
+                                            strokeWidth = 2.dp
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+
             Row(
                 Modifier
                     .fillMaxSize()
@@ -117,37 +156,6 @@ fun TrayMenuComponent(
                         contentDescription = stringResource(Res.string.description_close),
                         modifier = Modifier.size(Dimensions.smallIcon)
                     )
-                }
-            }
-
-            if (isSearching) {
-                if (peripherals.value.isEmpty()) {
-                    WoodPanelComponent(
-                        text = stringResource(Res.string.menu_search),
-                        paddingTop = Dimensions.mediumPadding,
-                        size = Dimensions.xlargeIcon
-                    )
-                } else Column(
-                    Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    peripherals.value.forEach {
-                        Row {
-                            Button(
-                                text = it.identifier.toString(),
-                                onClick = { bleScanner.connectPeripheral(it) },
-                                icon = {
-                                    if (selectedPeripheral.value?.identifier == it.identifier) {
-                                        CircularProgressIndicator(
-                                            Modifier.size(Dimensions.xxsmallIcon),
-                                            strokeWidth = 2.dp
-                                        )
-                                    }
-                                }
-                            )
-                        }
-                    }
                 }
             }
 
