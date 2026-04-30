@@ -57,7 +57,6 @@ fun ApplicationScope.TrayComponent(
                 onClick = {
                     if (isConnected.value) coroutineScope.launch { bleScanner.disconnect() }
                     else {
-                        println("Starting scan from tray menu")
                         bleScanner.scan()
                         windowPosition.value = getTrayWindowPosition(Window.MENU_WIDTH, Window.MENU_HEIGHT)
                         isOpen.value = true

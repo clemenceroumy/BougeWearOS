@@ -24,7 +24,9 @@ constraintlayout = "2.2.1"
 composeBom = "2026.04.01"
 composeMaterial = "1.6.1"
 composeMaterialIcon = "1.7.8"
+protolayoutMaterial = "1.4.0"
 room = "2.8.4"
+tilesRenderer = "1.6.0"
 timber = "5.0.1"
 wearInput = "1.2.0"
 wearToolingPreview = "1.0.0"
@@ -47,9 +49,14 @@ androidx-lifecycle = "2.10.0"
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+androidx-protolayout = { module = "androidx.wear.protolayout:protolayout", version.ref = "protolayoutMaterial" }
+androidx-protolayout-expression = { module = "androidx.wear.protolayout:protolayout-expression", version.ref = "protolayoutMaterial" }
+androidx-protolayout-material3 = { module = "androidx.wear.protolayout:protolayout-material3", version.ref = "protolayoutMaterial" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-tiles-renderer = { module = "androidx.wear.tiles:tiles-renderer", version.ref = "tilesRenderer" }
+androidx-tiles-testing = { module = "androidx.wear.tiles:tiles-testing", version.ref = "tilesRenderer" }
 androidx-wear-input = { module = "androidx.wear:wear-input", version.ref = "wearInput" }
 components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "jetbrainCompose" }
 composenativetray = { module = "io.github.kdroidfilter:composenativetray", version.ref = "composenativetray" }
@@ -85,7 +92,7 @@ androidx-material-icons-extended = { group = "androidx.compose.material", name =
 androidx-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "composeMaterialIcon" }
 androidx-compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "composeMaterial" }
 androidx-wear-tooling-preview = { group = "androidx.wear", name = "wear-tooling-preview", version.ref = "wearToolingPreview" }
-androidx-wear-compose-navigation = { group = "androidx.wear.compose", name = "compose-navigation", version = "1.4.1" }
+androidx-wear-compose-navigation = { group = "androidx.wear.compose", name = "compose-navigation", version = "composeMaterial" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-tiles = { group = "androidx.wear.tiles", name = "tiles", version.ref = "tiles" }
