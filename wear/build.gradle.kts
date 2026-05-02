@@ -59,10 +59,17 @@ dependencies {
     implementation(libs.androidx.wear.tooling.preview)
     implementation(libs.androidx.wear.compose.navigation)
     implementation(libs.androidx.wear.input)
+    implementation(libs.androidx.watchface.complications.data.source.ktx)
+
+    // ANDROID WEAR TILES
     implementation(libs.androidx.tiles)
     implementation(libs.androidx.tiles.material)
     implementation(libs.androidx.tiles.tooling.preview)
-    implementation(libs.androidx.watchface.complications.data.source.ktx)
+    implementation(libs.androidx.protolayout)
+    implementation(libs.androidx.protolayout.material3)
+    implementation(libs.androidx.protolayout.expression)
+    debugImplementation(libs.androidx.tiles.renderer)
+    testImplementation(libs.androidx.tiles.testing)
 
     //COMPOSE / MATERIAL
     implementation(compose.components.resources) // added to use DrawableResource from :core:commonMain
