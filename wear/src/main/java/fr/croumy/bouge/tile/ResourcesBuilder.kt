@@ -19,6 +19,7 @@ import bouge.core.generated.resources.hungriness_0_25
 import bouge.core.generated.resources.hungriness_0_5
 import bouge.core.generated.resources.hungriness_0_75
 import bouge.core.generated.resources.hungriness_1
+import fr.croumy.bouge.R
 import fr.croumy.bouge.core.utils.resources.toByteArray
 
 const val RESOURCES_VERSION = "0"
@@ -29,13 +30,22 @@ suspend fun resources(
     return ResourceBuilders.Resources.Builder()
         .setVersion(RESOURCES_VERSION)
         .addIdToImageMapping(
-            "background_sky_day",
+            Res.drawable.background_sky_day.toString(),
             ResourceBuilders.ImageResource.Builder()
                 .setInlineResource(
                     ResourceBuilders.InlineImageResource.Builder()
                         .setData(Res.drawable.background_sky_day.toByteArray())
                         .setWidthPx(560)
                         .setHeightPx(560)
+                        .build()
+                ).build()
+        )
+        .addIdToImageMapping(
+            R.drawable.background_space.toString(),
+            ResourceBuilders.ImageResource.Builder()
+                .setAndroidResourceByResId(
+                    ResourceBuilders.AndroidImageResourceByResId.Builder()
+                        .setResourceId(R.drawable.background_space)
                         .build()
                 ).build()
         )

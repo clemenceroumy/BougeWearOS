@@ -1,8 +1,11 @@
 package fr.croumy.bouge.tile
 
 import android.content.Context
+import android.util.Log
+import androidx.wear.protolayout.ActionBuilders
 import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.LayoutElementBuilders
+import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.layout.column
 import androidx.wear.protolayout.layout.row
@@ -12,9 +15,13 @@ import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.text
 import androidx.wear.protolayout.types.layoutString
 import androidx.wear.tiles.RequestBuilders
-import androidx.wear.tiles.TileBuilders
+import bouge.core.generated.resources.Res
+import bouge.core.generated.resources.background_sky_day
+import fr.croumy.bouge.R
+
 import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.core.models.companion.StatsType
+import fr.croumy.bouge.presentation.MainActivity
 import fr.croumy.bouge.presentation.constants.Constants
 import fr.croumy.bouge.presentation.models.companion.Stats
 
@@ -22,9 +29,21 @@ fun tile(
     requestParams: RequestBuilders.TileRequest,
     context: Context,
     companion: Companion?,
-    stats: Stats,
-): TileBuilders.Tile {
-    val singleTileTimeline = TimelineBuilders.Timeline.Builder()
+    stats: Stats?,
+): TimelineBuilders.Timeline {
+    val clickable = ModifiersBuilders.Clickable.Builder()
+        .setId("open_app")
+        .setOnClick(
+            ActionBuilders.LaunchAction.Builder()
+                .setAndroidActivity(
+                    ActionBuilders.AndroidActivity.Builder()
+                        .setPackageName(context.packageName)
+                        .setClassName(MainActivity::class.java.name)
+                        .build()
+                ).build()
+        ).build()
+
+    return TimelineBuilders.Timeline.Builder()
         .addTimelineEntry(
             TimelineBuilders.TimelineEntry.Builder()
                 .setLayout(
@@ -37,24 +56,44 @@ fun tile(
                                 LayoutElementBuilders.Box.Builder()
                                     .setWidth(DimensionBuilders.expand())
                                     .setHeight(DimensionBuilders.expand())
+                                    .setModifiers(
+                                        ModifiersBuilders.Modifiers.Builder()
+                                            .setClickable(clickable)
+                                            .build()
+                                    )
                                     .addContent(
                                         LayoutElementBuilders.Image.Builder()
-                                            .setResourceId("background_sky_day")
+                                            .setResourceId(
+                                                if (companion == null) R.drawable.background_space.toString()
+                                                else Res.drawable.background_sky_day.toString()
+                                            )
                                             .setWidth(DimensionBuilders.expand())
                                             .setHeight(DimensionBuilders.expand())
                                             .build()
                                     )
                                     .addContent(
-                                        column(
-                                            contents = arrayOf(
-                                                text(text = companion?.name?.layoutString ?: "companion".layoutString),
-                                                spacer(height = DimensionBuilders.dp(10f)),
-                                                statRow(stats.happiness, StatsType.HAPPINESS),
-                                                statRow(stats.hungriness, StatsType.HUNGRINESS),
-                                                statRow(stats.health, StatsType.HEALTH),
-                                            ),
-                                            horizontalAlignment = LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER
-                                        )
+                                        if (companion == null) {
+                                            column(
+                                                contents = arrayOf(
+                                                    text(
+                                                        text = context.getString(R.string.companion_dead_notif).layoutString,
+                                                        alignment = LayoutElementBuilders.TEXT_ALIGN_CENTER,
+                                                        maxLines = 3
+                                                    )
+                                                )
+                                            )
+                                        } else {
+                                            column(
+                                                contents = arrayOf(
+                                                    text(text = companion.name.layoutString),
+                                                    spacer(height = DimensionBuilders.dp(10f)),
+                                                    statRow(stats!!.happiness, StatsType.HAPPINESS),
+                                                    statRow(stats.hungriness, StatsType.HUNGRINESS),
+                                                    statRow(stats.health, StatsType.HEALTH),
+                                                ),
+                                                horizontalAlignment = LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER
+                                            )
+                                        }
                                     )
                                     .build()
                             })
@@ -62,12 +101,6 @@ fun tile(
                 )
                 .build()
         )
-        .build()
-
-    return TileBuilders.Tile.Builder()
-        .setResourcesVersion(RESOURCES_VERSION)
-        .setFreshnessIntervalMillis(60 * 10 * 1000)
-        .setTileTimeline(singleTileTimeline)
         .build()
 }
 
