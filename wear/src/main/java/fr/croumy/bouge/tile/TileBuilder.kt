@@ -10,6 +10,7 @@ import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.protolayout.layout.column
 import androidx.wear.protolayout.layout.row
 import androidx.wear.protolayout.layout.spacer
+import androidx.wear.protolayout.material3.ColorScheme
 import androidx.wear.protolayout.material3.MaterialScope
 import androidx.wear.protolayout.material3.materialScope
 import androidx.wear.protolayout.material3.text
@@ -52,6 +53,7 @@ fun tile(
                             materialScope(
                                 context = context,
                                 deviceConfiguration = requestParams.deviceConfiguration,
+                                defaultColorScheme = TileTheme
                             ) {
                                 LayoutElementBuilders.Box.Builder()
                                     .setWidth(DimensionBuilders.expand())
@@ -78,14 +80,18 @@ fun tile(
                                                     text(
                                                         text = context.getString(R.string.companion_dead_notif).layoutString,
                                                         alignment = LayoutElementBuilders.TEXT_ALIGN_CENTER,
-                                                        maxLines = 3
+                                                        maxLines = 3,
+                                                        color = this.colorScheme.primary
                                                     )
                                                 )
                                             )
                                         } else {
                                             column(
                                                 contents = arrayOf(
-                                                    text(text = companion.name.layoutString),
+                                                    text(
+                                                        text = companion.name.layoutString,
+                                                        color = this.colorScheme.primary
+                                                    ),
                                                     spacer(height = DimensionBuilders.dp(10f)),
                                                     statRow(stats!!.happiness, StatsType.HAPPINESS),
                                                     statRow(stats.hungriness, StatsType.HUNGRINESS),
