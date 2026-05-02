@@ -3,6 +3,7 @@ package fr.croumy.bouge.tile
 import android.content.Context
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
+import androidx.wear.tiles.TileService
 import androidx.wear.tiles.tooling.preview.Preview
 import androidx.wear.tiles.tooling.preview.TilePreviewData
 import androidx.wear.tooling.preview.devices.WearDevices
@@ -21,6 +22,12 @@ import javax.inject.Inject
 class MainTileService : SuspendingTileService() {
     @Inject
     lateinit var companionService: CompanionService
+
+    companion object {
+        fun refreshTile(context: Context) {
+            getUpdater(context).requestUpdate(MainTileService::class.java)
+        }
+    }
 
     override suspend fun resourcesRequest(
         requestParams: RequestBuilders.ResourcesRequest
@@ -51,7 +58,7 @@ class MainTileService : SuspendingTileService() {
 fun tilePreview(context: Context) = TilePreviewData() {
     TileBuilders.Tile.Builder()
         .setResourcesVersion(RESOURCES_VERSION)
-        .setFreshnessIntervalMillis(60 * 10 * 1000)
+        //.setFreshnessIntervalMillis(60 * 10 * 1000)
         .setTileTimeline(
             tile(it, context, companionMock, Stats(happiness = 2f, hungriness = 3.5f, health = 5f))
         )

@@ -1,8 +1,10 @@
 package fr.croumy.bouge.presentation.services
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import dagger.hilt.android.qualifiers.ApplicationContext
 import fr.croumy.bouge.core.models.companion.Companion
 import fr.croumy.bouge.core.models.companion.CompanionType
 import fr.croumy.bouge.core.models.shop.IShopItem
@@ -13,6 +15,7 @@ import fr.croumy.bouge.presentation.data.mappers.toCompanion
 import fr.croumy.bouge.presentation.models.companion.Stats
 import fr.croumy.bouge.presentation.models.companion.StatsUpdate
 import fr.croumy.bouge.presentation.repositories.CompanionRepository
+import fr.croumy.bouge.tile.MainTileService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -30,7 +33,8 @@ class CompanionService @Inject constructor(
     private val companionRepository: CompanionRepository,
     private val dataStore: DataStore<Preferences>,
     private val inventoryService: InventoryService,
-    private val notificationService: NotificationService
+    private val notificationService: NotificationService,
+    @ApplicationContext private val context: Context
 ) {
     val myCompanion: Flow<Companion?> = companionRepository
         .getCurrentCompanion()
@@ -53,6 +57,7 @@ class CompanionService @Inject constructor(
             birthDate = ZonedDateTime.now(),
         )
         companionRepository.insertCompanion(companionEntity)
+        MainTileService.refreshTile(context)
     }
 
     suspend fun selectBackground(itemId: UUID) {
@@ -93,8 +98,9 @@ class CompanionService @Inject constructor(
 
     private suspend fun updateStat(updatedCompanion: CompanionEntity) {
         companionRepository.updateCompanionStats(updatedCompanion)
-
         checkIsDead(updatedCompanion)
+
+        MainTileService.refreshTile(context)
     }
 
     private fun checkIsDead(companion: CompanionEntity) {
