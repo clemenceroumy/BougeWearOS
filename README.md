@@ -60,6 +60,12 @@ With your credits, you'll be able to buy new background environment for your com
 
 ![Backgrounds](./doc/wallpaper.gif)
 
+### Tile
+The app also come with a tile, so you can check your companion's stats at a glance.
+Clicking on the tile open the app.
+
+![Tile](./doc/tile.gif)
+
 ### Desktop
 
 The watch app come with a desktop companion app. If you've installed it, you can connect your computer with your watch to send your companion inside your PC and watch it stroll over your screen !
