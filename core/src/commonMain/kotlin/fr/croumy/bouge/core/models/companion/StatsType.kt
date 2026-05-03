@@ -51,5 +51,4 @@ enum class StatsType {
     fun assetFromProgress(progress: Float): DrawableResource {
         return this.assets.find { it.first == progress }!!.second
     }
-
 }
