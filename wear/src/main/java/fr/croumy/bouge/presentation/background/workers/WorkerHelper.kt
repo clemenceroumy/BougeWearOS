@@ -38,7 +38,7 @@ class WorkerHelper @Inject constructor(
             .getInstance(context.applicationContext)
             .enqueueUniquePeriodicWork(
                 "send_reminder_periodic",
-                ExistingPeriodicWorkPolicy.REPLACE,
+                ExistingPeriodicWorkPolicy.KEEP,
                 DailyCheckWorker.setupWork
             )
     }
