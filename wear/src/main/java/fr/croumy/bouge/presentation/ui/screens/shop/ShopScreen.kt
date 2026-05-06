@@ -1,6 +1,5 @@
 package fr.croumy.bouge.presentation.ui.screens.shop
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
@@ -45,6 +44,7 @@ import fr.croumy.bouge.presentation.extensions.fillMaxRectangleWidth
 import fr.croumy.bouge.presentation.models.app.ShopItemType
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.components.ShopItemComponent
+import fr.croumy.bouge.presentation.ui.screens.shop.components.CreditCounter
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
@@ -79,18 +79,10 @@ fun ShopScreen(
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(
-                    Modifier.padding(top = Dimensions.mediumPadding)
-                ) {
-                    Image(
-                        painter = painterResource(R.drawable.icon_coin),
-                        contentDescription = null,
-                        modifier = Modifier.size(Dimensions.xxsmallIcon)
-                    )
-                    OutlinedText(
-                        text = totalCredit.value.toString()
-                    )
-                }
+                CreditCounter(
+                    credit = totalCredit.value
+                )
+
                 LazyVerticalGrid(
                     state = lazyGridState,
                     modifier = Modifier
