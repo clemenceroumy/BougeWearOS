@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
+import timber.log.Timber
 import javax.inject.Inject
 
 class WorkerHelper @Inject constructor(
@@ -12,6 +13,7 @@ class WorkerHelper @Inject constructor(
     fun launchHungrinessWorker(
         policy: ExistingWorkPolicy = ExistingWorkPolicy.REPLACE
     ) {
+        Timber.tag("WorkerHelper").i("HungrinessWorker enqueued")
         WorkManager
             .getInstance(context.applicationContext)
             .enqueueUniqueWork(
@@ -24,6 +26,7 @@ class WorkerHelper @Inject constructor(
     fun launchHappinessWorker(
         policy: ExistingWorkPolicy = ExistingWorkPolicy.REPLACE
     ) {
+        Timber.tag("WorkerHelper").i("HappinessWorker enqueued")
         WorkManager
             .getInstance(context.applicationContext)
             .enqueueUniqueWork(
@@ -34,6 +37,7 @@ class WorkerHelper @Inject constructor(
     }
 
     fun launchDailyWorker() {
+        Timber.tag("WorkerHelper").i("DailyCheckWorker enqueued")
         WorkManager
             .getInstance(context.applicationContext)
             .enqueueUniquePeriodicWork(

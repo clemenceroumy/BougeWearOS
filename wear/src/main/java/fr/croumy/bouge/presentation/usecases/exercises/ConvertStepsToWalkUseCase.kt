@@ -46,9 +46,7 @@ class ConvertStepsToWalkUseCase @Inject constructor(
                 stepTime,
                 ZoneId.systemDefault()
             )
-
-            Timber.i("Duration between previous and current step: $durationBetweenPreviousStep")
-
+            
             if (durationBetweenPreviousStep < Constants.TIME_GAP_BETWEEN_WALKS) {
                 if (dataService.currentWalk.value == 0) dataService.firstStepTime.value = dataService.lastStepTime.value
 

@@ -14,6 +14,7 @@ import fr.croumy.bouge.presentation.services.CompanionService
 import fr.croumy.bouge.presentation.services.DailyStepsService
 import fr.croumy.bouge.presentation.usecases.credits.RegisterWonCreditsParams
 import fr.croumy.bouge.presentation.usecases.credits.RegisterWonCreditsUseCase
+import timber.log.Timber
 import java.time.Duration
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
@@ -29,6 +30,8 @@ class DailyCheckWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         val todaySteps = dailyStepsService.getTodaySteps()
+
+        Timber.tag("DailyCheckWorker").i("DailyCheckWorker is running: todaySteps = $todaySteps")
         if (todaySteps < Constants.DAILY_STEPS_MIN_GOAL_TO_KEEP_HEALTH) companionService.updateHealthStat(StatsUpdate.DOWN(1f))
 
         registerWonCreditsUseCase(
