@@ -83,7 +83,7 @@ class HealthService @Inject constructor() : PassiveListenerService() {
 
     override fun onCreate() {
         super.onCreate()
-        Timber.i("HealthService created")
+        Timber.tag("HealthService").i("HealthService created")
 
         notificationService.hideRebootNotification()
 

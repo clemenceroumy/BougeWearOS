@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -6,6 +8,9 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.composeMultiplatform) // added to use DrawableResource from :core:commonMain
+}
+val localProperties = Properties().apply {
+    load(rootProject.file("env.properties").inputStream())
 }
 
 android {
@@ -18,6 +23,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "PAPERTRAIL_TOKEN", "\"${localProperties["PAPERTRAIL_TOKEN"]}\"")
     }
 
     buildTypes {
@@ -38,6 +45,7 @@ android {
     }*/
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -102,7 +110,8 @@ dependencies {
     implementation(libs.timber)
 
     //NETWORK
-    implementation(libs.ktor.network)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 
     //DATA
     implementation(libs.kotlinx.serialization.json)
