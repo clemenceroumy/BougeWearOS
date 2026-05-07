@@ -18,9 +18,12 @@ import javax.inject.Inject
 
 @HiltAndroidApp
 class MainApplication : Application(), Configuration.Provider {
-    @Inject lateinit var notificationService: NotificationService
-    @Inject lateinit var workerFactory: HiltWorkerFactory
-    @Inject lateinit var logService: LogService
+    @Inject
+    lateinit var notificationService: NotificationService
+    @Inject
+    lateinit var workerFactory: HiltWorkerFactory
+    @Inject
+    lateinit var logService: LogService
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
@@ -35,15 +38,15 @@ class MainApplication : Application(), Configuration.Provider {
         notificationService.initNotificationChannels()
     }
 
-    private class CrashReportingTree(val logService: LogService): Timber.Tree() {
+    private class CrashReportingTree(val logService: LogService) : Timber.Tree() {
         override fun log(
             priority: Int,
             tag: String?,
             message: String,
             t: Throwable?
         ) {
-            CoroutineScope(Dispatchers.IO).launch {
-                val priorityString = when(priority) {
+            if (BuildConfig.DEBUG) {
+                val priorityString = when (priority) {
                     Log.VERBOSE -> "VERBOSE"
                     Log.DEBUG -> "DEBUG"
                     Log.INFO -> "INFO"
@@ -55,7 +58,7 @@ class MainApplication : Application(), Configuration.Provider {
                 logService.registerLog("[$priorityString] $tag: $message")
             }
 
-            if(priority == Log.ERROR) {
+            if (priority == Log.ERROR) {
                 val crashlytics = Firebase.crashlytics
                 crashlytics.log(message)
             }

@@ -23,18 +23,12 @@ class WorkerHelper @Inject constructor(
     init {
         if (BuildConfig.DEBUG) {
             CoroutineScope(Dispatchers.IO).launch {
-                workManager.getWorkInfosForUniqueWorkFlow(hungriness_work).collect {
-                    Timber.tag("WorkerHelper").i("$it")
-                }
-            }
-            CoroutineScope(Dispatchers.IO).launch {
-                workManager.getWorkInfosForUniqueWorkFlow(happiness_work).collect {
-                    Timber.tag("WorkerHelper").i("$it")
-                }
-            }
-            CoroutineScope(Dispatchers.IO).launch {
-                workManager.getWorkInfosForUniqueWorkFlow(daily_check_work).collect {
-                    Timber.tag("WorkerHelper").i("$it")
+                workManager.getWorkInfosFlow(
+                    WorkQuery.fromUniqueWorkNames(listOf(hungriness_work, happiness_work, daily_check_work))
+                ).collect {
+                    it.forEach { info ->
+                        Timber.tag("WorkerHelper").i("$info")
+                    }
                 }
             }
         }

@@ -2,6 +2,9 @@ package fr.croumy.bouge.presentation.services
 
 import android.util.Log
 import fr.croumy.bouge.BuildConfig
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -40,7 +43,9 @@ class LogService @Inject constructor() {
 
     private var service: PaperTrailService = retrofit.create(PaperTrailService::class.java)
 
-     suspend fun registerLog(log: String) {
-        val result = service.log(log.toRequestBody())
+    fun registerLog(log: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            service.log(log.toRequestBody())
+        }
     }
 }
