@@ -60,9 +60,7 @@ fun CompanionStatsScreen(
                 )
                 Spacer(modifier = Modifier.height(Dimensions.smallPadding))
 
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(Dimensions.mediumPadding)
-                ) {
+                Column() {
                     IconStatProgressBar(
                         progress = stats.value!!.happiness,
                         stat = StatsType.HAPPINESS
