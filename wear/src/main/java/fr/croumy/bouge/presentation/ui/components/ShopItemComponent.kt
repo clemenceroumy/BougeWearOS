@@ -1,5 +1,13 @@
 package fr.croumy.bouge.presentation.ui.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.EaseOutCubic
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,17 +22,22 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.IShopItem
 import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.presentation.models.app.ShopItemType
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -34,13 +47,33 @@ fun ShopItemComponent(
     text: String? = null,
     itemSize: Dp = Dimensions.largeIcon,
     disabled: Boolean = false,
+    animationOnClick: Boolean = false,
     onClick: () -> Unit,
 ) {
+    val offsetY = remember { Animatable(0f) }
+    val fade = remember { Animatable(1f) }
+    val coroutineScope = rememberCoroutineScope()
+
     Box(
         Modifier
             .fillMaxSize()
             .aspectRatio(1f)
-            .clickable { if (!disabled) onClick() }
+            .clickable {
+                if (!disabled) {
+                    onClick()
+
+                    if(animationOnClick) coroutineScope.launch {
+                        launch {
+                            offsetY.animateTo(-20f, tween(300, easing = FastOutSlowInEasing))
+                            offsetY.animateTo(0f, tween(50, easing = EaseOutCubic))
+                        }
+                        launch {
+                            fade.animateTo(0f, tween(300, easing = LinearEasing))
+                            fade.animateTo(1f, tween(50, easing = EaseOutCubic))
+                        }
+                    }
+                }
+            }
     ) {
         Image(
             painter = painterResource(R.drawable.shop_box),
@@ -55,7 +88,11 @@ fun ShopItemComponent(
                 .aspectRatio(1f)
                 .align(Alignment.Center)
                 .padding(bottom = Dimensions.mediumPadding + Dimensions.xsmallPadding)
-                .padding(Dimensions.xsmallPadding),
+                .padding(Dimensions.xsmallPadding)
+                .graphicsLayer {
+                    translationY = offsetY.value
+                    alpha = fade.value
+                },
             colorFilter = if (disabled) ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) }) else null
         )
         Row(
@@ -66,7 +103,7 @@ fun ShopItemComponent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = when(shopItemType) {
+                text = when (shopItemType) {
                     ShopItemType.SHOP -> item.price.toString()
                     ShopItemType.INVENTORY -> text!!
                 },

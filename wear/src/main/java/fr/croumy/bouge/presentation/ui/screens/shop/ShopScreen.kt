@@ -111,6 +111,7 @@ fun ShopScreen(
                         ShopItemComponent(
                             ShopItemType.SHOP,
                             item,
+                            animationOnClick = true,
                             onClick = { shopViewModel.buyItem(item.price, item.id) }
                         )
                     }
@@ -128,6 +129,7 @@ fun ShopScreen(
                             item,
                             itemSize = Dimensions.largeIcon,
                             disabled = shopViewModel.getAlreadyPossessedBackgrounds.value.any { it.id == item.id },
+                            animationOnClick = true,
                             onClick = { shopViewModel.buyItem(item.price, item.id) }
                         )
                     }
