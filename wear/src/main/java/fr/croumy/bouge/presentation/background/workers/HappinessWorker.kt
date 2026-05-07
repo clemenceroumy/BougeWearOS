@@ -9,6 +9,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import fr.croumy.bouge.presentation.models.companion.StatsUpdate
 import fr.croumy.bouge.presentation.services.CompanionService
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @HiltWorker
@@ -20,6 +21,7 @@ class HappinessWorker @AssistedInject constructor(
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
+        Timber.tag("HappinessWorker").i("HappinessWorker is running, StatsUpdate.DOWN(1f)")
         companionService.updateHappinessStat(StatsUpdate.DOWN(1f))
 
         workerHelper.launchHappinessWorker()
