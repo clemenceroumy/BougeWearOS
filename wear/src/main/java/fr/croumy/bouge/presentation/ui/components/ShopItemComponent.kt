@@ -1,15 +1,13 @@
 package fr.croumy.bouge.presentation.ui.components
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.EaseOutCubic
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -30,13 +28,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import fr.croumy.bouge.R
 import fr.croumy.bouge.core.models.shop.IShopItem
 import fr.croumy.bouge.core.theme.Dimensions
 import fr.croumy.bouge.presentation.models.app.ShopItemType
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
@@ -49,6 +47,7 @@ fun ShopItemComponent(
     disabled: Boolean = false,
     animationOnClick: Boolean = false,
     onClick: () -> Unit,
+    onLongPress: () -> Unit = {},
 ) {
     val offsetY = remember { Animatable(0f) }
     val fade = remember { Animatable(1f) }
@@ -58,27 +57,31 @@ fun ShopItemComponent(
         Modifier
             .fillMaxSize()
             .aspectRatio(1f)
-            .clickable {
-                if (!disabled) {
-                    onClick()
+            .combinedClickable(
+                onClick = {
+                    if (!disabled) {
+                        onClick()
 
-                    if(animationOnClick) coroutineScope.launch {
-                        launch {
-                            offsetY.animateTo(-20f, tween(300, easing = FastOutSlowInEasing))
-                            offsetY.animateTo(0f, tween(50, easing = EaseOutCubic))
-                        }
-                        launch {
-                            fade.animateTo(0f, tween(300, easing = LinearEasing))
-                            fade.animateTo(1f, tween(50, easing = EaseOutCubic))
+                        if(animationOnClick) coroutineScope.launch {
+                            launch {
+                                offsetY.animateTo(-20f, tween(300, easing = FastOutSlowInEasing))
+                                offsetY.animateTo(0f, tween(50, easing = EaseOutCubic))
+                            }
+                            launch {
+                                fade.animateTo(0f, tween(300, easing = LinearEasing))
+                                fade.animateTo(1f, tween(50, easing = EaseOutCubic))
+                            }
                         }
                     }
-                }
-            }
+                },
+                onLongClick = onLongPress
+            )
     ) {
         Image(
             painter = painterResource(R.drawable.shop_box),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Fit
         )
         Image(
             painter = painterResource(item.assetId),

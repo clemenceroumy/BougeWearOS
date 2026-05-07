@@ -1,6 +1,11 @@
 package fr.croumy.bouge.presentation.ui.screens.shop
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +28,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -45,6 +51,7 @@ import fr.croumy.bouge.presentation.models.app.ShopItemType
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.components.ShopItemComponent
 import fr.croumy.bouge.presentation.ui.screens.shop.components.CreditCounter
+import fr.croumy.bouge.presentation.ui.screens.shop.components.ItemTooltip
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
@@ -58,6 +65,8 @@ fun ShopScreen(
     val lazyGridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
+
+    val selectedItem = remember { mutableStateOf<FoodItem?>(null) }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -112,7 +121,8 @@ fun ShopScreen(
                             ShopItemType.SHOP,
                             item,
                             animationOnClick = true,
-                            onClick = { shopViewModel.buyItem(item.price, item.id) }
+                            onClick = { shopViewModel.buyItem(item.price, item.id) },
+                            onLongPress = { selectedItem.value = item },
                         )
                     }
 
@@ -134,6 +144,17 @@ fun ShopScreen(
                         )
                     }
                 }
+            }
+
+            AnimatedVisibility(
+                visible = selectedItem.value != null,
+                enter = scaleIn(),
+                exit = scaleOut()
+            ) {
+                if(selectedItem.value != null) ItemTooltip(
+                    item = selectedItem.value!!,
+                    onClose = { selectedItem.value = null }
+                )
             }
         }
     }
