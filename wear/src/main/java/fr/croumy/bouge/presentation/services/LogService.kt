@@ -1,6 +1,5 @@
 package fr.croumy.bouge.presentation.services
 
-import android.util.Log
 import fr.croumy.bouge.BuildConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -8,12 +7,10 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
-import retrofit2.http.GET
 import retrofit2.http.POST
 import javax.inject.Inject
 import javax.inject.Singleton

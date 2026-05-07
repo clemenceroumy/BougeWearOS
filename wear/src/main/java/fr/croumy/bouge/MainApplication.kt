@@ -9,10 +9,6 @@ import com.google.firebase.crashlytics.crashlytics
 import dagger.hilt.android.HiltAndroidApp
 import fr.croumy.bouge.presentation.services.LogService
 import fr.croumy.bouge.presentation.services.NotificationService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import timber.log.Timber
 import javax.inject.Inject
 
