@@ -1,5 +1,8 @@
 package fr.croumy.bouge.presentation.ui.screens.shop.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,42 +26,50 @@ import fr.croumy.bouge.presentation.ui.components.IconStatProgressBar
 
 @Composable
 fun ItemTooltip(
-    item: FoodItem,
+    item: FoodItem?,
     onClose: () -> Unit
 ) {
-    Box(
-        Modifier
-            .fillMaxSize()
-            .clickable { onClose() },
-        contentAlignment = Alignment.Center
+    val isVisible = item != null
+
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = scaleIn(),
+        exit = scaleOut()
     ) {
-        Box(
+        if(isVisible) Box(
             Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.2f))
-        )
-
-        Box(
-            Modifier
-                .fillMaxWidth(0.75f)
-                .wrapContentHeight(),
+                .clickable { onClose() },
             contentAlignment = Alignment.Center
         ) {
-            Image(
-                painterResource(R.drawable.wood_tooltip),
-                contentDescription = null,
-                Modifier.matchParentSize(),
-                contentScale = ContentScale.FillBounds
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.2f))
             )
-            Column(
-                Modifier.padding(horizontal = Dimensions.mediumPadding, vertical = Dimensions.smallPadding),
+
+            Box(
+                Modifier
+                    .fillMaxWidth(0.75f)
+                    .wrapContentHeight(),
+                contentAlignment = Alignment.Center
             ) {
-                item.statsBoost.map {
-                    IconStatProgressBar(
-                        progress = it.value,
-                        stat = it.key,
-                        displayEmpty = false
-                    )
+                Image(
+                    painterResource(R.drawable.wood_tooltip),
+                    contentDescription = null,
+                    Modifier.matchParentSize(),
+                    contentScale = ContentScale.FillBounds
+                )
+                Column(
+                    Modifier.padding(horizontal = Dimensions.mediumPadding, vertical = Dimensions.smallPadding),
+                ) {
+                    item.statsBoost.map {
+                        IconStatProgressBar(
+                            progress = it.value,
+                            stat = it.key,
+                            displayEmpty = false
+                        )
+                    }
                 }
             }
         }

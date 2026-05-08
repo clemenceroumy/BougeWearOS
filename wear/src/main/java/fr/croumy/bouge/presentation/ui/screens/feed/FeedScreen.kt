@@ -1,6 +1,8 @@
 package fr.croumy.bouge.presentation.ui.screens.feed
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.scrollBy
@@ -45,6 +47,7 @@ import fr.croumy.bouge.presentation.models.app.ShopItemType
 import fr.croumy.bouge.presentation.ui.components.OutlinedText
 import fr.croumy.bouge.presentation.ui.components.ShopItemComponent
 import fr.croumy.bouge.presentation.ui.screens.feed.components.FeedCompanionAnimation
+import fr.croumy.bouge.presentation.ui.screens.shop.components.ItemTooltip
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 
@@ -54,9 +57,12 @@ fun FeedScreen(
     feedViewModel: FeedViewModel = hiltViewModel()
 ) {
     val selectedFoodItem = remember { mutableStateOf<FoodItem?>(null) }
+    val selectedPressedItem = remember { mutableStateOf<FoodItem?>(null) }
+
     val lazyGridState = rememberLazyGridState()
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
+
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -70,7 +76,7 @@ fun FeedScreen(
             contentDescription = stringResource(R.string.description_cloudy_background),
         )
 
-        if(feedViewModel.isLoading.value) {
+        if (feedViewModel.isLoading.value) {
             Column(
                 modifier = Modifier.fillMaxRectangle(),
                 verticalArrangement = Arrangement.Center,
@@ -83,7 +89,7 @@ fun FeedScreen(
                 )
             }
         } else {
-            if (feedViewModel.allFoodItems.value.isEmpty())
+            if (feedViewModel.allFoodItems.value.isEmpty()) {
                 Column(
                     modifier = Modifier
                         .fillMaxRectangle(),
@@ -102,33 +108,41 @@ fun FeedScreen(
                         textAlign = TextAlign.Center
                     )
                 }
-            else LazyVerticalGrid(
-                state = lazyGridState,
-                modifier = Modifier
-                    .fillMaxRectangle()
-                    .onRotaryScrollEvent { event ->
-                        coroutineScope.launch {
-                            lazyGridState.scrollBy(event.verticalScrollPixels)
+            } else {
+                LazyVerticalGrid(
+                    state = lazyGridState,
+                    modifier = Modifier
+                        .fillMaxRectangle()
+                        .onRotaryScrollEvent { event ->
+                            coroutineScope.launch {
+                                lazyGridState.scrollBy(event.verticalScrollPixels)
+                            }
+                            true
                         }
-                        true
+                        .focusRequester(focusRequester)
+                        .focusable(),
+                    columns = GridCells.Fixed(2),
+                    verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
+                    horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
+                    contentPadding = PaddingValues(bottom = Dimensions.largePadding)
+                ) {
+                    items(feedViewModel.allFoodItems.value) { item ->
+                        ShopItemComponent(
+                            ShopItemType.INVENTORY,
+                            item.first,
+                            text = "x${item.second}",
+                            onClick = { selectedFoodItem.value = item.first },
+                            onLongPress = { selectedPressedItem.value = item.first }
+                        )
                     }
-                    .focusRequester(focusRequester)
-                    .focusable(),
-                columns = GridCells.Fixed(2),
-                verticalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
-                horizontalArrangement = Arrangement.spacedBy(Dimensions.xsmallPadding),
-                contentPadding = PaddingValues(bottom = Dimensions.largePadding)
-            ) {
-                items(feedViewModel.allFoodItems.value) { item ->
-                    ShopItemComponent(
-                        ShopItemType.INVENTORY,
-                        item.first,
-                        text = "x${item.second}",
-                        onClick = { selectedFoodItem.value = item.first }
-                    )
                 }
             }
         }
+
+        ItemTooltip(
+            item = selectedPressedItem.value,
+            onClose = { selectedPressedItem.value = null }
+        )
 
         AnimatedVisibility(
             visible = selectedFoodItem.value != null,

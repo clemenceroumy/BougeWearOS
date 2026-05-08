@@ -146,16 +146,10 @@ fun ShopScreen(
                 }
             }
 
-            AnimatedVisibility(
-                visible = selectedItem.value != null,
-                enter = scaleIn(),
-                exit = scaleOut()
-            ) {
-                if(selectedItem.value != null) ItemTooltip(
-                    item = selectedItem.value!!,
-                    onClose = { selectedItem.value = null }
-                )
-            }
+            ItemTooltip(
+                item = selectedItem.value,
+                onClose = { selectedItem.value = null }
+            )
         }
     }
 }
