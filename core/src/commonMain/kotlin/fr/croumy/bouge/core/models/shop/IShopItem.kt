@@ -19,6 +19,8 @@ interface IShopItem {
         val FOOD_ONIGIRI_UUID = UUID.fromString("60dd2a62-b731-49fe-8d9f-416c577da27e")
         val FOOD_DRINK_UUID = UUID.fromString("f1274e94-0b01-457f-9a6a-7c7c50e616ce")
         val FOOD_DESSERT_UUID = UUID.fromString("dea4387d-d7ad-4b11-82b0-a2d785399ddb")
+        val FOOD_PIZZA_UUID = UUID.fromString("e3e86b76-02ff-489f-8e71-143069a40f22")
+        val FOOD_SOUP_UUID = UUID.fromString("134d6761-71d1-451e-9914-a351a7fb43d2")
         //BACKGROUND
         val PLAY_BALL_UUID = UUID.fromString("3f5e2d1a-9c4b-4e2a-8f7b-0a1b2c3d4e5f")
         val BACKGROUND_FOREST_UUID = UUID.fromString("a1c34aa0-4f90-47a1-a8d5-69fffc52f5e9")
