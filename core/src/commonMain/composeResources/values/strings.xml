@@ -5,6 +5,8 @@
     <string name="shop_food_onigiri">Onigiri</string>
     <string name="shop_food_drink">Drink</string>
     <string name="shop_food_dessert">Dessert</string>
+    <string name="shop_food_pizza">Pizza</string>
+    <string name="shop_food_soup">Soup</string>
     <string name="shop_play_ball">Ball</string>
     <string name="shop_background_forest">Forest</string>
     <string name="shop_background_ocean">Ocean</string>
