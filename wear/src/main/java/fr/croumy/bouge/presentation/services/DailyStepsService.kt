@@ -20,8 +20,7 @@ class DailyStepsService @Inject constructor(
         )
     }
 
-    suspend fun getTodaySteps(): Int {
-        val today = Instant.now().toYYYYMMDD()
-        return dailyStepsRepository.getByDate(today)?.totalSteps ?: 0
+    suspend fun getStepsByDate(date: Instant): Int {
+       return dailyStepsRepository.getByDate(date.toYYYYMMDD())?.totalSteps ?: 0
     }
 }

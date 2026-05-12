@@ -45,8 +45,7 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
-        //workerHelper.launchDailyWorker()
-        dailyCheckAlarm.scheduleDailyAlarm(true)
+        workerHelper.launchDailyWorker()
         workerHelper.launchHungrinessWorker(ExistingWorkPolicy.KEEP)
         workerHelper.launchHappinessWorker(ExistingWorkPolicy.KEEP)
 
