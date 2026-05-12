@@ -3,6 +3,7 @@ package fr.croumy.bouge.presentation.background.workers
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
@@ -45,11 +46,7 @@ class DailyCheckWorker @AssistedInject constructor(
     }
 
     companion object {
-        val setupWork = PeriodicWorkRequestBuilder<DailyCheckWorker>(
-            24, TimeUnit.HOURS,
-            15, TimeUnit.MINUTES
-        )
-            .setInitialDelay(Duration.between(LocalDateTime.now(), LocalDateTime.now().withHour(23).withMinute(59).withSecond(59)))
+        val setupWork = OneTimeWorkRequestBuilder<DailyCheckWorker>()
             .build()
     }
 }

@@ -18,6 +18,7 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
+import fr.croumy.bouge.presentation.background.alarms.DailyCheckAlarm
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavGraph
 import fr.croumy.bouge.presentation.theme.BougeTheme
@@ -31,6 +32,8 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var workerHelper: WorkerHelper
+    @Inject
+    lateinit var dailyCheckAlarm: DailyCheckAlarm
 
     @Inject
     lateinit var companionService: CompanionService
@@ -42,7 +45,8 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
-        workerHelper.launchDailyWorker()
+        //workerHelper.launchDailyWorker()
+        dailyCheckAlarm.scheduleDailyAlarm(true)
         workerHelper.launchHungrinessWorker(ExistingWorkPolicy.KEEP)
         workerHelper.launchHappinessWorker(ExistingWorkPolicy.KEEP)
 

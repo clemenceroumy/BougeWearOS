@@ -1,7 +1,6 @@
 package fr.croumy.bouge.presentation.background.workers
 
 import android.content.Context
-import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkQuery
@@ -59,9 +58,9 @@ class WorkerHelper @Inject constructor(
 
     fun launchDailyWorker() {
         Timber.tag("WorkerHelper").i("launchDailyWorker()")
-        workManager.enqueueUniquePeriodicWork(
+        workManager.enqueueUniqueWork(
             daily_check_work,
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingWorkPolicy.KEEP,
             DailyCheckWorker.setupWork
         )
     }
