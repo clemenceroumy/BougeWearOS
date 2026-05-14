@@ -64,7 +64,6 @@ class DailyCheckWorker @AssistedInject constructor(
 
         val setupWork = PeriodicWorkRequestBuilder<DailyCheckWorker>(
             24, TimeUnit.HOURS,
-            15, TimeUnit.MINUTES
         )
             .setInitialDelay(Duration.between(LocalDateTime.now(), LocalDateTime.now().withHour(TRIGGER_HOUR).withMinute(TRIGGER_MINUTE).withSecond(0)))
             .build()
