@@ -34,7 +34,7 @@ class RegisterExerciseUseCase @Inject constructor(
             return
         }
 
-        Timber.tag("RegisterExercise").d("Registering exercise with params: $params")
+        Timber.tag("RegisterExercise").i("Registering exercise with params: $params")
 
         CoroutineScope(Dispatchers.IO).launch {
             val walk = walkRepository.insertWalk(

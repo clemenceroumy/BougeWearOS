@@ -139,4 +139,7 @@ dependencies {
 sentry {
     org.set("croumy")
     projectName.set("frogtasylife")
+
+    debug.set(true)
+    ignoredBuildTypes.set(listOf("release"))
 }

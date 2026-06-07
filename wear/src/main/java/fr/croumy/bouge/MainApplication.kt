@@ -40,7 +40,8 @@ class MainApplication : Application(), Configuration.Provider {
             message: String,
             t: Throwable?
         ) {
-            when (priority) {
+            // Not needed anymore because gradle "sentry" task automatically send log
+            /*when (priority) {
                 Log.VERBOSE -> Sentry.logger().trace(message)
                 Log.DEBUG -> Sentry.logger().debug(message)
                 Log.INFO -> Sentry.logger().info(message)
@@ -49,11 +50,9 @@ class MainApplication : Application(), Configuration.Provider {
                     /*val crashlytics = Firebase.crashlytics
                     crashlytics.log(message)*/
                     Sentry.logger().error(message)
-                    if (t != null) { Sentry.captureException(t) }
                 }
-                Log.ASSERT -> Sentry.logger().fatal(message)
                 else -> Sentry.logger().info(message)
-            }
+            }*/
         }
     }
 }
