@@ -1,7 +1,6 @@
 package fr.croumy.bouge.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,28 +12,21 @@ import androidx.compose.runtime.remember
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavHostState
-import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
-import androidx.work.WorkManager
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import dagger.hilt.android.AndroidEntryPoint
-import fr.croumy.bouge.presentation.background.alarms.DailyCheckAlarm
+import fr.croumy.bouge.presentation.background.workers.WorkerHelper
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavGraph
-import fr.croumy.bouge.presentation.theme.BougeTheme
-import fr.croumy.bouge.presentation.background.workers.DailyCheckWorker
-import fr.croumy.bouge.presentation.background.workers.WorkerHelper
 import fr.croumy.bouge.presentation.navigation.NavRoutes
 import fr.croumy.bouge.presentation.services.CompanionService
+import fr.croumy.bouge.presentation.theme.BougeTheme
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var workerHelper: WorkerHelper
-    @Inject
-    lateinit var dailyCheckAlarm: DailyCheckAlarm
-
     @Inject
     lateinit var companionService: CompanionService
 

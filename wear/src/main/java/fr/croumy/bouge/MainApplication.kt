@@ -16,8 +16,10 @@ import javax.inject.Inject
 class MainApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var notificationService: NotificationService
+
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
+
     @Inject
     lateinit var logService: LogService
 
@@ -41,17 +43,21 @@ class MainApplication : Application(), Configuration.Provider {
             message: String,
             t: Throwable?
         ) {
-            if (BuildConfig.DEBUG) {
-                val priorityString = when (priority) {
-                    Log.VERBOSE -> "VERBOSE"
-                    Log.DEBUG -> "DEBUG"
-                    Log.INFO -> "INFO"
-                    Log.WARN -> "WARN"
-                    Log.ERROR -> "ERROR"
-                    Log.ASSERT -> "ASSERT"
-                    else -> "UNKNOWN"
-                }
+            val priorityString = when (priority) {
+                Log.VERBOSE -> "VERBOSE"
+                Log.DEBUG -> "DEBUG"
+                Log.INFO -> "INFO"
+                Log.WARN -> "WARN"
+                Log.ERROR -> "ERROR"
+                Log.ASSERT -> "ASSERT"
+                else -> "UNKNOWN"
+            }
+
+            try {
                 logService.registerLog("[$priorityString] $tag: $message")
+            } catch (e: Exception) {
+                val crashlytics = Firebase.crashlytics
+                crashlytics.log("[$priorityString] $tag: $message")
             }
 
             if (priority == Log.ERROR) {

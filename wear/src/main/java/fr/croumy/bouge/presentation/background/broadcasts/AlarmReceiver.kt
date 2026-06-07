@@ -23,9 +23,9 @@ class DailyAlarmReceiver : BroadcastReceiver() {
             }
             else -> {
                 Timber.tag("DailyAlarmReceiver").i("Daily alarm received, launching daily worker and rescheduling alarm")
-                workerHelper.launchDailyWorker()
+                //workerHelper.launchDailyWorker()
 
-                dailyCheckAlarm.scheduleDailyAlarm()
+                //dailyCheckAlarm.scheduleDailyAlarm()
             }
         }
     }

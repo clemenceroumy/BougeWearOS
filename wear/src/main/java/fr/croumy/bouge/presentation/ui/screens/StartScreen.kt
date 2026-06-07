@@ -1,5 +1,6 @@
 package fr.croumy.bouge.presentation.ui.screens
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
@@ -9,6 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -17,6 +20,7 @@ import fr.croumy.bouge.presentation.constants.KeyStore
 import fr.croumy.bouge.presentation.extensions.dataStore
 import fr.croumy.bouge.presentation.injection.LocalNavController
 import fr.croumy.bouge.presentation.navigation.NavRoutes
+import fr.croumy.bouge.presentation.services.HealthService
 import fr.croumy.bouge.presentation.services.PermissionService
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -46,17 +50,26 @@ fun StartScreen(
     val isCompanionAvailable = startViewModel.isCompanionAvailable.value
     val isDeadSeen = runBlocking { context.dataStore.data.map { preferences -> preferences[KeyStore.COMPANION_DEATH_SEEN] ?: true }.first() }
 
-    LaunchedEffect(locationIsGranted, activityRecognitionIsGranted, notificationIsGranted, isLoading) {
-        if(!activityRecognitionIsGranted) {
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        val allGranted = locationIsGranted && activityRecognitionIsGranted && notificationIsGranted && bluetoothIsGranted
+
+        if(allGranted) {
+            val serviceIntent = Intent(context, HealthService::class.java)
+            context.startForegroundService(serviceIntent)
+        }
+    }
+
+    LaunchedEffect(locationIsGranted, activityRecognitionIsGranted, notificationIsGranted, bluetoothIsGranted, isLoading) {
+        if (!activityRecognitionIsGranted) {
             activityRecognitionPermissionState.launchPermissionRequest()
-        } else if(!locationIsGranted) {
+        } else if (!locationIsGranted) {
             locationPermissionState.launchPermissionRequest()
-        } else if(!notificationIsGranted) {
+        } else if (!notificationIsGranted) {
             notificationPermissionState.launchPermissionRequest()
-        } else if(!bluetoothIsGranted) {
+        } else if (!bluetoothIsGranted) {
             bluetoothPermissionsState.launchMultiplePermissionRequest()
-        } else if(!isLoading) {
-            startViewModel.initHealthService()
+        } else if (!isLoading) {
+            //startViewModel.initHealthService()
 
             when {
                 !hasCompanion && hasDeadCompanion && !isDeadSeen -> navController.navigate(NavRoutes.DeadCompanion.route)
@@ -67,7 +80,7 @@ fun StartScreen(
         }
     }
 
-    if(startViewModel.isLoading.value) {
+    if (startViewModel.isLoading.value) {
         Box(
             Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center

@@ -70,14 +70,6 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
-
-        <receiver
-            android:name=".presentation.background.broadcasts.StartupReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
     </application>
     <queries>
         <package android:name="com.google.android.wearable.healthservices" />

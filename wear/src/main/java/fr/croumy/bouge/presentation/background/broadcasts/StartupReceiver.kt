@@ -6,14 +6,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.annotation.RequiresPermission
 import dagger.hilt.android.AndroidEntryPoint
-import fr.croumy.bouge.presentation.background.alarms.DailyCheckAlarm
 import fr.croumy.bouge.presentation.services.NotificationService
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class StartupReceiver: BroadcastReceiver() {
     @Inject lateinit var notificationService: NotificationService
-    @Inject lateinit var dailyCheckAlarm: DailyCheckAlarm
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     override fun onReceive(context: Context, intent: Intent) {
