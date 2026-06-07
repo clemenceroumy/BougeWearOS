@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.composeMultiplatform) // added to use DrawableResource from :core:commonMain
+
+    id("io.sentry.android.gradle") version "6.10.0"
 }
 val localProperties = Properties().apply {
     load(rootProject.file("env.properties").inputStream())
@@ -132,4 +134,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     debugImplementation(libs.androidx.tiles.tooling)
+}
+
+sentry {
+    org.set("croumy")
+    projectName.set("frogtasylife")
 }
