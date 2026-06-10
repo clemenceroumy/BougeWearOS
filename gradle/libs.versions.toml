@@ -63,8 +63,6 @@ androidx-wear-input = { module = "androidx.wear:wear-input", version.ref = "wear
 components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "jetbrainCompose" }
 composenativetray = { module = "io.github.kdroidfilter:composenativetray", version.ref = "composenativetray" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "jetbrainCompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -131,8 +129,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt-android = { id = 'com.google.dagger.hilt.android', version.ref = 'hilt' }
-google-services = { id = "com.google.gms.google-services", version = "4.4.3"}
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.5" }
+sentry = { id = "io.sentry.android.gradle", version = "6.10.0" }
 composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

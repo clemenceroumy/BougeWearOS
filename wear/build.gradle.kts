@@ -1,3 +1,4 @@
+import io.sentry.android.gradle.instrumentation.logcat.LogcatLevel
 import java.util.Properties
 
 plugins {
@@ -5,11 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.composeMultiplatform) // added to use DrawableResource from :core:commonMain
-
-    id("io.sentry.android.gradle") version "6.10.0"
+    alias(libs.plugins.sentry)
 }
 val localProperties = Properties().apply {
     load(rootProject.file("env.properties").inputStream())
@@ -118,10 +116,6 @@ dependencies {
     //DATA
     implementation(libs.kotlinx.serialization.json)
 
-    //FIREBASE
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.crashlytics)
-
     // DB / STORAGE
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
@@ -142,4 +136,10 @@ sentry {
 
     debug.set(true)
     ignoredBuildTypes.set(listOf("release"))
+    tracingInstrumentation {
+        logcat {
+            enabled.set(true)
+            minLevel.set(LogcatLevel.VERBOSE)
+        }
+    }
 }

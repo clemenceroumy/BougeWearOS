@@ -1,14 +1,10 @@
 package fr.croumy.bouge
 
 import android.app.Application
-import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.google.firebase.Firebase
-import com.google.firebase.crashlytics.crashlytics
 import dagger.hilt.android.HiltAndroidApp
 import fr.croumy.bouge.presentation.services.NotificationService
-import io.sentry.Sentry
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -46,11 +42,7 @@ class MainApplication : Application(), Configuration.Provider {
                 Log.DEBUG -> Sentry.logger().debug(message)
                 Log.INFO -> Sentry.logger().info(message)
                 Log.WARN -> Sentry.logger().warn(message)
-                Log.ERROR -> {
-                    /*val crashlytics = Firebase.crashlytics
-                    crashlytics.log(message)*/
-                    Sentry.logger().error(message)
-                }
+                Log.ERROR -> Sentry.logger().error(message)
                 else -> Sentry.logger().info(message)
             }*/
         }
