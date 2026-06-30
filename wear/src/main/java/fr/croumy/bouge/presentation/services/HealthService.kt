@@ -83,16 +83,22 @@ class HealthService @Inject constructor() : PassiveListenerService() {
 
     override fun onCreate() {
         super.onCreate()
-        Timber.tag("HealthService").i("HealthService created")
+        Timber.tag("HealthService").i("HealthService onCreate()")
+
+        /*initServiceForeground()
 
         notificationService.hideRebootNotification()
-
-        initServiceForeground()
-
-        startListeningData()
+        startListeningData()*/
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+        Timber.tag("HealthService").i("HealthService onStartCommand()")
+        initServiceForeground()
+
+        notificationService.hideRebootNotification()
+        startListeningData()
+
         return START_STICKY
     }
 
@@ -119,13 +125,6 @@ class HealthService @Inject constructor() : PassiveListenerService() {
 
             countdown.start()
         }
-    }
-
-    fun initService() {
-        val serviceIntent = Intent(context, HealthService::class.java)
-        context.startForegroundService(serviceIntent)
-
-        // NEXT, WAIT FOR THE SERVICE TO BE SET AS FOREGROUND BY initServiceForeground()
     }
 
     private fun initServiceForeground() {

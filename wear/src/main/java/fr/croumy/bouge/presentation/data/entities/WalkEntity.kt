@@ -3,7 +3,6 @@ package fr.croumy.bouge.presentation.data.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.firebase.Timestamp
 import java.time.ZonedDateTime
 import java.util.UUID
 

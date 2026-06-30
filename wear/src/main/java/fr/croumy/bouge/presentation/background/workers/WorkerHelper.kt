@@ -11,7 +11,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class WorkerHelper @Inject constructor(
     val context: Context
 ) {
@@ -19,20 +21,6 @@ class WorkerHelper @Inject constructor(
     val hungriness_work = "decrease_hungriness"
     val happiness_work = "decrease_happiness"
     val daily_check_work = "daily_steps_check"
-
-    init {
-        if (BuildConfig.DEBUG) {
-            CoroutineScope(Dispatchers.IO).launch {
-                workManager.getWorkInfosFlow(
-                    WorkQuery.fromUniqueWorkNames(listOf(hungriness_work, happiness_work, daily_check_work))
-                ).collect {
-                    it.forEach { info ->
-                        Timber.tag("WorkerHelper").i("$info")
-                    }
-                }
-            }
-        }
-    }
 
     fun launchHungrinessWorker(
         policy: ExistingWorkPolicy = ExistingWorkPolicy.REPLACE
@@ -69,11 +57,11 @@ class WorkerHelper @Inject constructor(
     fun pauseCompanionStatsWorker() {
         WorkManager
             .getInstance(context.applicationContext)
-            .cancelUniqueWork("decrease_hungriness")
+            .cancelUniqueWork(hungriness_work)
 
         WorkManager
             .getInstance(context.applicationContext)
-            .cancelUniqueWork("decrease_happiness")
+            .cancelUniqueWork(happiness_work)
     }
 
     fun resumeCompanionStatsWorker() {

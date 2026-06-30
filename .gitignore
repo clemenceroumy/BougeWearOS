@@ -17,3 +17,6 @@ local.properties
 env.properties
 **/google-services.json
 /.kotlin
+
+# Sentry Config File
+sentry.properties
